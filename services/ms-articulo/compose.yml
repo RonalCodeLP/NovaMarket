@@ -1,0 +1,54 @@
+name: market-ms-articulo-prod
+
+services:
+  postgres-producto:
+    image: postgres:16-alpine
+    container_name: market-postgres-producto
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - market_producto_data:/var/lib/postgresql/data
+    ports:
+      - "25433:5432"
+    networks:
+      - market-articulo-int
+
+  ms-articulo:
+    build: .
+    container_name: market-ms-articulo
+    restart: unless-stopped
+    depends_on:
+      postgres-producto:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL}
+      DB_HOST: market-postgres-producto
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - market-articulo-int
+      - market-prod-net
+
+volumes:
+  market_producto_data:
+
+networks:
+  market-prod-net:
+    external: true
+    name: market-prod-net
+  market-articulo-int:
+    name: market-articulo-int

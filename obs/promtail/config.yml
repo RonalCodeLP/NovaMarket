@@ -1,0 +1,55 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: gateway-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: gateway
+          service: gateway
+          __path__: /var/log/ms/gateway/*.log
+
+  - job_name: ms-articulo-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: ms-articulo
+          service: ms-articulo
+          __path__: /var/log/ms/ms-articulo/*.log
+
+  - job_name: ms-rubro-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: ms-rubro
+          service: ms-rubro
+          __path__: /var/log/ms/ms-rubro/*.log
+
+  - job_name: ms-venta-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: ms-venta
+          service: ms-venta
+          __path__: /var/log/ms/ms-venta/*.log
+
+  - job_name: ms-pago-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: ms-pago
+          service: ms-pago
+          __path__: /var/log/ms/ms-pago/*.log

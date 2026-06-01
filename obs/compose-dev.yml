@@ -1,0 +1,74 @@
+name: market-obs-dev
+
+services:
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: market-prometheus-dev
+    restart: unless-stopped
+    ports:
+      - "19090:9090"
+    volumes:
+      - ./prometheus/prometheus-dev.yml:/etc/prometheus/prometheus.yml:ro
+      - market_prometheus_data:/prometheus
+    networks:
+      - market-dev-net
+
+  loki:
+    image: grafana/loki:3.4.1
+    container_name: market-loki-dev
+    restart: unless-stopped
+    ports:
+      - "13100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki/config.yml:/etc/loki/local-config.yaml:ro
+      - market_loki_data:/loki
+    networks:
+      - market-dev-net
+
+  promtail:
+    image: grafana/promtail:3.4.1
+    container_name: market-promtail-dev
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - ./promtail/config.yml:/etc/promtail/config.yml:ro
+      - ../infra/gateway/logs:/var/log/ms/gateway:ro
+      - ../services/ms-rubro/logs:/var/log/ms/ms-rubro:ro
+      - ../services/ms-articulo/logs:/var/log/ms/ms-articulo:ro
+      - ../services/ms-venta/logs:/var/log/ms/ms-venta:ro
+      - ../services/ms-pago/logs:/var/log/ms/ms-pago:ro
+    depends_on:
+      - loki
+    networks:
+      - market-dev-net
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    container_name: market-grafana-dev
+    restart: unless-stopped
+    ports:
+      - "13000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - market_grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+      - loki
+    networks:
+      - market-dev-net
+
+volumes:
+  market_prometheus_data:
+  market_loki_data:
+  market_grafana_data:
+
+networks:
+  market-dev-net:
+    external: true
+    name: market-dev-net
+
