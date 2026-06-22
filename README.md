@@ -2,12 +2,16 @@
 
 Plataforma de **minimarket / punto de venta (POS)** basada en **microservicios**: Spring Boot 3.5, Spring Cloud, PostgreSQL, Apache Kafka, observabilidad (Prometheus, Loki, Grafana) e identidad con **Keycloak** (OAuth2/OIDC).
 
+**Documentación en línea:** [ronalcodelp.github.io/NovaMarket](https://ronalcodelp.github.io/NovaMarket/)
+
 ---
 
 ## Documentación
 
 | Documento | Contenido |
 |-----------|-----------|
+| [**Sitio MkDocs**](https://ronalcodelp.github.io/NovaMarket/) | Documentación renderizada (GitHub Pages) |
+| [Producto del curso](docs/producto-curso.md) | Definición U1/U2/U3 y stack |
 | [Arquitectura](docs/arquitectura.md) | Diagramas, componentes, flujos |
 | [Desarrollo (DEV)](docs/desarrollo.md) | Arranque local paso a paso |
 | [Producción (PROD)](docs/produccion.md) | Despliegue con Docker |
@@ -17,7 +21,27 @@ Plataforma de **minimarket / punto de venta (POS)** basada en **microservicios**
 | [Dominio de negocio](docs/dominio-negocio.md) | Rubros, artículos, ventas, pagos |
 | [Referencia de puertos](docs/puertos.md) | DEV vs PROD |
 
-Libro digital (MkDocs): carpeta [`docs/`](docs/) — `mkdocs serve` si tienes MkDocs instalado.
+Libro digital (MkDocs): carpeta [`docs/`](docs/) — ver abajo.
+
+### Publicar documentación (GitHub Pages)
+
+Al hacer push a `main`, el workflow [`.github/workflows/docs.yml`](.github/workflows/docs.yml) publica el sitio en **GitHub Pages**.
+
+**Local:**
+
+```powershell
+pip install -r requirements-docs.txt
+mkdocs serve
+```
+
+Abrir http://localhost:8000
+
+**Activar el enlace en el repositorio (lateral derecho “About”):**
+
+1. GitHub → **Settings** → **Pages**
+2. Source: **Deploy from a branch**
+3. Branch: `gh-pages` / `(root)`
+4. En **About** → ⚙️ → Website: `https://ronalcodelp.github.io/NovaMarket/`
 
 ---
 

@@ -1,9 +1,24 @@
-site_name: NovaMarket — Documentación
-site_description: Plataforma de microservicios — Minimarket POS
+site_name: NovaMarket — Sistemas Distribuidos
+site_description: POS minimarket con microservicios, Keycloak, Kafka y observabilidad
+site_author: RonalCodeLP
+site_url: https://ronalcodelp.github.io/NovaMarket/
+repo_url: https://github.com/RonalCodeLP/NovaMarket
+repo_name: RonalCodeLP/NovaMarket
+edit_uri: edit/main/docs/
+
 docs_dir: docs
+use_directory_urls: true
 
 nav:
   - Inicio: index.md
+  - Producto del curso: producto-curso.md
+  - Contenido del curso:
+      - Índice de sesiones: sesiones/indice.md
+      - U1 — Infraestructura base: sesiones/s00-infraestructura.md
+      - U1 — Gateway: sesiones/s04-gateway.md
+      - U2 — Seguridad: sesiones/s06-seguridad.md
+      - U2 — Kafka: sesiones/s07-kafka-ingesta.md
+      - U2 — Observabilidad: sesiones/s05-observabilidad.md
   - Guía del proyecto:
       - Arquitectura: arquitectura.md
       - Desarrollo (DEV): desarrollo.md
@@ -16,21 +31,38 @@ nav:
   - Evaluación:
       - Plantilla de informe: informe-template.md
       - Rúbrica: rubrica-evaluacion.md
-  - Material del curso (histórico):
-      - s00-infraestructura: sesiones/s00-infraestructura.md
-      - s04-gateway: sesiones/s04-gateway.md
-      - s05-observabilidad: sesiones/s05-observabilidad.md
-      - s06-seguridad: sesiones/s06-seguridad.md
-      - s07-kafka: sesiones/s07-kafka-ingesta.md
-      - Labs: labs/README.md
+  - Laboratorios:
+      - Índice labs: labs/README.md
+      - Lab categorías: labs/lab-categorias-estandar.md
+      - Lab auth y productos: labs/lab-auth-productos.md
+      - Lab observabilidad: labs/lab-observabilidad.md
 
 theme:
   name: material
+  language: es
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Modo oscuro
+    - scheme: slate
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Modo claro
   features:
     - navigation.instant
     - navigation.tracking
     - navigation.top
+    - navigation.sections
+    - navigation.expand
+    - toc.follow
     - content.code.copy
+    - search.suggest
+    - search.highlight
 
 markdown_extensions:
   - pymdownx.superfences:
@@ -42,9 +74,17 @@ markdown_extensions:
       alternate_style: true
   - admonition
   - pymdownx.details
+  - tables
+  - attr_list
+  - md_in_html
 
 plugins:
   - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/RonalCodeLP/NovaMarket
 
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
