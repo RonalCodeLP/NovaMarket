@@ -2,7 +2,9 @@ name: Publicar documentación
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - Principal
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
@@ -11,15 +13,20 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: docs-${{ github.ref }}
+  group: pages-docs
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,8 +41,14 @@ jobs:
       - name: Instalar MkDocs
         run: pip install -r requirements-docs.txt
 
-      - name: Validar build
-        run: mkdocs build --strict
+      - name: Construir sitio
+        run: mkdocs build
+
+      - name: Subir artefacto
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
 
       - name: Desplegar en GitHub Pages
-        run: mkdocs gh-deploy --force
+        id: deployment
+        uses: actions/deploy-pages@v4

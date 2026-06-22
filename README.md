@@ -1,6 +1,8 @@
 # NovaMarket
 
-Plataforma de **minimarket / punto de venta (POS)** basada en **microservicios**: Spring Boot 3.5, Spring Cloud, PostgreSQL, Apache Kafka, observabilidad (Prometheus, Loki, Grafana) e identidad con **Keycloak** (OAuth2/OIDC).
+**NovaMarket** es una **plataforma POS para cadenas de minimarkets y negocios en expansión** que necesitan controlar ventas, inventario, pagos y usuarios en **múltiples puntos de atención**.
+
+Arquitectura de **microservicios** (Spring Boot 3.5, Spring Cloud, PostgreSQL, Kafka, observabilidad, Keycloak) pensada para **escalar** cajas, tiendas, usuarios y transacciones — no para una sola bodega aislada.
 
 **Documentación en línea:** [ronalcodelp.github.io/NovaMarket](https://ronalcodelp.github.io/NovaMarket/)
 
@@ -25,23 +27,17 @@ Libro digital (MkDocs): carpeta [`docs/`](docs/) — ver abajo.
 
 ### Publicar documentación (GitHub Pages)
 
-Al hacer push a `main`, el workflow [`.github/workflows/docs.yml`](.github/workflows/docs.yml) publica el sitio en **GitHub Pages**.
+Al hacer push a `main` (o `Principal`), el workflow [`.github/workflows/docs.yml`](.github/workflows/docs.yml) publica el sitio MkDocs.
 
-**Local:**
-
-```powershell
-pip install -r requirements-docs.txt
-mkdocs serve
-```
-
-Abrir http://localhost:8000
-
-**Activar el enlace en el repositorio (lateral derecho “About”):**
+**Activar Pages (una sola vez):**
 
 1. GitHub → **Settings** → **Pages**
-2. Source: **Deploy from a branch**
-3. Branch: `gh-pages` / `(root)`
-4. En **About** → ⚙️ → Website: `https://ronalcodelp.github.io/NovaMarket/`
+2. **Source:** **GitHub Actions** (no “Deploy from a branch”)
+3. Tras un push, en **Actions** debe quedar verde **Publicar documentación**
+
+**URL:** https://ronalcodelp.github.io/NovaMarket/
+
+**About → Website:** pegar la misma URL.
 
 ---
 
