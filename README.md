@@ -27,17 +27,19 @@ Libro digital (MkDocs): carpeta [`docs/`](docs/) — ver abajo.
 
 ### Publicar documentación (GitHub Pages)
 
-Al hacer push a `main` (o `Principal`), el workflow [`.github/workflows/docs.yml`](.github/workflows/docs.yml) publica el sitio MkDocs.
+Workflow: [`.github/workflows/docs.yml`](.github/workflows/docs.yml) — construye MkDocs y publica en la rama **`gh-pages`**.
 
-**Activar Pages (una sola vez):**
+**Pasos (una sola vez):**
 
-1. GitHub → **Settings** → **Pages**
-2. **Source:** **GitHub Actions** (no “Deploy from a branch”)
-3. Tras un push, en **Actions** debe quedar verde **Publicar documentación**
+1. Push a `main` (o ejecutar **Actions → Publicar documentación → Run workflow**).
+2. Esperar el check **verde**.
+3. **Settings → Pages → Source:** *Deploy from a branch*
+4. **Branch:** `gh-pages` · **Folder:** `/ (root)` → **Save**
+5. **About → Website:** `https://ronalcodelp.github.io/NovaMarket/`
+
+> Si antes falló con error **404 deployment**, era porque Pages no estaba activo o se usaba *GitHub Actions* sin habilitarlo. Este workflow usa la rama **`gh-pages`** (más simple).
 
 **URL:** https://ronalcodelp.github.io/NovaMarket/
-
-**About → Website:** pegar la misma URL.
 
 ---
 
