@@ -9,6 +9,7 @@ spring:
 
 app:
   kafka:
+    enabled: false
     topic:
       ordenes: orden-eventos
 

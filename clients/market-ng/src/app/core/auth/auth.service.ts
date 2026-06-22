@@ -1,62 +1,81 @@
 import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
-import { ApiService } from '../services/api.service';
-
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  accessToken: string;
-  tokenType: string;
-  expiresIn: number;
-  username: string;
-  roles: string[];
-}
-
-export interface AuthSession {
-  accessToken: string;
-  username: string;
-  roles: string[];
-}
+import Keycloak from 'keycloak-js';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly storageKey = 'market-ng.auth';
+  private keycloak: Keycloak | null = null;
+  private initPromise: Promise<boolean> | null = null;
 
-  token = signal<string|null>(null);
-  username = signal<string|null>(null);
+  token = signal<string | null>(null);
+  username = signal<string | null>(null);
   roles = signal<string[]>([]);
 
-  constructor(
-    private http: HttpClient,
-    private api: ApiService,
-  ) {
-    this.cargarSesion();
+  init(): Promise<boolean> {
+    if (this.initPromise) {
+      return this.initPromise;
+    }
+
+    this.keycloak = new Keycloak({
+      url: environment.keycloak.url,
+      realm: environment.keycloak.realm,
+      clientId: environment.keycloak.clientId,
+    });
+
+    this.initPromise = this.keycloak
+      .init({
+        onLoad: 'check-sso',
+        pkceMethod: 'S256',
+        checkLoginIframe: false,
+      })
+      .then(authenticated => {
+        if (authenticated) {
+          this.syncFromKeycloak();
+        }
+        return authenticated;
+      })
+      .catch(error => {
+        console.error('Error al inicializar Keycloak', error);
+        return false;
+      });
+
+    return this.initPromise;
   }
 
-  login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.api.buildUrl('/auth/login'), credentials)
-      .pipe(
-        tap(response => this.guardarSesion({
-          accessToken: response.accessToken,
-          username: response.username,
-          roles: response.roles ?? [],
-        })),
-      );
-  }
-
-  logout() {
-    localStorage.removeItem(this.storageKey);
-    this.token.set(null);
-    this.username.set(null);
-    this.roles.set([]);
+  isReady(): boolean {
+    return this.keycloak != null;
   }
 
   isAuthenticated(): boolean {
-    return !!this.token();
+    return this.keycloak?.authenticated === true;
+  }
+
+  async ensureAuthenticated(): Promise<boolean> {
+    await this.init();
+    if (!this.keycloak?.authenticated) {
+      return false;
+    }
+    await this.updateTokenIfNeeded();
+    return true;
+  }
+
+  login(returnUrl = '/pos'): Promise<void> {
+    const redirectUri = `${window.location.origin}${returnUrl.startsWith('/') ? returnUrl : `/${returnUrl}`}`;
+    return this.keycloak!.login({ redirectUri });
+  }
+
+  logout(returnUrl = '/'): Promise<void> {
+    const redirectUri = `${window.location.origin}${returnUrl.startsWith('/') ? returnUrl : `/${returnUrl}`}`;
+    this.clearSession();
+    return this.keycloak!.logout({ redirectUri });
+  }
+
+  async updateTokenIfNeeded(minValiditySeconds = 30): Promise<void> {
+    if (!this.keycloak?.authenticated) {
+      return;
+    }
+    await this.keycloak.updateToken(minValiditySeconds);
+    this.syncFromKeycloak();
   }
 
   hasRole(role: string): boolean {
@@ -67,20 +86,21 @@ export class AuthService {
     return roles.some(role => this.hasRole(role));
   }
 
-  private guardarSesion(session: AuthSession) {
-    localStorage.setItem(this.storageKey, JSON.stringify(session));
-    this.token.set(session.accessToken);
-    this.username.set(session.username);
-    this.roles.set(session.roles);
+  private syncFromKeycloak(): void {
+    if (!this.keycloak) {
+      return;
+    }
+
+    this.token.set(this.keycloak.token ?? null);
+    this.username.set(this.keycloak.tokenParsed?.['preferred_username'] as string ?? null);
+
+    const rolesClaim = this.keycloak.tokenParsed?.['roles'];
+    this.roles.set(Array.isArray(rolesClaim) ? rolesClaim as string[] : []);
   }
 
-  private cargarSesion() {
-    const rawSession = localStorage.getItem(this.storageKey);
-    if (!rawSession) return;
-
-    const session = JSON.parse(rawSession) as AuthSession;
-    this.token.set(session.accessToken);
-    this.username.set(session.username);
-    this.roles.set(session.roles ?? []);
+  private clearSession(): void {
+    this.token.set(null);
+    this.username.set(null);
+    this.roles.set([]);
   }
 }

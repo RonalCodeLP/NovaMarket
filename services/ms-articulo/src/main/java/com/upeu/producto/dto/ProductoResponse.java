@@ -17,7 +17,7 @@ public class ProductoResponse {
     private Integer id;
     private String nombre;
     private String descripcion;
-    private Integer idCategoria;
+    private Integer idRubro;
     private BigDecimal precio;
     private Integer stock;
     private Integer stockMinimo;

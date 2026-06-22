@@ -29,4 +29,4 @@ docker compose up -d
 | Prometheus | http://prometheus:29090 |
 | Loki | http://loki:23100 |
 
-Documentación en [`../docs/`](../docs/).
+Documentación: [docs/observabilidad.md](../docs/observabilidad.md) · [obs/GRAFANA-DEV.md](GRAFANA-DEV.md)

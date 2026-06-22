@@ -1,0 +1,63 @@
+name: market-keycloak
+
+services:
+
+  postgres-keycloak:
+    image: postgres:16-alpine
+    container_name: market-postgres-keycloak
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${KC_DB_NAME:-keycloak_db}
+      POSTGRES_USER: ${KC_DB_USER:-keycloak}
+      POSTGRES_PASSWORD: ${KC_DB_PASSWORD:-keycloak}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${KC_DB_USER:-keycloak} -d ${KC_DB_NAME:-keycloak_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - market_keycloak_db_data:/var/lib/postgresql/data
+    ports:
+      - "25437:5432"
+    networks:
+      - market-keycloak-int
+
+  keycloak:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: market-keycloak-dev:local
+    container_name: market-keycloak
+    restart: unless-stopped
+    command: start --optimized --import-realm --http-enabled=true --hostname=http://localhost:28180
+    depends_on:
+      postgres-keycloak:
+        condition: service_healthy
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME:-admin}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD:-admin}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/${KC_DB_NAME:-keycloak_db}
+      KC_DB_USERNAME: ${KC_DB_USER:-keycloak}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD:-keycloak}
+      JAVA_OPTS_APPEND: "-Xms512m -Xmx1536m"
+    ports:
+      - "28180:8080"
+    volumes:
+      - ./realm:/opt/keycloak/data/import:ro
+    networks:
+      market-keycloak-int:
+      market-prod-net:
+        aliases:
+          - keycloak
+
+volumes:
+  market_keycloak_db_data:
+
+networks:
+  market-keycloak-int:
+    name: market-keycloak-int
+  market-prod-net:
+    external: true
+    name: market-prod-net

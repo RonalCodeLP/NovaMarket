@@ -44,5 +44,18 @@ public class Pago {
 
     private String estado;
 
+    /** Código de autorización datáfono (tarjeta) o operación Yape */
+    private String codigoAutorizacion;
+
+    private String referenciaTransaccion;
+
+    @Enumerated(EnumType.STRING)
+    private com.upeu.pagoms.dto.TipoTarjeta tipoTarjeta;
+
+    /** Código de operación Yape (7 dígitos) */
+    private String codigoOperacion;
+
+    private String moneda;
+
     private Instant fechaPago;
 }

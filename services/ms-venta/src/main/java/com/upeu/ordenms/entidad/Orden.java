@@ -51,6 +51,16 @@ public class Orden {
 
     private Instant fechaVenta;
 
+    private String codigoAutorizacion;
+
+    private String referenciaTransaccion;
+
+    private String tipoTarjeta;
+
+    private String codigoOperacion;
+
+    private String monedaPago;
+
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<OrdenDetalle> detalles = new ArrayList<>();

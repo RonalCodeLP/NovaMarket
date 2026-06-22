@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "productos")
+@Table(name = "articulos")
 @Getter
 @Setter
 @Builder
@@ -32,8 +32,8 @@ public class Producto {
     @Column(name = "descripcion", length = 255)
     private String descripcion;
 
-    @Column(name = "id_categoria", nullable = false)
-    private Integer idCategoria;
+    @Column(name = "id_rubro", nullable = false)
+    private Integer idRubro;
 
     @Column(name = "precio", nullable = false, precision = 12, scale = 2)
     private BigDecimal precio;

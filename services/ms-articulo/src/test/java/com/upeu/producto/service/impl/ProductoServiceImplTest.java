@@ -37,13 +37,13 @@ class ProductoServiceImplTest {
         ProductoRequest request = ProductoRequest.builder()
                 .nombre("Laptop")
                 .descripcion("Portatil de oficina")
-                .idCategoria(3)
+                .idRubro(3)
                 .build();
         Producto savedEntity = Producto.builder()
                 .id(1)
                 .nombre("Laptop")
                 .descripcion("Portatil de oficina")
-                .idCategoria(3)
+                .idRubro(3)
                 .build();
 
         when(productoRepository.save(any(Producto.class))).thenReturn(savedEntity);
@@ -52,7 +52,7 @@ class ProductoServiceImplTest {
 
         assertThat(response.getId()).isEqualTo(1);
         assertThat(response.getNombre()).isEqualTo("Laptop");
-        assertThat(response.getIdCategoria()).isEqualTo(3);
+        assertThat(response.getIdRubro()).isEqualTo(3);
     }
 
     @Test

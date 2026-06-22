@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiService } from '../core/services/api.service';
 
-export interface Producto {
+export interface Articulo {
   id: number;
   nombre: string;
   descripcion: string;
-  idCategoria: number;
+  idRubro: number;
   precio?: number;
   stock?: number;
   stockMinimo?: number;
@@ -16,21 +16,28 @@ export interface Producto {
   stockBajo?: boolean;
 }
 
-export interface Categoria {
+export interface Rubro {
   id: number;
   nombre: string;
 }
 
-export interface ProductoRequest {
+export interface ArticuloRequest {
   nombre: string;
   descripcion: string;
-  idCategoria: number;
+  idRubro: number;
   precio: number;
   stock?: number;
   stockMinimo?: number;
   codigoBarras?: string;
   imagenUrl?: string;
 }
+
+/** @deprecated usar Articulo */
+export type Producto = Articulo;
+/** @deprecated usar ArticuloRequest */
+export type ProductoRequest = ArticuloRequest;
+/** @deprecated usar Rubro */
+export type Categoria = Rubro;
 
 @Injectable({ providedIn: 'root' })
 export class ProductosService {
@@ -39,31 +46,36 @@ export class ProductosService {
     private api: ApiService,
   ) {}
 
-  listar(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.api.buildUrl('/api/v1/productos'));
+  listar(): Observable<Articulo[]> {
+    return this.http.get<Articulo[]>(this.api.buildUrl('/api/v1/articulos'));
   }
 
-  listarCategorias(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(this.api.buildUrl('/api/v1/categorias'));
+  listarRubros(): Observable<Rubro[]> {
+    return this.http.get<Rubro[]>(this.api.buildUrl('/api/v1/rubros'));
   }
 
-  crear(producto: ProductoRequest): Observable<Producto> {
-    return this.http.post<Producto>(this.api.buildUrl('/api/v1/productos'), producto);
+  /** @deprecated usar listarRubros */
+  listarCategorias(): Observable<Rubro[]> {
+    return this.listarRubros();
   }
 
-  actualizar(id: number, producto: ProductoRequest): Observable<Producto> {
-    return this.http.put<Producto>(this.api.buildUrl(`/api/v1/productos/${id}`), producto);
+  crear(articulo: ArticuloRequest): Observable<Articulo> {
+    return this.http.post<Articulo>(this.api.buildUrl('/api/v1/articulos'), articulo);
+  }
+
+  actualizar(id: number, articulo: ArticuloRequest): Observable<Articulo> {
+    return this.http.put<Articulo>(this.api.buildUrl(`/api/v1/articulos/${id}`), articulo);
   }
 
   eliminar(id: number): Observable<void> {
-    return this.http.delete<void>(this.api.buildUrl(`/api/v1/productos/${id}`));
+    return this.http.delete<void>(this.api.buildUrl(`/api/v1/articulos/${id}`));
   }
 
-  buscarPorCodigo(codigoBarras: string): Observable<Producto> {
-    return this.http.get<Producto>(this.api.buildUrl(`/api/v1/productos/codigo/${encodeURIComponent(codigoBarras)}`));
+  buscarPorCodigo(codigoBarras: string): Observable<Articulo> {
+    return this.http.get<Articulo>(this.api.buildUrl(`/api/v1/articulos/codigo/${encodeURIComponent(codigoBarras)}`));
   }
 
-  alertasStockBajo(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.api.buildUrl('/api/v1/productos/alertas/stock-bajo'));
+  alertasStockBajo(): Observable<Articulo[]> {
+    return this.http.get<Articulo[]>(this.api.buildUrl('/api/v1/articulos/alertas/stock-bajo'));
   }
 }

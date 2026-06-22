@@ -12,4 +12,9 @@ public class PagoRegistradoDto {
     private Double montoRecibido;
     private Double vuelto;
     private String estado;
+    private String codigoAutorizacion;
+    private String referenciaTransaccion;
+    private TipoTarjeta tipoTarjeta;
+    private String codigoOperacion;
+    private String moneda;
 }

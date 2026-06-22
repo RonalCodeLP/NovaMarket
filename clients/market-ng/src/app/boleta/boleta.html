@@ -1,39 +1,44 @@
-<article class="boleta" *ngIf="venta() as v">
+<article class="boleta boleta-termica" *ngIf="venta() as v">
+  <p class="termica-badge no-print">Vista térmica {{ anchoMm }} mm (AW-711N)</p>
+
   <header>
     <h3>NovaMarket</h3>
-    <p class="tipo">Boleta de venta</p>
-    <p><strong>{{ v.numeroBoleta || ('Venta #' + v.id) }}</strong></p>
+    <p class="ruc">RUC 20123456789</p>
+    <p class="tipo">BOLETA DE VENTA</p>
+    <p class="numero"><strong>{{ v.numeroBoleta || ('Venta #' + v.id) }}</strong></p>
     <p class="fecha">{{ v.fechaVenta | date:'dd/MM/yyyy HH:mm' }}</p>
   </header>
 
-  <p>Cajero: {{ v.cajeroUsername }}</p>
-  <p>Estado: {{ v.estado }}</p>
+  <p class="meta-line">Cajero: <strong>{{ v.cajeroUsername }}</strong></p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Artículo</th>
-        <th>Cant.</th>
-        <th>P.unit.</th>
-        <th>Importe</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of v.items">
-        <td>{{ item.productoNombre }}</td>
-        <td>{{ item.cantidad }}</td>
-        <td>S/ {{ item.precioUnitario | number:'1.2-2' }}</td>
-        <td>S/ {{ item.subtotal | number:'1.2-2' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="items-termica">
+    <div class="item-row" *ngFor="let item of v.items">
+      <div class="item-nombre">{{ item.productoNombre }}</div>
+      <div class="item-detalle">
+        <span>{{ item.cantidad }} × S/ {{ item.precioUnitario | number:'1.2-2' }}</span>
+        <span>S/ {{ item.subtotal | number:'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
 
   <div class="totales">
     <div><span>Subtotal</span><span>S/ {{ v.subtotal | number:'1.2-2' }}</span></div>
-    <div><span>Descuento</span><span>S/ {{ v.descuento | number:'1.2-2' }}</span></div>
-    <div class="total"><span>Total</span><span>S/ {{ v.total | number:'1.2-2' }}</span></div>
-    <div><span>Pago</span><span>{{ etiquetaMedio(v.medioPago) }}</span></div>
-    <div *ngIf="v.medioPago === 'EFECTIVO'">
+    <div *ngIf="v.descuento"><span>Descuento</span><span>− S/ {{ v.descuento | number:'1.2-2' }}</span></div>
+    <div class="igv-row"><span>Op. gravada</span><span>S/ {{ desglose().opGravada | number:'1.2-2' }}</span></div>
+    <div class="igv-row"><span>IGV (18%)</span><span>S/ {{ desglose().igv | number:'1.2-2' }}</span></div>
+    <div class="total"><span>TOTAL</span><span>S/ {{ v.total | number:'1.2-2' }}</span></div>
+    <div class="pago-row"><span>Pago</span><span>{{ etiquetaMedio(v.medioPago) }}</span></div>
+    <div *ngIf="v.tipoTarjeta"><span>Tarjeta</span><span>{{ etiquetaTarjeta(v.tipoTarjeta) }}</span></div>
+    <div *ngIf="v.codigoAutorizacion && v.medioPago === 'TARJETA'">
+      <span>Autoriz.</span><span>{{ v.codigoAutorizacion }}</span>
+    </div>
+    <div *ngIf="v.codigoOperacion && v.medioPago === 'YAPE'">
+      <span>Op. Yape</span><span>{{ v.codigoOperacion }}</span>
+    </div>
+    <div *ngIf="v.referenciaTransaccion" class="ref-row">
+      <span>Ref.</span><span class="ref-code">{{ v.referenciaTransaccion }}</span>
+    </div>
+    <div *ngIf="v.medioPago === 'EFECTIVO' && v.montoRecibido != null">
       <span>Recibido</span><span>S/ {{ v.montoRecibido | number:'1.2-2' }}</span>
     </div>
     <div *ngIf="v.vuelto != null && v.medioPago === 'EFECTIVO'">
@@ -41,9 +46,15 @@
     </div>
   </div>
 
+  <p class="legal">Precios incluyen IGV</p>
   <p class="gracias">¡Gracias por su compra!</p>
 
-      <button type="button" class="nm-btn nm-btn-primary nm-btn-block print-btn no-print" (click)="imprimir()">
-        Imprimir boleta
-      </button>
+  <div class="boleta-actions no-print">
+    <button type="button" class="nm-btn nm-btn-primary nm-btn-block" (click)="imprimirYGuardar()">
+      Imprimir en térmica
+    </button>
+    <button type="button" class="nm-btn nm-btn-ghost nm-btn-block" (click)="guardar()">
+      Descargar .txt / .html
+    </button>
+  </div>
 </article>

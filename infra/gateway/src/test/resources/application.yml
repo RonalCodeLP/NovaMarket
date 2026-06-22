@@ -4,10 +4,11 @@ spring:
       enabled: false
   config:
     import: ""
-
-jwt:
-  secret: dGVzdC1zZWNyZXQta2V5LWZvci11bml0LXRlc3RzLW9ubHktMzJieXRlcw==
-  issuer: auth
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:41880/realms/novamarket
 
 eureka:
   client:

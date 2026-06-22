@@ -9,11 +9,12 @@ spring:
     password: market
     driver-class-name: org.postgresql.Driver
   flyway:
-    enabled: false
+    enabled: true
+    baseline-on-migrate: true
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -25,9 +26,15 @@ spring:
     livereload:
       enabled: true
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:41880/realms/novamarket
+
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
     prefer-ip-address: false
     instance-id: ${spring.application.name}:${server.port}
   client:
@@ -72,9 +79,4 @@ resilience4j:
         waitDurationInOpenState: 5s
         permittedNumberOfCallsInHalfOpenState: 2
         automaticTransitionFromOpenToHalfOpenEnabled: true
-
-jwt:
-  secret: 1s3alJJATsWK91vf5zrODYlQa+LauM/9udaLZlQhHlpu46g/KzmSS5c3CGy6xF9kzAqBhvjmKBuZO/pSL7tfOg==
-  issuer: auth
-
 

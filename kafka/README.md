@@ -92,4 +92,4 @@ docker exec -it market-kafka-dev /opt/kafka/bin/kafka-topics.sh --create --topic
 docker exec -it market-kafka-dev /opt/kafka/bin/kafka-topics.sh --create --topic pago-eventos --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
 ```
 
-Documentación en [`../docs/`](../docs/).
+Documentación: [docs/kafka-eventos.md](../docs/kafka-eventos.md) · [docs/desarrollo.md](../docs/desarrollo.md)

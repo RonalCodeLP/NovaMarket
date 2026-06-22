@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "ms-articulo")
 public interface ProductoVentaClient {
 
-    @GetMapping("/api/v1/productos/{id}")
+    @GetMapping("/api/v1/articulos/{id}")
     ProductoVentaDto obtenerProducto(@PathVariable("id") Integer id);
 
-    @PostMapping("/api/v1/productos/{id}/descontar-stock")
+    @PostMapping("/api/v1/articulos/{id}/descontar-stock")
     ProductoVentaDto descontarStock(@PathVariable("id") Integer id, @RequestParam("cantidad") Integer cantidad);
 }

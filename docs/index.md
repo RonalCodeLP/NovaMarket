@@ -1,97 +1,23 @@
-# ecom — Plataforma de Microservicios 2026
+# NovaMarket — Documentación
 
-Proyecto educativo de arquitectura distribuida con Spring Boot, Spring Cloud, PostgreSQL, Kafka y observabilidad.
+Bienvenido a la documentación oficial del proyecto **NovaMarket**.
 
-## Estructura del proyecto
+## Guías principales
 
-```
-ecom/                      ← raíz del monorepositorio
-├── infra/                 ← config-server, registry-server, gateway, config-repo
-├── services/              ← microservicios backend (-ms)
-├── clients/               ← frontends (-ng)
-├── kafka/                 ← plataforma de eventos (EDA)
-├── obs/                   ← observabilidad (Prometheus, Loki, Grafana)
-└── docs/                  ← libro digital (MkDocs Material)
-```
+1. **[Arquitectura](arquitectura.md)** — Visión general, diagramas y responsabilidades de cada componente.
+2. **[Desarrollo](desarrollo.md)** — Cómo levantar el sistema en modo DEV (Maven + Docker).
+3. **[Producción](produccion.md)** — Despliegue con contenedores y red `market-prod-net`.
+4. **[Seguridad](seguridad.md)** — Keycloak, flujo OIDC, roles y validación JWT.
+5. **[Observabilidad](observabilidad.md)** — Métricas, logs y dashboards.
+6. **[Kafka y eventos](kafka-eventos.md)** — Arquitectura orientada a eventos.
+7. **[Dominio de negocio](dominio-negocio.md)** — Minimarket POS: entidades y flujos.
+8. **[Puertos](puertos.md)** — Tabla de referencia DEV vs PROD.
 
-## Componentes
+## Material del curso (referencia)
 
-| Componente | Dentro de | Rol | Puerto host PROD | Puerto container |
-|---|---|---|---:|---:|
-| **Config Server** | `infra/config-server/` | Configuración centralizada | 28888 | 8888 |
-| **Registry Server** | `infra/registry-server/` | Service discovery (Eureka) | 28761 | 8761 |
-| **API Gateway** | `infra/gateway/` | Punto único de entrada + JWT | 28082 | 8080 |
-| **auth-ms** | `services/auth-ms/` | Autenticación y emisión JWT | vía Gateway | 8080 |
-| **catalogo-ms** | `services/catalogo-ms/` | Gestión de categorías | vía Gateway | 8080 |
-| **producto-ms** | `services/producto-ms/` | Gestión de productos + Feign + CB | vía Gateway | 8080 |
-| **orden-ms** | `services/orden-ms/` | Órdenes + Kafka producer | vía Gateway | 8080 |
-| **pago-ms** | `services/pago-ms/` | Pagos + Kafka consumer | vía Gateway | 8080 |
-| **ecom-ng** | `clients/ecom-ng/` | SPA Angular (frontend) | - | - |
+Las carpetas `sesiones/` y `labs/` contienen apuntes de clase anteriores (pueden mencionar `ms-auth` o nombres legacy). **La fuente de verdad operativa son las guías de esta página.**
 
-> Los servicios backend usan `server.port: 0` (aleatorio) en desarrollo local y `server.port: 8080` en Docker.
+## Informes y rúbrica
 
-## Stack
-
-- Java 17, Spring Boot 3.5, Spring Cloud 2025
-- PostgreSQL 16, Flyway
-- Kafka (KRaft mode, sin Zookeeper)
-- Prometheus, Loki, Grafana
-- Docker Compose
-- Angular 19 (cliente web)
-
-## Inicio rápido
-
-### DEV (Maven local)
-
-```bash
-# 1. Crear redes Docker (una sola vez, si no existen)
-docker network create ecom-prod-net
-docker network create ecom-dev-net
-
-# 2. Infraestructura (Maven, cada uno en su terminal)
-cd infra/config-server    && mvn spring-boot:run   # http://localhost:18888
-cd infra/registry-server  && mvn spring-boot:run   # http://localhost:18761
-cd infra/gateway            && mvn spring-boot:run   # http://localhost:18080/actuator/health
-
-# 3. PostgreSQL para cada servicio
-cd services/auth-ms     && docker compose -f compose-dev.yml up -d   # :15431
-cd services/catalogo-ms && docker compose -f compose-dev.yml up -d   # :15432
-cd services/producto-ms && docker compose -f compose-dev.yml up -d   # :15433
-
-# 4. Microservicios (cada uno en su terminal)
-cd services/auth-ms      && mvn spring-boot:run
-cd services/catalogo-ms  && mvn spring-boot:run
-cd services/producto-ms  && mvn spring-boot:run
-```
-
-### PROD (Docker)
-
-```bash
-# 1. Redes (una sola vez)
-docker network create ecom-prod-net
-
-# 2. Infraestructura (healthchecks: gateway espera a eureka, eureka a config)
-cd infra && docker compose up -d --build
-#   http://localhost:28888 — Config Server
-#   http://localhost:28761  — Eureka Dashboard
-#   http://localhost:28082/actuator/health  — API Gateway health
-
-# 3. Servicios
-cd services/auth-ms      && docker compose up -d
-cd services/catalogo-ms  && docker compose up -d
-cd services/producto-ms  && docker compose up -d
-cd services/orden-ms     && docker compose up -d
-cd services/pago-ms      && docker compose up -d
-```
-
-## Puertos de desarrollo (PostgreSQL)
-
-| Servicio | DB | Puerto host dev | Puerto interno |
-|---|---|---|---:|
-| auth-ms | `ecom_auth_db` | 15431 | 5432 |
-| catalogo-ms | `ecom_catalogo_db` | 15432 | 5432 |
-| producto-ms | `ecom_producto_db` | 15433 | 5432 |
-| orden-ms | `ecom_orden_db` | 15434 | 5432 |
-| pago-ms | `ecom_pago_db` | 15435 | 5432 |
-
-Credenciales: `ecom` / `ecom`
+- [Plantilla de informe](informe-template.md)
+- [Rúbrica de evaluación](rubrica-evaluacion.md)

@@ -12,12 +12,12 @@ import { AuthService } from '../core/auth/auth.service';
 })
 export class Productos {
   productos = signal<Producto[]>([]);
-  categorias = signal<Categoria[]>([]);
+  rubros = signal<Categoria[]>([]);
   loading = signal(false);
   error = signal('');
   formNombre = '';
   formDescripcion = '';
-  formIdCategoria: number|null = null;
+  formIdRubro: number|null = null;
   formPrecio: number|null = null;
   formStock = 0;
   formStockMinimo = 5;
@@ -28,15 +28,15 @@ export class Productos {
     private productosService: ProductosService,
     protected auth: AuthService,
   ) {
-    this.cargarCategorias();
+    this.cargarRubros();
     this.cargarProductos();
   }
 
-  cargarCategorias() {
-    this.productosService.listarCategorias()
+  cargarRubros() {
+    this.productosService.listarRubros()
       .subscribe({
-        next: categorias => this.categorias.set(categorias),
-        error: () => this.error.set('No se pudieron cargar las categorías'),
+        next: rubros => this.rubros.set(rubros),
+        error: () => this.error.set('No se pudieron cargar los rubros'),
       });
   }
 
@@ -47,7 +47,7 @@ export class Productos {
     this.productosService.listar().subscribe({
       next: productos => this.productos.set(productos),
       error: () => {
-        this.error.set('No se pudieron cargar los productos');
+        this.error.set('No se pudieron cargar los artículos');
         this.loading.set(false);
       },
       complete: () => this.loading.set(false),
@@ -65,7 +65,7 @@ export class Productos {
             this.cancelarEdicion();
             this.cargarProductos();
           },
-          error: () => this.error.set('No se pudo actualizar el producto'),
+          error: () => this.error.set('No se pudo actualizar el artículo'),
         });
       return;
     }
@@ -76,7 +76,7 @@ export class Productos {
           this.limpiarFormulario();
           this.cargarProductos();
         },
-        error: () => this.error.set('No se pudo crear el producto'),
+        error: () => this.error.set('No se pudo crear el artículo'),
       });
   }
 
@@ -84,7 +84,7 @@ export class Productos {
     this.editandoId = producto.id;
     this.formNombre = producto.nombre;
     this.formDescripcion = producto.descripcion;
-    this.formIdCategoria = producto.idCategoria;
+    this.formIdRubro = producto.idRubro;
     this.formPrecio = producto.precio ?? null;
     this.formStock = producto.stock ?? 0;
     this.formStockMinimo = producto.stockMinimo ?? 5;
@@ -97,12 +97,12 @@ export class Productos {
   }
 
   eliminarProducto(id: number) {
-    if (!confirm(`¿Está seguro de eliminar el producto ${id}?`)) return;
+    if (!confirm(`¿Está seguro de eliminar el artículo ${id}?`)) return;
 
     this.productosService.eliminar(id)
       .subscribe({
         next: () => this.cargarProductos(),
-        error: () => this.error.set('No se pudo eliminar el producto'),
+        error: () => this.error.set('No se pudo eliminar el artículo'),
       });
   }
 
@@ -110,18 +110,18 @@ export class Productos {
     return this.auth.hasAnyRole(['ROLE_ADMIN', 'ADMIN']);
   }
 
-  nombreCategoria(idCategoria: number): string {
-    return this.categorias().find(categoria => categoria.id === idCategoria)?.nombre ?? `${idCategoria}`;
+  nombreRubro(idRubro: number): string {
+    return this.rubros().find(rubro => rubro.id === idRubro)?.nombre ?? `${idRubro}`;
   }
 
   private obtenerProductoDesdeFormulario(): ProductoRequest|null {
     const nombre = this.formNombre.trim();
     const descripcion = this.formDescripcion.trim();
-    const idCategoria = Number(this.formIdCategoria);
+    const idRubro = Number(this.formIdRubro);
 
     const precio = Number(this.formPrecio);
-    if (!nombre || !idCategoria || !precio || precio <= 0) {
-      this.error.set('Nombre, categoría y precio (> 0) son obligatorios');
+    if (!nombre || !idRubro || !precio || precio <= 0) {
+      this.error.set('Nombre, rubro y precio (> 0) son obligatorios');
       return null;
     }
 
@@ -129,7 +129,7 @@ export class Productos {
     return {
       nombre,
       descripcion,
-      idCategoria,
+      idRubro,
       precio,
       stock: this.formStock,
       stockMinimo: this.formStockMinimo,
@@ -140,7 +140,7 @@ export class Productos {
   private limpiarFormulario() {
     this.formNombre = '';
     this.formDescripcion = '';
-    this.formIdCategoria = null;
+    this.formIdRubro = null;
     this.formPrecio = null;
     this.formStock = 0;
     this.formStockMinimo = 5;

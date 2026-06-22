@@ -40,7 +40,7 @@ class CategoriaControllerTest {
                 CategoriaResponse.builder().id(1L).nombre("Tecnologia").descripcion("Productos").build()
         ));
 
-        mockMvc.perform(get("/api/v1/categorias"))
+        mockMvc.perform(get("/api/v1/rubros"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1L))
                 .andExpect(jsonPath("$[0].nombre").value("Tecnologia"));
@@ -53,7 +53,7 @@ class CategoriaControllerTest {
                 .descripcion("Productos")
                 .build();
 
-        mockMvc.perform(post("/api/v1/categorias")
+        mockMvc.perform(post("/api/v1/rubros")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())

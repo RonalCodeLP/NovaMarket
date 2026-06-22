@@ -4,6 +4,7 @@ import com.upeu.producto.dto.MovimientoInventarioRequest;
 import com.upeu.producto.dto.ProductoRequest;
 import com.upeu.producto.dto.ProductoResponse;
 import com.upeu.producto.entity.Producto;
+import com.upeu.producto.util.CodigoBarrasUtil;
 import com.upeu.producto.exception.ResourceNotFoundException;
 import com.upeu.producto.mapper.ProductoMapper;
 import com.upeu.producto.repository.ProductoRepository;
@@ -31,8 +32,8 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     @Transactional
     public ProductoResponse create(ProductoRequest request) {
-        log.info("Iniciando creacion de producto con nombre: {} y idCategoria: {}", request.getNombre(),
-                request.getIdCategoria());
+        log.info("Iniciando creacion de articulo con nombre: {} y idRubro: {}", request.getNombre(),
+                request.getIdRubro());
         Producto producto = productoMapper.toEntity(request);
         Producto savedProducto = productoRepository.save(producto);
         log.info("Producto creado exitosamente con ID: {}", savedProducto.getId());
@@ -42,13 +43,13 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     @Transactional(readOnly = true)
     public List<ProductoResponse> findAll() {
-        log.info("Recuperando lista de productos");
-        List<ProductoResponse> productos = productoRepository.findAll()
+        log.info("Recuperando lista de articulos");
+        List<ProductoResponse> articulos = productoRepository.findAll()
                 .stream()
                 .map(productoMapper::toResponse)
                 .toList();
-        log.info("Se encontraron {} productos", productos.size());
-        return productos;
+        log.info("Se encontraron {} articulos", articulos.size());
+        return articulos;
     }
 
     @Override
@@ -95,17 +96,17 @@ public class ProductoServiceImpl implements ProductoService {
         log.info("[PRODUCTO] Buscando detalle de producto con ID: {}", id);
 
         Producto producto = getProductoById(id);
-        log.info("[PRODUCTO] Consultando categoriaId={} en catalogo", producto.getIdCategoria());
+        log.info("[ARTICULO] Consultando idRubro={} en ms-rubro", producto.getIdRubro());
 
         CategoriaDto categoria = rubroClient.findCategoriaById(
-                producto.getIdCategoria().longValue());
+                producto.getIdRubro().longValue());
 
         ProductoResponse base = productoMapper.toResponse(producto);
         return ProductoResponse.builder()
                 .id(base.getId())
                 .nombre(base.getNombre())
                 .descripcion(base.getDescripcion())
-                .idCategoria(base.getIdCategoria())
+                .idRubro(base.getIdRubro())
                 .precio(base.getPrecio())
                 .stock(base.getStock())
                 .stockMinimo(base.getStockMinimo())
@@ -119,8 +120,12 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     @Transactional(readOnly = true)
     public ProductoResponse findByCodigoBarras(String codigoBarras) {
-        Producto producto = productoRepository.findByCodigoBarras(codigoBarras)
-                .orElseThrow(() -> new ResourceNotFoundException("Producto con codigo " + codigoBarras + " no encontrado"));
+        String codigo = CodigoBarrasUtil.normalizar(codigoBarras);
+        if (codigo == null) {
+            throw new ResourceNotFoundException("Codigo de barras invalido");
+        }
+        Producto producto = productoRepository.findByCodigoBarras(codigo)
+                .orElseThrow(() -> new ResourceNotFoundException("Articulo con codigo " + codigo + " no encontrado"));
         return productoMapper.toResponse(producto);
     }
 
@@ -171,7 +176,7 @@ public class ProductoServiceImpl implements ProductoService {
                 .id(base.getId())
                 .nombre(base.getNombre())
                 .descripcion(base.getDescripcion())
-                .idCategoria(base.getIdCategoria())
+                .idRubro(base.getIdRubro())
                 .precio(base.getPrecio())
                 .stock(base.getStock())
                 .stockMinimo(base.getStockMinimo())

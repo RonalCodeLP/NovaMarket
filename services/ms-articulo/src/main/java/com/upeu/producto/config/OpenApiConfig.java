@@ -22,7 +22,7 @@ public class OpenApiConfig {
                         new Server().url("http://localhost:9091").description("Microservicio directo")))
                 .info(new Info()
                         .title("producto API")
-                        .description("API REST del microservicio de gestión de productos. Versión actual: v1")
+                        .description("API REST del microservicio de gestión de artículos. Versión actual: v1")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Equipo producto")

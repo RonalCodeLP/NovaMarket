@@ -1,61 +1,29 @@
-# Libro Digital ecom - Microservicios 2026
+# Documentación NovaMarket
 
-Este directorio publica la documentación del proyecto `ecom` como libro digital en Markdown usando MkDocs Material.
+La documentación oficial del proyecto está en esta carpeta.
 
-## Qué encontrará el estudiante
+**Empezar aquí:** [index.md](index.md)
 
-- Sesiones de arquitectura de microservicios.
-- Laboratorios y rúbricas.
-- Diagramas Mermaid renderizables en MkDocs.
-- Guías para infraestructura, gateway, seguridad, observabilidad y Kafka.
+## Generar sitio (MkDocs)
 
-## Enfoque del proyecto
-
-El proyecto construye una plataforma e-commerce educativa con Spring Boot, Spring Cloud, PostgreSQL, Kafka y observabilidad.
-
-## Ruta de aprendizaje
-
-| Bloque | Contenido | Producto esperado |
-|---|---:|---|
-| Arquitectura base | Config Server, Eureka, Gateway | Plataforma distribuida base |
-| Servicios | Auth, Catálogo, Producto, Orden, Pago | Microservicios integrados |
-| Transversales | Seguridad, observabilidad, Kafka | Sistema observable y resiliente |
-
-## Ejecución local
-
-### Con Docker
-
-```powershell
-docker compose up
-```
-
-Luego abra:
-
-```text
-http://127.0.0.1:8002/
-```
-
-### Con Python local
-
-```powershell
-python -m pip install mkdocs mkdocs-material pymdown-extensions
-cd ..
+```bash
+pip install mkdocs-material
 mkdocs serve
 ```
 
-## Generación del sitio
+Abrir http://localhost:8000
 
-```powershell
-docker compose run --rm mkdocs mkdocs build -f mkdocs.yml
-```
+## Estructura
 
-o bien:
+| Archivo | Tema |
+|---------|------|
+| `arquitectura.md` | Diagramas y componentes |
+| `desarrollo.md` | Arranque DEV |
+| `produccion.md` | Docker PROD |
+| `seguridad.md` | Keycloak |
+| `observabilidad.md` | Prometheus, Loki, Grafana |
+| `kafka-eventos.md` | Eventos |
+| `dominio-negocio.md` | Negocio POS |
+| `puertos.md` | Referencia de puertos |
 
-```powershell
-mkdocs build
-```
-
-## Estructura del libro
-
-- `sesiones/`: documentación por sesión (con diagramas Mermaid embebidos).
-- `labs/`: laboratorios y actividades.
+Las carpetas `sesiones/` y `labs/` son material histórico del curso.

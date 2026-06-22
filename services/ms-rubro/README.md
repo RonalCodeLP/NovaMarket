@@ -1,6 +1,6 @@
 # ms-rubro
 
-Microservicio de **rubros** (clasificación de artículos). Expone `/api/v1/categorias`.
+Microservicio de **rubros** (clasificación de artículos). Expone `/api/v1/rubros`.
 
 ## DEV
 

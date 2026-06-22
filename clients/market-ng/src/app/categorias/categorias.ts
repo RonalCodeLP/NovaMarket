@@ -11,7 +11,7 @@ import { Categoria, CategoriaRequest, CategoriasService } from './categorias.ser
   styleUrl: './categorias.scss',
 })
 export class Categorias {
-  categorias = signal<Categoria[]>([]);
+  rubros = signal<Categoria[]>([]);
   loading = signal(false);
   error = signal('');
   formNombre = '';
@@ -19,69 +19,67 @@ export class Categorias {
   editandoId: number | null = null;
 
   constructor(private categoriasService: CategoriasService) {
-    this.cargarCategorias();
+    this.cargarRubros();
   }
 
-  cargarCategorias() {
+  cargarRubros() {
     this.loading.set(true);
     this.error.set('');
 
     this.categoriasService.listar()
       .subscribe({
-        next: (categorias) => {
-          console.log('Categorias recibidas:', categorias);
-          this.categorias.set(categorias)
-
+        next: (rubros) => {
+          this.rubros.set(rubros);
+          this.loading.set(false);
         },
-        complete: () => this.loading.set(false),
         error: (err) => {
-          console.error('Error al cargar categorias:', err);
-          this.error.set('No se pudieron cargar las categorías ');
-          //this.loading.set(false);
+          console.error('Error al cargar rubros:', err);
+          this.error.set('No se pudieron cargar los rubros. ¿Gateway (:18080) y ms-rubro (:8081) están arriba?');
+          this.loading.set(false);
         },
       });
   }
 
-  guardarCategoria() {
-    const categoria = this.obtenerCategoriaDesdeFormulario();
-    if (!categoria) return;
+  guardarRubro() {
+    const rubro = this.obtenerRubroDesdeFormulario();
+    if (!rubro) return;
 
     if (this.editandoId != null) {
-      this.categoriasService.actualizar(this.editandoId, categoria)
+      this.categoriasService.actualizar(this.editandoId, rubro)
         .subscribe({
           next: () => {
             this.cancelarEdicion();
-            this.cargarCategorias();
+            this.cargarRubros();
           },
-          error: () => this.error.set('No se pudo actualizar la categoría'),
+          error: () => this.error.set('No se pudo actualizar el rubro'),
         });
       return;
     }
 
-    this.categoriasService.crear(categoria)
+    this.categoriasService.crear(rubro)
       .subscribe({
         next: () => {
           this.limpiarFormulario();
-          this.cargarCategorias();
+          this.cargarRubros();
         },
-        error: () => this.error.set('No se pudo crear la categoría'),
+        error: () => this.error.set('No se pudo crear el rubro'),
       });
   }
 
-  eliminarCategoria(id: number) {
-    if (!confirm(`¿Está seguro de eliminar la categoría ${id}?`)) return;
+  eliminarRubro(id: number) {
+    if (!confirm(`¿Está seguro de eliminar el rubro ${id}?`)) return;
 
     this.categoriasService.eliminar(id)
       .subscribe({
-        next: () => this.cargarCategorias(),
-        error: () => this.error.set('No se pudo eliminar la categoría'),
+        next: () => this.cargarRubros(),
+        error: () => this.error.set('No se pudo eliminar el rubro'),
       });
   }
 
-  iniciarEdicion(categoria: Categoria) {
-    this.editandoId = categoria.id;
-    this.formNombre = categoria.nombre;
-    this.formDescripcion = categoria.descripcion;
+  iniciarEdicion(rubro: Categoria) {
+    this.editandoId = rubro.id;
+    this.formNombre = rubro.nombre;
+    this.formDescripcion = rubro.descripcion;
   }
 
   cancelarEdicion() {
@@ -89,7 +87,22 @@ export class Categorias {
     this.limpiarFormulario();
   }
 
-  private obtenerCategoriaDesdeFormulario(): CategoriaRequest | null {
+  /** @deprecated usar cargarRubros */
+  cargarCategorias() {
+    this.cargarRubros();
+  }
+
+  /** @deprecated usar guardarRubro */
+  guardarCategoria() {
+    this.guardarRubro();
+  }
+
+  /** @deprecated usar eliminarRubro */
+  eliminarCategoria(id: number) {
+    this.eliminarRubro(id);
+  }
+
+  private obtenerRubroDesdeFormulario(): CategoriaRequest | null {
     const nombre = this.formNombre.trim();
     const descripcion = this.formDescripcion.trim();
 

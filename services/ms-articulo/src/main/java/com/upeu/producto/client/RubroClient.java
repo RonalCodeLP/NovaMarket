@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "ms-rubro")
 public interface RubroClient {
 
-    @GetMapping("/api/v1/categorias/{id}")
+    @GetMapping("/api/v1/rubros/{id}")
     CategoriaDto findCategoriaById(@PathVariable("id") Long id);
 }

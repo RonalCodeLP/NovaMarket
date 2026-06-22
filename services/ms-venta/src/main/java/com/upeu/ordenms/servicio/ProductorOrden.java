@@ -16,30 +16,36 @@ public class ProductorOrden {
     @Value("${app.kafka.topic.ordenes}")
     private String topicOrdenes;
 
-    public void publicarOrdenCreada(EventoOrden eventoOrden) {
-        kafkaTemplate.send(topicOrdenes, String.valueOf(eventoOrden.getOrdenId()), eventoOrden)
-                .whenComplete((resultado, ex) -> {
-                    if (ex != null) {
-                        log.error(
-                                "service=ms-venta component=producer topic={} eventType={} ordenId={} timestamp={} status=error error=\"{}\"",
-                                topicOrdenes,
-                                eventoOrden.getTipoEvento(),
-                                eventoOrden.getOrdenId(),
-                                eventoOrden.getTimestamp(),
-                                ex.getMessage()
-                        );
-                        return;
-                    }
+    @Value("${app.kafka.enabled:false}")
+    private boolean kafkaEnabled;
 
-                    log.info(
-                            "service=ms-venta component=producer topic={} partition={} offset={} eventType={} ordenId={} timestamp={} status=published",
-                            resultado.getRecordMetadata().topic(),
-                            resultado.getRecordMetadata().partition(),
-                            resultado.getRecordMetadata().offset(),
-                            eventoOrden.getTipoEvento(),
-                            eventoOrden.getOrdenId(),
-                            eventoOrden.getTimestamp()
-                    );
-                });
+    public void publicarOrdenCreada(EventoOrden eventoOrden) {
+        if (!kafkaEnabled) {
+            return;
+        }
+        try {
+            kafkaTemplate.send(topicOrdenes, String.valueOf(eventoOrden.getOrdenId()), eventoOrden)
+                    .whenComplete((resultado, ex) -> {
+                        if (ex != null) {
+                            log.error(
+                                    "service=ms-venta component=producer topic={} ordenId={} status=error error=\"{}\"",
+                                    topicOrdenes,
+                                    eventoOrden.getOrdenId(),
+                                    ex.getMessage()
+                            );
+                            return;
+                        }
+
+                        log.info(
+                                "service=ms-venta component=producer topic={} partition={} offset={} ordenId={} status=published",
+                                resultado.getRecordMetadata().topic(),
+                                resultado.getRecordMetadata().partition(),
+                                resultado.getRecordMetadata().offset(),
+                                eventoOrden.getOrdenId()
+                        );
+                    });
+        } catch (Exception ex) {
+            log.warn("Kafka no disponible, evento orden {} omitido: {}", eventoOrden.getOrdenId(), ex.getMessage());
+        }
     }
 }

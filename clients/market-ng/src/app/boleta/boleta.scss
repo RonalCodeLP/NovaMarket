@@ -1,58 +1,145 @@
-.boleta {
-  max-width: 360px;
+/* Vista en pantalla = ancho real térmico 55 mm (5,5 cm) — Advance AW-711N */
+.boleta-termica {
+  width: 55mm;
+  max-width: 55mm;
   margin: 0 auto;
-  padding: 0.5rem 0;
-  font-size: 0.9rem;
+  padding: 2mm;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 9pt;
+  line-height: 1.35;
+  color: #111;
+  background: #fff;
+  border: 1px dashed var(--nm-border, #ccc);
+  box-shadow: var(--nm-shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-.boleta header {
+.termica-badge {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
   text-align: center;
-  border-bottom: 2px dashed var(--nm-border);
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
+  color: var(--nm-text-muted, #64748b);
+  margin: 0 0 0.5rem;
 }
 
-.boleta h3 {
-  font-size: 1.25rem;
-  color: var(--nm-primary);
+.boleta-termica header {
+  text-align: center;
+  border-bottom: 1px dashed #000;
+  margin-bottom: 2mm;
+  padding-bottom: 2mm;
+}
+
+.boleta-termica h3 {
+  font-size: 11pt;
+  font-weight: bold;
+  margin: 0;
+  color: #000;
+}
+
+.ruc,
+.fecha {
+  margin: 0.5mm 0;
+  font-size: 8pt;
+  color: #333;
 }
 
 .tipo {
-  margin: 0.2rem 0;
-  color: var(--nm-text-muted);
-  font-size: 0.85rem;
+  margin: 1mm 0 0;
+  font-size: 8pt;
+  font-weight: bold;
 }
 
-.boleta .nm-table {
-  font-size: 0.85rem;
+.numero {
+  margin: 0.5mm 0;
+  font-size: 9pt;
+}
+
+.meta-line {
+  font-size: 8pt;
+  margin: 0 0 2mm;
+}
+
+.items-termica {
+  border-bottom: 1px dashed #000;
+  margin-bottom: 2mm;
+  padding-bottom: 2mm;
+}
+
+.item-row {
+  margin-bottom: 2mm;
+}
+
+.item-nombre {
+  font-weight: bold;
+  font-size: 8pt;
+  word-break: break-word;
+}
+
+.item-detalle {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8pt;
 }
 
 .totales div {
   display: flex;
   justify-content: space-between;
-  padding: 0.2rem 0;
+  gap: 1mm;
+  font-size: 8pt;
+  margin: 0.5mm 0;
 }
 
 .totales .total {
-  font-weight: 700;
-  font-size: 1.05rem;
-  border-top: 2px solid var(--nm-text);
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
+  font-weight: bold;
+  font-size: 10pt;
+  border-top: 1px solid #000;
+  margin-top: 2mm;
+  padding-top: 2mm;
+}
+
+.totales .pago-row {
+  margin-top: 1mm;
+  font-weight: bold;
+}
+
+.ref-row .ref-code {
+  font-size: 7pt;
+  text-align: right;
+  word-break: break-all;
+  max-width: 60%;
+}
+
+.legal {
+  font-size: 7pt;
+  text-align: center;
+  margin: 2mm 0 0;
 }
 
 .gracias {
   text-align: center;
-  margin: 1rem 0 0;
-  font-weight: 600;
+  font-size: 8pt;
+  font-weight: bold;
+  margin: 1mm 0 0;
 }
 
-.print-btn {
+.boleta-actions {
   margin-top: 1rem;
+  width: 55mm;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media print {
   .no-print {
     display: none !important;
+  }
+
+  .boleta-termica {
+    width: 55mm !important;
+    max-width: 55mm !important;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
   }
 }

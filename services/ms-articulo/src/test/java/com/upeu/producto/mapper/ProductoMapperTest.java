@@ -16,7 +16,7 @@ class ProductoMapperTest {
         ProductoRequest request = ProductoRequest.builder()
             .nombre("Laptop")
             .descripcion("Portatil de oficina")
-            .idCategoria(3)
+            .idRubro(3)
                 .build();
 
         Producto entity = productoMapper.toEntity(request);
@@ -24,7 +24,7 @@ class ProductoMapperTest {
         assertThat(entity).isNotNull();
         assertThat(entity.getNombre()).isEqualTo("Laptop");
         assertThat(entity.getDescripcion()).isEqualTo("Portatil de oficina");
-        assertThat(entity.getIdCategoria()).isEqualTo(3);
+        assertThat(entity.getIdRubro()).isEqualTo(3);
     }
 
     @Test
@@ -33,7 +33,7 @@ class ProductoMapperTest {
             .id(1)
             .nombre("Mouse")
             .descripcion("Periferico")
-            .idCategoria(4)
+            .idRubro(4)
                 .build();
 
         ProductoResponse response = productoMapper.toResponse(entity);
@@ -42,7 +42,7 @@ class ProductoMapperTest {
         assertThat(response.getId()).isEqualTo(1);
         assertThat(response.getNombre()).isEqualTo("Mouse");
         assertThat(response.getDescripcion()).isEqualTo("Periferico");
-        assertThat(response.getIdCategoria()).isEqualTo(4);
+        assertThat(response.getIdRubro()).isEqualTo(4);
     }
 
     @Test
@@ -51,18 +51,18 @@ class ProductoMapperTest {
             .id(1)
                 .nombre("Anterior")
                 .descripcion("Anterior descripcion")
-            .idCategoria(1)
+            .idRubro(1)
                 .build();
         ProductoRequest request = ProductoRequest.builder()
                 .nombre("Nueva")
                 .descripcion("Nueva descripcion")
-            .idCategoria(2)
+            .idRubro(2)
                 .build();
 
         productoMapper.updateEntityFromRequest(entity, request);
 
         assertThat(entity.getNombre()).isEqualTo("Nueva");
         assertThat(entity.getDescripcion()).isEqualTo("Nueva descripcion");
-        assertThat(entity.getIdCategoria()).isEqualTo(2);
+        assertThat(entity.getIdRubro()).isEqualTo(2);
     }
 }

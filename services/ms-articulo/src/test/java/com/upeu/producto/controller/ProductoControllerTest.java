@@ -37,30 +37,30 @@ class ProductoControllerTest {
     @Test
     void shouldReturnProductos() throws Exception {
         when(productoService.findAll()).thenReturn(List.of(
-                ProductoResponse.builder().id(1).nombre("Laptop").descripcion("Portatil").idCategoria(2).build()
+                ProductoResponse.builder().id(1).nombre("Laptop").descripcion("Portatil").idRubro(2).build()
         ));
 
-        mockMvc.perform(get("/api/v1/productos"))
+        mockMvc.perform(get("/api/v1/articulos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].nombre").value("Laptop"))
-                .andExpect(jsonPath("$[0].idCategoria").value(2));
+                .andExpect(jsonPath("$[0].idRubro").value(2));
     }
 
     @Test
     void shouldValidateCreateRequest() throws Exception {
         ProductoRequest request = ProductoRequest.builder()
                 .nombre("")
-                .descripcion("Productos")
-                .idCategoria(null)
+                .descripcion("Articulos")
+                .idRubro(null)
                 .build();
 
-        mockMvc.perform(post("/api/v1/productos")
+        mockMvc.perform(post("/api/v1/articulos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Error de validación"))
                 .andExpect(jsonPath("$.validationErrors.nombre").exists())
-                .andExpect(jsonPath("$.validationErrors.idCategoria").exists());
+                .andExpect(jsonPath("$.validationErrors.idRubro").exists());
     }
 }

@@ -1,15 +1,9 @@
-# ms-auth
+# ms-auth (deprecado)
 
-Autenticación JWT y roles (ADMIN, CAJERO, SUPERVISOR, REPARTIDOR).
+Este microservicio fue **reemplazado por Keycloak** (`keycloak/` en la raíz del repo).
 
-## DEV
+- **Identidad y login:** Keycloak realm `novamarket` (http://localhost:41880)
+- **Frontend:** `clients/market-ng` usa OIDC (cliente `market-ng`)
+- **Gateway / ms-articulo:** validan JWT con `issuer-uri` de Keycloak
 
-```bash
-cd services/ms-auth
-docker compose -f compose-dev.yml up -d
-mvn spring-boot:run
-```
-
-- Eureka: **ms-auth**
-- Login: `POST http://localhost:18080/auth/login`
-- Usuarios seed: `cajero` / `cajero123`, `admin` / `admin123`
+No levantar `ms-auth` en el flujo DEV normal. Se conserva el código solo como referencia histórica del curso.

@@ -1,69 +1,53 @@
-# infra
+# Infraestructura — NovaMarket
 
-Infraestructura base del sistema distribuido: Config Server, Registry Server (Eureka) y API Gateway.
+Componentes compartidos: **Config Server**, **Eureka**, **API Gateway**.
 
-## Estructura
+Documentación completa: [docs/arquitectura.md](../docs/arquitectura.md) · [docs/desarrollo.md](../docs/desarrollo.md) · [docs/produccion.md](../docs/produccion.md)
 
-```text
-infra/
-├── config-server/     ← Spring Cloud Config Server
-├── config-repo/       ← configuración por servicio y perfil
-├── registry-server/   ← Eureka (service discovery)
-├── gateway/           ← Spring Cloud Gateway + JWT
-└── compose.yml        ← stack Docker de producción
+## Módulos
+
+| Carpeta | Puerto DEV | Puerto PROD | Función |
+|---------|----------:|------------:|---------|
+| `config-server/` | 18888 | 28888 | Config centralizada (`config-repo/`) |
+| `registry-server/` | 18761 | 28761 | Eureka |
+| `gateway/` | 18080 | 28082 | Entrada HTTP + JWT Keycloak |
+
+## DEV (Docker)
+
+```powershell
+docker network create market-dev-net
+cd infra
+.\start-dev.ps1
 ```
 
-## Componentes
+Contenedores: `market-config-dev`, `market-eureka-dev`, `market-gateway-dev`  
+Puertos: **18888**, **18761**, **18080**
 
-| Directorio | Puerto host DEV | Puerto host PROD | Puerto container | Rol |
-|---|---:|---:|---:|---|
-| `config-server/` | 18888 | 28888 | 8888 | Configuración centralizada |
-| `registry-server/` | 18761 | 28761 | 8761 | Service discovery |
-| `gateway/` | 18080 | 28082 | 8080 | Punto único de entrada HTTP + JWT |
+Requisito previo: **Keycloak** en http://localhost:41880 (`keycloak/start-dev.ps1`)
 
----
+### DEV alternativo (Maven, sin contenedores)
 
-## DEV (Maven local)
-
-Levantar cada servicio en su propia terminal, en este orden:
-
-```bash
-cd config-server    && mvn spring-boot:run   # http://localhost:18888
-cd ../registry-server && mvn spring-boot:run # http://localhost:18761
-cd ../gateway       && mvn spring-boot:run   # http://localhost:18080/actuator/health
+```powershell
+cd config-server   ; mvn spring-boot:run
+cd registry-server ; mvn spring-boot:run
+cd gateway         ; mvn spring-boot:run
 ```
-
-**Enlaces:**
-- Config Server: http://localhost:18888/ms-rubro/dev
-- Eureka Dashboard: http://localhost:18761
-- Gateway health: http://localhost:18080/actuator/health
-
-> Los microservicios en `services/*-ms` usan los mismos puertos en dev (18888, 18761, 18080).
-> Docker Compose de infra usa puertos distintos en el host (28888, 28761, 28082) para no pisarlos.
-
----
 
 ## PROD (Docker)
 
-```bash
+```powershell
+docker network create market-prod-net
+cd infra
 docker compose up -d --build
 ```
 
-Gateway espera a Registry Server; Registry espera a Config Server. Cada healthcheck usa `/actuator/health`.
+Variables: ver `.env.example` (`KEYCLOAK_ISSUER_URI`).
 
-**Enlaces:**
-- Config Server: http://localhost:28888/catalogo-ms/prod
-- Eureka Dashboard: http://localhost:28761
-- Gateway health: http://localhost:28082/actuator/health
+## Config repo
 
-> `config-server` no se registra en Eureka. `registry-server` y `gateway` aparecen en el dashboard.
+Perfiles en `config-repo/`:
 
-Gateway necesita `JWT_SECRET` en `infra/.env`. Debe coincidir con `services/auth-ms/.env`.
+- `gateway-dev.yml` / `gateway-prod.yml`
+- `ms-*-dev.yml` / `ms-*-prod.yml`
 
-En Docker, los contenedores conservan alias `market-config` y `market-eureka` para compatibilidad con los `.env` de los microservicios.
-
-Detalle del gateway: [`gateway/README.md`](gateway/README.md) (si existe).
-
----
-
-Documentación completa en [`../docs/`](../docs/).
+Seguridad: `issuer-uri` apunta al realm Keycloak `novamarket`.

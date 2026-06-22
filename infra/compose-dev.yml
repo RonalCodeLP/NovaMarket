@@ -1,0 +1,85 @@
+name: market-infra-dev
+
+services:
+  config-server:
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    container_name: market-config-dev
+    restart: unless-stopped
+    ports:
+      - "18888:18888"
+    volumes:
+      - ./config-repo:/config-repo
+    environment:
+      SERVER_PORT: 18888
+      SPRING_PROFILES_ACTIVE: native
+      CONFIG_REPO_LOCATION: file:/config-repo
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:18888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 40s
+    networks:
+      market-dev-net:
+        aliases:
+          - config-server
+          - market-config-dev
+
+  registry-server:
+    build:
+      context: ./registry-server
+      dockerfile: Dockerfile
+    container_name: market-eureka-dev
+    restart: unless-stopped
+    ports:
+      - "18761:18761"
+    environment:
+      SERVER_PORT: 18761
+      SPRING_PROFILES_ACTIVE: dev
+      CONFIG_SERVER_URL: http://config-server:18888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://registry-server:18761/eureka
+    depends_on:
+      config-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:18761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 40s
+    networks:
+      market-dev-net:
+        aliases:
+          - registry-server
+          - market-eureka-dev
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: market-gateway-dev
+    restart: unless-stopped
+    ports:
+      - "18080:18080"
+    volumes:
+      - ./gateway/logs:/app/logs
+    environment:
+      SERVER_PORT: 18080
+      SPRING_PROFILES_ACTIVE: dev
+      CONFIG_SERVER_URL: http://config-server:18888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://registry-server:18761/eureka
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://host.docker.internal:41880/realms/novamarket
+    depends_on:
+      config-server:
+        condition: service_healthy
+      registry-server:
+        condition: service_healthy
+    networks:
+      - market-dev-net
+
+networks:
+  market-dev-net:
+    external: true
+    name: market-dev-net

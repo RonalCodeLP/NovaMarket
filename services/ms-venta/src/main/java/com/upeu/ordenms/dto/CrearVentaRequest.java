@@ -19,8 +19,17 @@ public class CrearVentaRequest {
     @NotNull
     private MedioPago medioPago;
 
-    /** Obligatorio si medioPago = EFECTIVO */
+    /** Efectivo: monto entregado por el cliente */
     private Double montoRecibido;
+
+    /** Tarjeta: débito o crédito */
+    private TipoTarjeta tipoTarjeta;
+
+    /** Tarjeta: autorización del datáfono (6 dígitos) */
+    private String codigoAutorizacion;
+
+    /** Yape: código de operación del cliente (7 dígitos) */
+    private String codigoOperacion;
 
     @NotEmpty
     @Valid

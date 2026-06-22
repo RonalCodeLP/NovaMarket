@@ -1,35 +1,51 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TimeoutError } from 'rxjs';
 import { AuthService } from '../core/auth/auth.service';
 import { Boleta } from '../boleta/boleta';
 import { Cliente, ClientesService } from '../core/services/clientes.service';
-import { MedioPago, VentaResponse, VentasService } from '../core/services/ventas.service';
+import { MedioPago, TipoTarjeta, VentaResponse, VentasService } from '../core/services/ventas.service';
+import { BoletaPrintService } from '../core/services/boleta-print.service';
+import { calcularIgv } from '../core/utils/igv.util';
 import { Producto, ProductosService } from '../productos/productos.service';
 import { PosCartService } from './pos-cart.service';
+import {
+  PasoCheckout,
+  billetesSugeridos,
+  calcularVuelto,
+  generarAutorizacionTarjeta,
+  MENSAJES_TERMINAL,
+  normalizarCodigoYape,
+  validarCodigoYape,
+} from './pos-payment.util';
+import { etiquetaTipoTarjeta } from '../core/utils/pago.util';
 
 @Component({
   selector: 'app-pos',
-  imports: [CommonModule, FormsModule, Boleta],
+  imports: [CommonModule, FormsModule, Boleta, RouterLink],
   templateUrl: './pos.html',
   styleUrl: './pos.scss',
 })
-export class Pos {
+export class Pos implements OnDestroy {
   private readonly cart = inject(PosCartService);
   private readonly productosService = inject(ProductosService);
   private readonly ventasService = inject(VentasService);
   private readonly clientesService = inject(ClientesService);
+  private readonly boletaPrint = inject(BoletaPrintService);
   protected readonly auth = inject(AuthService);
 
   readonly cartItems = this.cart.items;
   readonly subtotal = this.cart.subtotal;
   readonly itemCount = this.cart.itemCount;
+  readonly mensajesTerminal = MENSAJES_TERMINAL;
 
-  readonly mediosPago: { value: MedioPago; label: string }[] = [
-    { value: 'EFECTIVO', label: 'Efectivo' },
-    { value: 'TARJETA', label: 'Tarjeta' },
-    { value: 'YAPE', label: 'Yape' },
+  readonly mediosPago: { value: MedioPago; label: string; hint: string; icon: string }[] = [
+    { value: 'EFECTIVO', label: 'Efectivo', hint: 'Soles en caja', icon: '💵' },
+    { value: 'TARJETA', label: 'Tarjeta', hint: 'VisaNet / Izipay', icon: '💳' },
+    { value: 'YAPE', label: 'Yape', hint: 'Código de operación', icon: '📱' },
   ];
 
   codigoBarras = '';
@@ -37,37 +53,59 @@ export class Pos {
   clienteId: number | null = null;
   medioPago: MedioPago = 'EFECTIVO';
   montoRecibido: number | null = null;
+  tipoTarjeta: TipoTarjeta = 'DEBITO';
+  codigoYape = '';
+  codigoAutorizacionTarjeta: string | null = null;
 
   clientes = signal<Cliente[]>([]);
   ventaCompletada = signal<VentaResponse | null>(null);
+  ultimoEscaneo = signal<string | null>(null);
+  pasoCheckout = signal<PasoCheckout>('cerrado');
+  indiceTerminal = signal(0);
   loading = signal(false);
   error = signal('');
 
-  /** Total a cobrar (método: depende de descuento vía ngModel, no de signals). */
+  private readonly codigoInput = viewChild<ElementRef<HTMLInputElement>>('codigoInput');
+  private terminalTimer: ReturnType<typeof setInterval> | null = null;
+
   total(): number {
     return Math.max(0, this.subtotal() - (Number(this.descuento) || 0));
   }
 
+  desgloseIgv() {
+    return calcularIgv(this.total());
+  }
+
+  billetesParaTotal(): number[] {
+    return billetesSugeridos(this.total());
+  }
+
   vuelto(): number {
-    if (this.medioPago !== 'EFECTIVO') {
-      return 0;
-    }
-    const recibido = Number(this.montoRecibido ?? 0);
-    return Math.max(0, recibido - this.total());
+    return calcularVuelto(Number(this.montoRecibido ?? 0), this.total());
   }
 
   puedeCobrar(): boolean {
     if (!this.cartItems().length) {
       return false;
     }
-    if (this.medioPago === 'EFECTIVO') {
-      return Number(this.montoRecibido ?? 0) >= this.total();
+    switch (this.medioPago) {
+      case 'EFECTIVO':
+        return Number(this.montoRecibido ?? 0) >= this.total();
+      case 'TARJETA':
+        return true;
+      case 'YAPE':
+        return validarCodigoYape(this.codigoYape);
+      default:
+        return false;
     }
-    return true;
   }
 
   constructor() {
     this.cargarClientes();
+  }
+
+  ngOnDestroy() {
+    this.detenerTerminal();
   }
 
   cargarClientes() {
@@ -91,26 +129,33 @@ export class Pos {
         try {
           this.agregarAlCarrito(producto);
           this.codigoBarras = '';
+          this.ultimoEscaneo.set(producto.nombre);
+          this.enfocarEscaneo();
         } catch (e) {
           this.error.set(e instanceof Error ? e.message : 'No se pudo agregar');
+          this.enfocarEscaneo();
         }
         this.loading.set(false);
       },
       error: () => {
         this.error.set('Artículo no encontrado para ese código');
+        this.codigoBarras = '';
+        this.enfocarEscaneo();
         this.loading.set(false);
       },
     });
   }
 
+  private enfocarEscaneo() {
+    setTimeout(() => this.codigoInput()?.nativeElement.focus(), 0);
+  }
+
   agregarAlCarrito(producto: Producto) {
-    const precio = Number(producto.precio ?? 0);
-    const stock = Number(producto.stock ?? 0);
     this.cart.addProduct({
       id: producto.id,
       nombre: producto.nombre,
-      precio,
-      stock,
+      precio: Number(producto.precio ?? 0),
+      stock: Number(producto.stock ?? 0),
     });
   }
 
@@ -130,21 +175,109 @@ export class Pos {
   limpiarCarrito() {
     this.cart.clear();
     this.descuento = 0;
-    this.montoRecibido = null;
+    this.resetPago();
     this.ventaCompletada.set(null);
+    this.cerrarCheckout();
   }
 
   onMedioPagoChange() {
-    if (this.medioPago !== 'EFECTIVO') {
-      this.montoRecibido = this.total();
-    } else {
-      this.montoRecibido = null;
+    this.montoRecibido = null;
+    this.codigoYape = '';
+    this.codigoAutorizacionTarjeta = null;
+    if (this.medioPago === 'TARJETA') {
+      this.tipoTarjeta = 'DEBITO';
     }
   }
 
-  confirmarPago() {
+  usarMontoExacto() {
+    this.montoRecibido = this.total();
+  }
+
+  usarBillete(monto: number) {
+    this.montoRecibido = monto;
+  }
+
+  onCodigoYapeChange(valor: string) {
+    this.codigoYape = normalizarCodigoYape(valor);
+  }
+
+  probarImpresora() {
+    this.boletaPrint.probarImpresora();
+    this.error.set('');
+  }
+
+  cancelarProcesando() {
+    if (this.ventaCompletada()) {
+      this.loading.set(false);
+      this.error.set('');
+      this.pasoCheckout.set('cerrado');
+      return;
+    }
+    this.loading.set(false);
+    this.pasoCheckout.set('resumen');
+    this.error.set('Cobro cancelado. Si el servidor no respondió, verifique ms-venta y ms-pago.');
+  }
+
+  abrirCheckout() {
     if (!this.puedeCobrar()) {
-      this.error.set('Revise el carrito y el monto recibido');
+      this.error.set(this.mensajeValidacionPago());
+      return;
+    }
+    if (!this.auth.username()) {
+      this.error.set('Debe iniciar sesión');
+      return;
+    }
+    this.error.set('');
+    this.codigoAutorizacionTarjeta = null;
+    this.pasoCheckout.set(this.medioPago === 'TARJETA' ? 'cobro' : 'resumen');
+  }
+
+  cerrarCheckout() {
+    if (this.loading()) {
+      return;
+    }
+    this.detenerTerminal();
+    this.pasoCheckout.set('cerrado');
+    this.indiceTerminal.set(0);
+  }
+
+  volverAResumen() {
+    this.detenerTerminal();
+    this.codigoAutorizacionTarjeta = null;
+    this.pasoCheckout.set('resumen');
+    this.indiceTerminal.set(0);
+  }
+
+  iniciarCobroTarjeta() {
+    this.error.set('');
+    this.pasoCheckout.set('terminal');
+    this.indiceTerminal.set(0);
+    this.detenerTerminal();
+
+    this.terminalTimer = setInterval(() => {
+      const next = this.indiceTerminal() + 1;
+      if (next >= MENSAJES_TERMINAL.length) {
+        this.detenerTerminal();
+        this.codigoAutorizacionTarjeta = generarAutorizacionTarjeta();
+        this.ejecutarCobro();
+        return;
+      }
+      this.indiceTerminal.set(next);
+    }, 900);
+  }
+
+  confirmarCobro() {
+    if (this.medioPago === 'TARJETA') {
+      this.iniciarCobroTarjeta();
+      return;
+    }
+    this.ejecutarCobro();
+  }
+
+  private ejecutarCobro() {
+    if (!this.puedeCobrar()) {
+      this.error.set(this.mensajeValidacionPago());
+      this.pasoCheckout.set('resumen');
       return;
     }
 
@@ -154,6 +287,7 @@ export class Pos {
       return;
     }
 
+    this.pasoCheckout.set('procesando');
     this.loading.set(true);
     this.error.set('');
 
@@ -163,6 +297,9 @@ export class Pos {
       descuento: this.descuento || 0,
       medioPago: this.medioPago,
       montoRecibido: this.medioPago === 'EFECTIVO' ? Number(this.montoRecibido) : undefined,
+      tipoTarjeta: this.medioPago === 'TARJETA' ? this.tipoTarjeta : undefined,
+      codigoAutorizacion: this.medioPago === 'TARJETA' ? this.codigoAutorizacionTarjeta ?? undefined : undefined,
+      codigoOperacion: this.medioPago === 'YAPE' ? normalizarCodigoYape(this.codigoYape) : undefined,
       items: this.cartItems().map(line => ({
         productoId: line.productoId,
         cantidad: line.cantidad,
@@ -171,14 +308,19 @@ export class Pos {
 
     this.ventasService.crear(payload).subscribe({
       next: venta => {
+        this.loading.set(false);
+        this.error.set('');
         this.ventaCompletada.set(venta);
         this.cart.clear();
-        this.descuento = 0;
-        this.montoRecibido = null;
-        this.loading.set(false);
+        this.resetPago();
+        this.detenerTerminal();
+        this.pasoCheckout.set('cerrado');
+        this.indiceTerminal.set(0);
+        setTimeout(() => this.boletaPrint.emitirBoleta(venta), 0);
       },
-      error: (err: HttpErrorResponse) => {
-        this.error.set(this.mensajeErrorCobro(err));
+      error: (err: unknown) => {
+        this.error.set(this.resolverErrorCobro(err));
+        this.pasoCheckout.set(this.medioPago === 'TARJETA' ? 'cobro' : 'resumen');
         this.loading.set(false);
       },
     });
@@ -186,11 +328,67 @@ export class Pos {
 
   nuevaVenta() {
     this.ventaCompletada.set(null);
+    this.ultimoEscaneo.set(null);
+    this.resetPago();
+    this.cerrarCheckout();
     this.error.set('');
+    this.enfocarEscaneo();
   }
 
   lineTotal(line: { precio: number; cantidad: number }): number {
     return line.precio * line.cantidad;
+  }
+
+  etiquetaMedio(medio: MedioPago): string {
+    return this.mediosPago.find(m => m.value === medio)?.label ?? medio;
+  }
+
+  etiquetaTarjeta(tipo: TipoTarjeta): string {
+    return etiquetaTipoTarjeta(tipo);
+  }
+
+  private resetPago() {
+    this.descuento = 0;
+    this.montoRecibido = null;
+    this.codigoYape = '';
+    this.codigoAutorizacionTarjeta = null;
+    this.tipoTarjeta = 'DEBITO';
+  }
+
+  private detenerTerminal() {
+    if (this.terminalTimer) {
+      clearInterval(this.terminalTimer);
+      this.terminalTimer = null;
+    }
+  }
+
+  private mensajeValidacionPago(): string {
+    switch (this.medioPago) {
+      case 'EFECTIVO':
+        return `El monto recibido debe ser al menos S/ ${this.total().toFixed(2)}`;
+      case 'YAPE':
+        return 'Ingrese el código de operación Yape (7 dígitos del comprobante del cliente)';
+      default:
+        return 'Revise los datos de cobro';
+    }
+  }
+
+  private resolverErrorCobro(err: unknown): string {
+    if (err instanceof TimeoutError) {
+      return 'El cobro tardó demasiado. ¿Está activo ms-venta? (puerto 19051). Reinícialo con: mvn spring-boot:run';
+    }
+    if (err instanceof Error) {
+      if (err.name === 'TimeoutError' || err.message?.toLowerCase().includes('timeout')) {
+        return 'El cobro tardó demasiado. ¿Está activo ms-venta? (puerto 19051). Reinícialo con: mvn spring-boot:run';
+      }
+      if (err.message?.trim()) {
+        return err.message;
+      }
+    }
+    if (err instanceof HttpErrorResponse) {
+      return this.mensajeErrorCobro(err);
+    }
+    return 'No se pudo completar el cobro. Revise la consola y que los servicios estén activos.';
   }
 
   private mensajeErrorCobro(err: HttpErrorResponse): string {
@@ -202,11 +400,34 @@ export class Pos {
       return body;
     }
     if (err.status === 0) {
-      return 'Sin conexión al servidor. ¿Está el gateway (18080) y ms-venta activos?';
+      return 'Sin conexión. Verifique gateway (:18080), ms-venta y ms-pago.';
     }
     if (err.status === 401 || err.status === 403) {
-      return 'Sesión inválida. Cierre sesión y vuelva a entrar como cajero.';
+      return 'Sesión inválida. Vuelva a entrar como cajero.';
     }
-    return `No se pudo cobrar (${err.status}). Verifique ms-venta, ms-pago y ms-articulo.`;
+    if (err.status === 503 || err.status === 502 || err.status === 504) {
+      return 'Servicio de pagos no disponible. ¿Está ms-pago activo? (puerto 19061)';
+    }
+    if (err.status === 400) {
+      return `Datos inválidos: ${this.extraerMensaje(err)}`;
+    }
+    if (err.status != null && err.status >= 500) {
+      return `Error del servidor (${err.status}). Revise ms-venta y ms-pago.`;
+    }
+    if (err.status != null) {
+      return `No se pudo completar el cobro (${err.status}).`;
+    }
+    return 'No se pudo completar el cobro. Revise la conexión con el servidor.';
+  }
+
+  private extraerMensaje(err: HttpErrorResponse): string {
+    const body = err.error;
+    if (body && typeof body === 'object' && 'message' in body && body.message) {
+      return String(body.message);
+    }
+    if (typeof body === 'string' && body.trim()) {
+      return body;
+    }
+    return 'revise stock, monto y sesión';
   }
 }

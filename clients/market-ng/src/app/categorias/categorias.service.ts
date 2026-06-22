@@ -3,16 +3,21 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiService } from '../core/services/api.service';
 
-export interface Categoria {
+export interface Rubro {
   id: number;
   nombre: string;
   descripcion: string;
 }
 
-export interface CategoriaRequest {
+export interface RubroRequest {
   nombre: string;
   descripcion: string;
 }
+
+/** @deprecated usar Rubro */
+export type Categoria = Rubro;
+/** @deprecated usar RubroRequest */
+export type CategoriaRequest = RubroRequest;
 
 @Injectable({ providedIn: 'root' })
 export class CategoriasService {
@@ -21,19 +26,19 @@ export class CategoriasService {
     private api: ApiService,
   ) {}
 
-  listar(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(this.api.buildUrl('/api/v1/categorias'));
+  listar(): Observable<Rubro[]> {
+    return this.http.get<Rubro[]>(this.api.buildUrl('/api/v1/rubros'));
   }
 
-  crear(categoria: CategoriaRequest): Observable<Categoria> {
-    return this.http.post<Categoria>(this.api.buildUrl('/api/v1/categorias'), categoria);
+  crear(rubro: RubroRequest): Observable<Rubro> {
+    return this.http.post<Rubro>(this.api.buildUrl('/api/v1/rubros'), rubro);
   }
 
-  actualizar(id: number, categoria: CategoriaRequest): Observable<Categoria> {
-    return this.http.put<Categoria>(this.api.buildUrl(`/api/v1/categorias/${id}`), categoria);
+  actualizar(id: number, rubro: RubroRequest): Observable<Rubro> {
+    return this.http.put<Rubro>(this.api.buildUrl(`/api/v1/rubros/${id}`), rubro);
   }
 
   eliminar(id: number): Observable<void> {
-    return this.http.delete<void>(this.api.buildUrl(`/api/v1/categorias/${id}`));
+    return this.http.delete<void>(this.api.buildUrl(`/api/v1/rubros/${id}`));
   }
 }

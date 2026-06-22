@@ -14,17 +14,17 @@ scrape_configs:
       - targets:
           - gateway:8080
 
-  - job_name: producto-ms
+  - job_name: ms-articulo
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - producto-ms:8080
+          - ms-articulo:8080
 
-  - job_name: catalogo-ms
+  - job_name: ms-rubro
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - catalogo-ms:8080
+          - ms-rubro:8080
 
   - job_name: kafka-exporter
     metrics_path: /metrics
@@ -32,14 +32,14 @@ scrape_configs:
       - targets:
           - market-kafka-exporter:9308
 
-  - job_name: orden-ms
+  - job_name: ms-venta
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - orden-ms:8080
+          - ms-venta:8080
 
-  - job_name: pago-ms
+  - job_name: ms-pago
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - pago-ms:8080
+          - ms-pago:8080

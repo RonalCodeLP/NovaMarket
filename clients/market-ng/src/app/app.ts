@@ -33,7 +33,6 @@ export class App {
   }
 
   logout() {
-    this.auth.logout();
-    this.router.navigateByUrl('/auth');
+    void this.auth.logout('/auth');
   }
 }

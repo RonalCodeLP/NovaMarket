@@ -1,6 +1,7 @@
 package com.upeu.ordenms.cliente;
 
 import com.upeu.ordenms.dto.MedioPago;
+import com.upeu.ordenms.dto.TipoTarjeta;
 import com.upeu.ordenms.dto.PagoRegistradoDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,9 @@ public interface PagoVentaClient {
             Long ventaId,
             Double monto,
             MedioPago medioPago,
-            Double montoRecibido
+            Double montoRecibido,
+            TipoTarjeta tipoTarjeta,
+            String codigoAutorizacion,
+            String codigoOperacion
     ) {}
 }

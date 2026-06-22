@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, timeout, TimeoutError } from 'rxjs';
 import { ApiService } from './api.service';
 
+const VENTA_TIMEOUT_MS = 15_000;
+
 export type MedioPago = 'EFECTIVO' | 'TARJETA' | 'YAPE';
+export type TipoTarjeta = 'DEBITO' | 'CREDITO';
 
 export interface VentaItemRequest {
   productoId: number;
@@ -16,6 +19,9 @@ export interface CrearVentaRequest {
   descuento?: number;
   medioPago: MedioPago;
   montoRecibido?: number;
+  tipoTarjeta?: TipoTarjeta;
+  codigoAutorizacion?: string;
+  codigoOperacion?: string;
   items: VentaItemRequest[];
 }
 
@@ -42,6 +48,11 @@ export interface VentaResponse {
   numeroBoleta?: string;
   fechaVenta?: string;
   pagoId?: number;
+  codigoAutorizacion?: string;
+  referenciaTransaccion?: string;
+  tipoTarjeta?: TipoTarjeta;
+  codigoOperacion?: string;
+  monedaPago?: string;
   items: VentaDetalleResponse[];
 }
 
@@ -53,7 +64,9 @@ export class VentasService {
   ) {}
 
   crear(venta: CrearVentaRequest): Observable<VentaResponse> {
-    return this.http.post<VentaResponse>(this.api.buildUrl('/api/v1/ventas'), venta);
+    return this.http
+      .post<VentaResponse>(this.api.buildUrl('/api/v1/ventas'), venta)
+      .pipe(timeout(VENTA_TIMEOUT_MS));
   }
 
   listar(): Observable<VentaResponse[]> {

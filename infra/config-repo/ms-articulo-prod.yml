@@ -19,6 +19,12 @@ spring:
       hibernate:
         format_sql: false
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://keycloak:8080/realms/novamarket}
+
 eureka:
   client:
     service-url:
@@ -54,6 +60,3 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 2
         automaticTransitionFromOpenToHalfOpenEnabled: true
 
-jwt:
-  secret: ${JWT_SECRET}
-  issuer: auth

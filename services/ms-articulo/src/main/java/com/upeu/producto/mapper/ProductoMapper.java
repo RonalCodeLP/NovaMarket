@@ -3,7 +3,7 @@ package com.upeu.producto.mapper;
 import com.upeu.producto.dto.ProductoRequest;
 import com.upeu.producto.dto.ProductoResponse;
 import com.upeu.producto.entity.Producto;
-import java.math.BigDecimal;
+import com.upeu.producto.util.CodigoBarrasUtil;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,11 +17,11 @@ public class ProductoMapper {
         return Producto.builder()
                 .nombre(request.getNombre())
                 .descripcion(request.getDescripcion())
-                .idCategoria(request.getIdCategoria())
+                .idRubro(request.getIdRubro())
                 .precio(request.getPrecio())
                 .stock(request.getStock() != null ? request.getStock() : 0)
                 .stockMinimo(request.getStockMinimo() != null ? request.getStockMinimo() : 5)
-                .codigoBarras(request.getCodigoBarras())
+                .codigoBarras(CodigoBarrasUtil.normalizar(request.getCodigoBarras()))
                 .imagenUrl(request.getImagenUrl())
                 .build();
     }
@@ -38,7 +38,7 @@ public class ProductoMapper {
                 .id(entity.getId())
                 .nombre(entity.getNombre())
                 .descripcion(entity.getDescripcion())
-                .idCategoria(entity.getIdCategoria())
+                .idRubro(entity.getIdRubro())
                 .precio(entity.getPrecio())
                 .stock(entity.getStock())
                 .stockMinimo(entity.getStockMinimo())
@@ -51,7 +51,7 @@ public class ProductoMapper {
     public void updateEntityFromRequest(Producto entity, ProductoRequest request) {
         entity.setNombre(request.getNombre());
         entity.setDescripcion(request.getDescripcion());
-        entity.setIdCategoria(request.getIdCategoria());
+        entity.setIdRubro(request.getIdRubro());
         entity.setPrecio(request.getPrecio());
         if (request.getStock() != null) {
             entity.setStock(request.getStock());
@@ -59,7 +59,7 @@ public class ProductoMapper {
         if (request.getStockMinimo() != null) {
             entity.setStockMinimo(request.getStockMinimo());
         }
-        entity.setCodigoBarras(request.getCodigoBarras());
+        entity.setCodigoBarras(CodigoBarrasUtil.normalizar(request.getCodigoBarras()));
         entity.setImagenUrl(request.getImagenUrl());
     }
 }

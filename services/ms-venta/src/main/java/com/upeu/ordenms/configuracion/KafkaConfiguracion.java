@@ -25,6 +25,9 @@ public class KafkaConfiguracion {
         propiedades.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         propiedades.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         propiedades.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        propiedades.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 500);
+        propiedades.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 2000);
+        propiedades.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 3000);
 
         return new DefaultKafkaProducerFactory<>(propiedades);
     }

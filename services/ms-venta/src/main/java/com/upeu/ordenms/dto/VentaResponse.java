@@ -22,5 +22,10 @@ public class VentaResponse {
     private String numeroBoleta;
     private Instant fechaVenta;
     private Long pagoId;
+    private String codigoAutorizacion;
+    private String referenciaTransaccion;
+    private TipoTarjeta tipoTarjeta;
+    private String codigoOperacion;
+    private String monedaPago;
     private List<VentaDetalleResponse> items;
 }

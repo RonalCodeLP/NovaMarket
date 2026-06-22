@@ -8,6 +8,7 @@ import com.upeu.ordenms.dto.PagoRegistradoDto;
 import com.upeu.ordenms.dto.ProductoVentaDto;
 import com.upeu.ordenms.dto.VentaDetalleResponse;
 import com.upeu.ordenms.dto.VentaItemRequest;
+import com.upeu.ordenms.dto.TipoTarjeta;
 import com.upeu.ordenms.dto.VentaResponse;
 import com.upeu.ordenms.entidad.Orden;
 import com.upeu.ordenms.entidad.OrdenDetalle;
@@ -17,6 +18,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class VentaServicio {
 
     private static final String ESTADO_PAGADO = "PAGADO";
@@ -45,7 +48,7 @@ public class VentaServicio {
 
     @Transactional(readOnly = true)
     public VentaResponse obtenerVenta(Long id) {
-        Orden orden = ordenRepositorio.findById(id)
+        Orden orden = ordenRepositorio.findDetalleById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Venta no encontrada"));
         return toResponse(orden);
     }
@@ -61,7 +64,7 @@ public class VentaServicio {
             ProductoVentaDto producto = productoVentaClient.obtenerProducto(item.getProductoId());
             if (producto.getStock() == null || producto.getStock() < item.getCantidad()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                        "Stock insuficiente para producto " + producto.getNombre());
+                        "Stock insuficiente para " + producto.getNombre());
             }
             double precio = producto.getPrecio() != null ? producto.getPrecio().doubleValue() : 0;
             double linea = precio * item.getCantidad();
@@ -103,40 +106,85 @@ public class VentaServicio {
         }
         guardada = ordenRepositorio.save(guardada);
 
-        for (VentaItemRequest item : request.getItems()) {
-            productoVentaClient.descontarStock(item.getProductoId(), item.getCantidad());
-        }
-
         PagoRegistradoDto pago = pagoVentaClient.registrar(
                 new PagoVentaClient.RegistrarPagoFeignRequest(
                         guardada.getId(),
                         total,
                         request.getMedioPago(),
-                        request.getMontoRecibido()
+                        request.getMontoRecibido(),
+                        request.getTipoTarjeta(),
+                        request.getCodigoAutorizacion(),
+                        request.getCodigoOperacion()
                 )
         );
 
-        productorOrden.publicarOrdenCreada(EventoOrden.builder()
-                .tipoEvento(TIPO_EVENTO_ORDEN_CREADA)
-                .ordenId(guardada.getId())
-                .total(guardada.getTotal())
-                .estado(guardada.getEstado())
-                .origen(applicationName)
-                .timestamp(Instant.now().toEpochMilli())
-                .build());
+        for (VentaItemRequest item : request.getItems()) {
+            productoVentaClient.descontarStock(item.getProductoId(), item.getCantidad());
+        }
+
+        guardada.setCodigoAutorizacion(pago.getCodigoAutorizacion());
+        guardada.setReferenciaTransaccion(pago.getReferenciaTransaccion());
+        if (pago.getTipoTarjeta() != null) {
+            guardada.setTipoTarjeta(pago.getTipoTarjeta().name());
+        }
+        guardada.setCodigoOperacion(pago.getCodigoOperacion());
+        guardada.setMonedaPago(pago.getMoneda());
+        guardada = ordenRepositorio.save(guardada);
+
+        publicarEventoOpcional(guardada);
 
         VentaResponse response = toResponse(guardada);
         response.setPagoId(pago.getId());
+        response.setCodigoAutorizacion(pago.getCodigoAutorizacion());
+        response.setReferenciaTransaccion(pago.getReferenciaTransaccion());
+        response.setTipoTarjeta(pago.getTipoTarjeta());
+        response.setCodigoOperacion(pago.getCodigoOperacion());
+        response.setMonedaPago(pago.getMoneda());
         if (pago.getVuelto() != null) {
             response.setVuelto(pago.getVuelto());
+        }
+        if (pago.getMontoRecibido() != null && request.getMedioPago() != MedioPago.EFECTIVO) {
+            response.setMontoRecibido(pago.getMontoRecibido());
         }
         return response;
     }
 
+    /** Kafka es opcional en dev: la venta no debe fallar si el broker no está activo. */
+    private void publicarEventoOpcional(Orden orden) {
+        try {
+            productorOrden.publicarOrdenCreada(EventoOrden.builder()
+                    .tipoEvento(TIPO_EVENTO_ORDEN_CREADA)
+                    .ordenId(orden.getId())
+                    .total(orden.getTotal())
+                    .estado(orden.getEstado())
+                    .origen(applicationName)
+                    .timestamp(Instant.now().toEpochMilli())
+                    .build());
+        } catch (Exception ex) {
+            log.warn("Venta {} guardada; Kafka no disponible: {}", orden.getId(), ex.getMessage());
+        }
+    }
+
     private void validarPago(CrearVentaRequest request) {
-        if (request.getMedioPago() == MedioPago.EFECTIVO) {
-            if (request.getMontoRecibido() == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Indique el monto recibido en efectivo");
+        switch (request.getMedioPago()) {
+            case EFECTIVO -> {
+                if (request.getMontoRecibido() == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Indique el monto recibido en efectivo");
+                }
+            }
+            case TARJETA -> {
+                if (request.getTipoTarjeta() == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Seleccione débito o crédito");
+                }
+            }
+            case YAPE -> {
+                if (request.getCodigoOperacion() == null
+                        || !request.getCodigoOperacion().replaceAll("\\D", "").matches("\\d{7}")) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Ingrese el código de operación Yape (7 dígitos)");
+                }
             }
         }
     }
@@ -167,6 +215,15 @@ public class VentaServicio {
             }
         }
 
+        TipoTarjeta tipoTarjeta = null;
+        if (orden.getTipoTarjeta() != null) {
+            try {
+                tipoTarjeta = TipoTarjeta.valueOf(orden.getTipoTarjeta());
+            } catch (IllegalArgumentException ignored) {
+                // legacy rows
+            }
+        }
+
         return VentaResponse.builder()
                 .id(orden.getId())
                 .clienteId(orden.getClienteId())
@@ -180,6 +237,11 @@ public class VentaServicio {
                 .vuelto(orden.getVuelto())
                 .numeroBoleta(orden.getNumeroBoleta())
                 .fechaVenta(orden.getFechaVenta())
+                .codigoAutorizacion(orden.getCodigoAutorizacion())
+                .referenciaTransaccion(orden.getReferenciaTransaccion())
+                .tipoTarjeta(tipoTarjeta)
+                .codigoOperacion(orden.getCodigoOperacion())
+                .monedaPago(orden.getMonedaPago())
                 .items(items)
                 .build();
     }

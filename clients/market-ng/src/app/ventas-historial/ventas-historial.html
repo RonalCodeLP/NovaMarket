@@ -2,7 +2,7 @@
   <header class="nm-page-header">
     <div>
       <h2>Historial de ventas</h2>
-      <p class="nm-subtitle">Registro en ms-venta · Pagos en ms-pago</p>
+      <p class="nm-subtitle">{{ ventas().length }} venta(s) registrada(s)</p>
     </div>
     <div class="nm-actions">
       <a routerLink="/pos" class="nm-btn nm-btn-ghost">Ir a caja</a>
@@ -22,6 +22,7 @@
           <th>Cajero</th>
           <th>Total</th>
           <th>Pago</th>
+          <th>Referencia</th>
           <th>Estado</th>
           <th></th>
         </tr>
@@ -33,9 +34,11 @@
           <td>{{ v.cajeroUsername }}</td>
           <td>S/ {{ v.total | number:'1.2-2' }}</td>
           <td>{{ etiquetaMedio(v.medioPago) }}</td>
+          <td><code class="ref-cell">{{ v.referenciaTransaccion || '—' }}</code></td>
           <td><span class="nm-badge">{{ v.estado }}</span></td>
           <td>
-            <button type="button" class="nm-btn nm-btn-ghost nm-btn-sm" (click)="verBoleta(v)">Boleta</button>
+            <button type="button" class="nm-btn nm-btn-ghost nm-btn-sm" (click)="verBoleta(v)">Ver</button>
+            <button type="button" class="nm-btn nm-btn-ghost nm-btn-sm" (click)="reimprimirBoleta(v)">Imprimir</button>
           </td>
         </tr>
       </tbody>
