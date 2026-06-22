@@ -44,7 +44,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Transactional(readOnly = true)
     public List<ProductoResponse> findAll() {
         log.info("Recuperando lista de articulos");
-        List<ProductoResponse> articulos = productoRepository.findAll()
+        List<ProductoResponse> articulos = productoRepository.findAllByOrderByIdAsc()
                 .stream()
                 .map(productoMapper::toResponse)
                 .toList();

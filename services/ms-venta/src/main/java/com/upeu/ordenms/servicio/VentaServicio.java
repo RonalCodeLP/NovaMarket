@@ -83,7 +83,6 @@ public class VentaServicio {
         double total = Math.max(0, subtotal - descuento);
 
         Orden orden = Orden.builder()
-                .clienteId(request.getClienteId())
                 .cajeroUsername(request.getCajeroUsername())
                 .subtotal(subtotal)
                 .descuento(descuento)
@@ -226,7 +225,6 @@ public class VentaServicio {
 
         return VentaResponse.builder()
                 .id(orden.getId())
-                .clienteId(orden.getClienteId())
                 .cajeroUsername(orden.getCajeroUsername())
                 .subtotal(orden.getSubtotal())
                 .descuento(orden.getDescuento())

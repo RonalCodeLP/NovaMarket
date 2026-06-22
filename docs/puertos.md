@@ -18,7 +18,6 @@
 |----------|------------|--------|
 | ms-rubro | 8081 | |
 | ms-articulo | 9091 | Circuit breaker, JWT |
-| ms-cliente | 8092 | |
 | ms-venta | 19051 | Productor Kafka |
 | ms-pago | 19061 | Consumidor Kafka |
 
@@ -34,7 +33,6 @@ En PROD los MS se consumen **vía gateway** (28082).
 | ms-articulo | 15433 |
 | ms-venta | 15434 |
 | ms-pago | 15435 |
-| ms-cliente | 15436 |
 
 ---
 

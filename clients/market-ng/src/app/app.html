@@ -13,23 +13,31 @@
 
       <nav class="sidebar-nav">
         @if (auth.isAuthenticated()) {
-          <a routerLink="/pos" routerLinkActive="active">
-            <span class="nav-icon">₡</span> Caja
-          </a>
-          <a routerLink="/ventas" routerLinkActive="active">
-            <span class="nav-icon">≡</span> Ventas
-          </a>
-        }
-        <a routerLink="/rubros" routerLinkActive="active">
-          <span class="nav-icon">▦</span> Rubros
-        </a>
-        <a routerLink="/articulos" routerLinkActive="active">
-          <span class="nav-icon">◫</span> Artículos
-        </a>
-        @if (auth.isAuthenticated()) {
-          <a routerLink="/existencias" routerLinkActive="active">
-            <span class="nav-icon">⚠</span> Existencias
-          </a>
+          @if (access.permissions().canAccessPos) {
+            <a routerLink="/pos" routerLinkActive="active">
+              <span class="nav-icon">₡</span> Caja
+            </a>
+          }
+          @if (access.permissions().canAccessVentas) {
+            <a routerLink="/ventas" routerLinkActive="active">
+              <span class="nav-icon">≡</span> Ventas
+            </a>
+          }
+          @if (access.permissions().canAccessExistencias) {
+            <a routerLink="/existencias" routerLinkActive="active">
+              <span class="nav-icon">⚠</span> Existencias
+            </a>
+          }
+          @if (access.permissions().canAccessArticulos) {
+            <a routerLink="/articulos" routerLinkActive="active">
+              <span class="nav-icon">◫</span> Artículos
+            </a>
+          }
+          @if (access.permissions().canAccessRubros) {
+            <a routerLink="/rubros" routerLinkActive="active">
+              <span class="nav-icon">▦</span> Rubros
+            </a>
+          }
         }
       </nav>
 
@@ -39,7 +47,7 @@
             <span class="user-avatar">{{ userInitial() }}</span>
             <div>
               <strong>{{ auth.username() }}</strong>
-              <small>Cajero / admin</small>
+              <small [class]="access.roleClass()">{{ access.roleLabel() }}</small>
             </div>
           </div>
           <button type="button" class="nm-btn nm-btn-ghost nm-btn-block" (click)="logout()">

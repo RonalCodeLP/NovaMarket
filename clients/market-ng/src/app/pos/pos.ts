@@ -6,7 +6,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { TimeoutError } from 'rxjs';
 import { AuthService } from '../core/auth/auth.service';
 import { Boleta } from '../boleta/boleta';
-import { Cliente, ClientesService } from '../core/services/clientes.service';
 import { MedioPago, TipoTarjeta, VentaResponse, VentasService } from '../core/services/ventas.service';
 import { BoletaPrintService } from '../core/services/boleta-print.service';
 import { calcularIgv } from '../core/utils/igv.util';
@@ -33,7 +32,6 @@ export class Pos implements OnDestroy {
   private readonly cart = inject(PosCartService);
   private readonly productosService = inject(ProductosService);
   private readonly ventasService = inject(VentasService);
-  private readonly clientesService = inject(ClientesService);
   private readonly boletaPrint = inject(BoletaPrintService);
   protected readonly auth = inject(AuthService);
 
@@ -50,14 +48,12 @@ export class Pos implements OnDestroy {
 
   codigoBarras = '';
   descuento = 0;
-  clienteId: number | null = null;
   medioPago: MedioPago = 'EFECTIVO';
   montoRecibido: number | null = null;
   tipoTarjeta: TipoTarjeta = 'DEBITO';
   codigoYape = '';
   codigoAutorizacionTarjeta: string | null = null;
 
-  clientes = signal<Cliente[]>([]);
   ventaCompletada = signal<VentaResponse | null>(null);
   ultimoEscaneo = signal<string | null>(null);
   pasoCheckout = signal<PasoCheckout>('cerrado');
@@ -100,19 +96,8 @@ export class Pos implements OnDestroy {
     }
   }
 
-  constructor() {
-    this.cargarClientes();
-  }
-
   ngOnDestroy() {
     this.detenerTerminal();
-  }
-
-  cargarClientes() {
-    this.clientesService.listar().subscribe({
-      next: clientes => this.clientes.set(clientes),
-      error: () => {},
-    });
   }
 
   buscarPorCodigo() {
@@ -215,7 +200,7 @@ export class Pos implements OnDestroy {
     }
     this.loading.set(false);
     this.pasoCheckout.set('resumen');
-    this.error.set('Cobro cancelado. Si el servidor no respondió, verifique ms-venta y ms-pago.');
+    this.error.set('Cobro cancelado.');
   }
 
   abrirCheckout() {
@@ -292,7 +277,6 @@ export class Pos implements OnDestroy {
     this.error.set('');
 
     const payload = {
-      clienteId: this.clienteId,
       cajeroUsername: username,
       descuento: this.descuento || 0,
       medioPago: this.medioPago,
@@ -375,11 +359,11 @@ export class Pos implements OnDestroy {
 
   private resolverErrorCobro(err: unknown): string {
     if (err instanceof TimeoutError) {
-      return 'El cobro tardó demasiado. ¿Está activo ms-venta? (puerto 19051). Reinícialo con: mvn spring-boot:run';
+      return 'El cobro tardó demasiado. Intente nuevamente.';
     }
     if (err instanceof Error) {
       if (err.name === 'TimeoutError' || err.message?.toLowerCase().includes('timeout')) {
-        return 'El cobro tardó demasiado. ¿Está activo ms-venta? (puerto 19051). Reinícialo con: mvn spring-boot:run';
+        return 'El cobro tardó demasiado. Intente nuevamente.';
       }
       if (err.message?.trim()) {
         return err.message;
@@ -388,7 +372,7 @@ export class Pos implements OnDestroy {
     if (err instanceof HttpErrorResponse) {
       return this.mensajeErrorCobro(err);
     }
-    return 'No se pudo completar el cobro. Revise la consola y que los servicios estén activos.';
+    return 'No se pudo completar el cobro. Intente nuevamente.';
   }
 
   private mensajeErrorCobro(err: HttpErrorResponse): string {
@@ -400,19 +384,19 @@ export class Pos implements OnDestroy {
       return body;
     }
     if (err.status === 0) {
-      return 'Sin conexión. Verifique gateway (:18080), ms-venta y ms-pago.';
+      return 'Sin conexión con el servidor. Intente nuevamente.';
     }
     if (err.status === 401 || err.status === 403) {
-      return 'Sesión inválida. Vuelva a entrar como cajero.';
+      return 'Sesión inválida. Vuelva a iniciar sesión.';
     }
     if (err.status === 503 || err.status === 502 || err.status === 504) {
-      return 'Servicio de pagos no disponible. ¿Está ms-pago activo? (puerto 19061)';
+      return 'Servicio de pagos no disponible. Intente más tarde.';
     }
     if (err.status === 400) {
       return `Datos inválidos: ${this.extraerMensaje(err)}`;
     }
     if (err.status != null && err.status >= 500) {
-      return `Error del servidor (${err.status}). Revise ms-venta y ms-pago.`;
+      return 'Error del servidor. Intente nuevamente.';
     }
     if (err.status != null) {
       return `No se pudo completar el cobro (${err.status}).`;

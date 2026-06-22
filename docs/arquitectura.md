@@ -23,7 +23,6 @@ flowchart TB
     subgraph Negocio
         RUB[ms-rubro]
         ART[ms-articulo]
-        CLI[ms-cliente]
         VEN[ms-venta]
         PAG[ms-pago]
     end
@@ -40,9 +39,9 @@ flowchart TB
 
     NG -->|OIDC login| KC
     NG -->|Bearer JWT| GW
-    GW --> RUB & ART & CLI & VEN & PAG
-    RUB & ART & CLI & VEN & PAG --> EU
-    RUB & ART & CLI & VEN & PAG --> CFG
+    GW --> RUB & ART & VEN & PAG
+    RUB & ART & VEN & PAG --> EU
+    RUB & ART & VEN & PAG --> CFG
     VEN -->|Feign sync| ART & PAG
     VEN -->|orden-eventos| KF
     KF --> PAG
@@ -58,11 +57,8 @@ flowchart TB
 |----------|-----------|-----------------|
 | **ms-rubro** | `ms-rubro` | Categorías / rubros de productos |
 | **ms-articulo** | `ms-articulo` | Artículos, stock, circuit breaker hacia rubro |
-| **ms-cliente** | `ms-cliente` | Clientes del minimarket |
 | **ms-venta** | `ms-venta` | Ventas POS, boletas, publicador Kafka |
 | **ms-pago** | `ms-pago` | Registro de pagos, consumidor Kafka |
-
-> **ms-auth** está deprecado. Keycloak reemplaza la emisión de tokens.
 
 ---
 

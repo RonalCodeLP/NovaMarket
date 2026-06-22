@@ -14,7 +14,6 @@ export interface VentaItemRequest {
 }
 
 export interface CrearVentaRequest {
-  clienteId?: number | null;
   cajeroUsername: string;
   descuento?: number;
   medioPago: MedioPago;
@@ -36,7 +35,6 @@ export interface VentaDetalleResponse {
 
 export interface VentaResponse {
   id: number;
-  clienteId?: number;
   cajeroUsername: string;
   subtotal: number;
   descuento: number;

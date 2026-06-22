@@ -15,3 +15,17 @@ datasources:
     access: proxy
     url: http://loki:3100
     editable: true
+
+  - name: PostgreSQL Ventas
+    uid: postgres-venta
+    type: postgres
+    access: proxy
+    url: host.docker.internal:15434
+    user: market
+    secureJsonData:
+      password: market
+    jsonData:
+      database: market_orden_db
+      sslmode: disable
+      postgresVersion: 1500
+    editable: true

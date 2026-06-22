@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Categoria, Producto, ProductoRequest, ProductosService } from './productos.service';
 import { AuthService } from '../core/auth/auth.service';
+import { RoleAccessService } from '../core/auth/role-access.service';
 
 @Component({
   selector: 'app-productos',
@@ -27,6 +28,7 @@ export class Productos {
   constructor(
     private productosService: ProductosService,
     protected auth: AuthService,
+    protected access: RoleAccessService,
   ) {
     this.cargarRubros();
     this.cargarProductos();
@@ -45,7 +47,7 @@ export class Productos {
     this.error.set('');
 
     this.productosService.listar().subscribe({
-      next: productos => this.productos.set(productos),
+      next: productos => this.productos.set([...productos].sort((a, b) => a.id - b.id)),
       error: () => {
         this.error.set('No se pudieron cargar los artículos');
         this.loading.set(false);
@@ -65,7 +67,7 @@ export class Productos {
             this.cancelarEdicion();
             this.cargarProductos();
           },
-          error: () => this.error.set('No se pudo actualizar el artículo'),
+          error: err => this.error.set(this.mensajeErrorArticulo(err, 'actualizar')),
         });
       return;
     }
@@ -76,7 +78,7 @@ export class Productos {
           this.limpiarFormulario();
           this.cargarProductos();
         },
-        error: () => this.error.set('No se pudo crear el artículo'),
+        error: err => this.error.set(this.mensajeErrorArticulo(err, 'crear')),
       });
   }
 
@@ -106,12 +108,29 @@ export class Productos {
       });
   }
 
-  puedeGestionarProductos(): boolean {
-    return this.auth.hasAnyRole(['ROLE_ADMIN', 'ADMIN']);
+  puedeEditarProductos(): boolean {
+    return this.access.permissions().canEditArticulos;
+  }
+
+  puedeEliminarProductos(): boolean {
+    return this.access.permissions().canDeleteArticulos;
   }
 
   nombreRubro(idRubro: number): string {
     return this.rubros().find(rubro => rubro.id === idRubro)?.nombre ?? `${idRubro}`;
+  }
+
+  private mensajeErrorArticulo(err: unknown, accion: 'crear' | 'actualizar'): string {
+    const status = (err as { status?: number })?.status;
+    if (status === 403) {
+      return 'No tiene permiso para realizar esta acción.';
+    }
+    if (status === 401) {
+      return 'Sesión expirada. Vuelva a iniciar sesión.';
+    }
+    return accion === 'actualizar'
+      ? 'No se pudo actualizar el artículo'
+      : 'No se pudo crear el artículo';
   }
 
   private obtenerProductoDesdeFormulario(): ProductoRequest|null {

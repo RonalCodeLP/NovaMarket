@@ -27,11 +27,9 @@ public class SecurityConfig {
                         .pathMatchers("/ms-articulo/swagger-ui/**", "/ms-articulo/v3/api-docs/**").permitAll()
                         .pathMatchers("/ms-venta/swagger-ui/**", "/ms-venta/v3/api-docs/**").permitAll()
                         .pathMatchers("/ms-pago/swagger-ui/**", "/ms-pago/v3/api-docs/**").permitAll()
-                        .pathMatchers("/ms-cliente/swagger-ui/**", "/ms-cliente/v3/api-docs/**").permitAll()
                         .pathMatchers(
                                 "/api/v1/rubros/**",
                                 "/api/v1/articulos/**",
-                                "/api/v1/clientes/**",
                                 "/api/v1/ventas/**",
                                 "/api/v1/ordenes/**",
                                 "/api/v1/pagos/**"

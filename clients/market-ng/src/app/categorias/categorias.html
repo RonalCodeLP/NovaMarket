@@ -9,8 +9,11 @@
 
   <p class="nm-muted" *ngIf="loading()">Cargando...</p>
   <p class="nm-alert nm-alert-error" *ngIf="error()">{{ error() }}</p>
+  <p class="nm-alert nm-alert-info" *ngIf="!puedeEditarRubros() && !loading()">
+    Vista de consulta. Solo el administrador puede crear o modificar rubros.
+  </p>
 
-  <div class="nm-card">
+  <div class="nm-card" *ngIf="puedeEditarRubros()">
     <form class="inline-form" (ngSubmit)="guardarRubro()">
       <input class="nm-input" type="text" name="nombre" placeholder="Nombre del rubro" [(ngModel)]="formNombre" required />
       <input class="nm-input" type="text" name="descripcion" placeholder="Descripción" [(ngModel)]="formDescripcion" required />
@@ -26,7 +29,7 @@
           <th>ID</th>
           <th>Nombre</th>
           <th>Descripción</th>
-          <th>Acciones</th>
+          <th *ngIf="puedeEditarRubros()">Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -34,7 +37,7 @@
           <td>{{ d.id }}</td>
           <td><strong>{{ d.nombre }}</strong></td>
           <td>{{ d.descripcion }}</td>
-          <td class="nm-actions">
+          <td *ngIf="puedeEditarRubros()" class="nm-actions">
             <button type="button" class="nm-btn nm-btn-ghost nm-btn-sm" (click)="iniciarEdicion(d)">Editar</button>
             <button type="button" class="nm-btn nm-btn-danger nm-btn-sm" (click)="eliminarRubro(d.id)">Eliminar</button>
           </td>

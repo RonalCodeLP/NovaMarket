@@ -7,6 +7,127 @@
   "links": [],
   "panels": [
     {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "title": "Negocio — a grandes rasgos",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "postgres-venta" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null }
+            ]
+          },
+          "unit": "none"
+        }
+      },
+      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 1 },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "postgres-venta" },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*)::bigint AS \"Ventas\" FROM ordenes o WHERE o.estado = 'PAGADO' AND o.fecha_venta >= $__timeFrom() AND o.fecha_venta <= $__timeTo()",
+          "refId": "A"
+        }
+      ],
+      "title": "Ventas completadas",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "postgres-venta" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null }
+            ]
+          },
+          "unit": "none"
+        }
+      },
+      "gridPos": { "h": 5, "w": 6, "x": 6, "y": 1 },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "postgres-venta" },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COALESCE(SUM(d.cantidad), 0)::bigint AS \"Unidades\" FROM orden_detalles d INNER JOIN ordenes o ON o.id = d.orden_id WHERE o.estado = 'PAGADO' AND o.fecha_venta >= $__timeFrom() AND o.fecha_venta <= $__timeTo()",
+          "refId": "A"
+        }
+      ],
+      "title": "Unidades vendidas",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "postgres-venta" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "decimals": 2,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "orange", "value": null }
+            ]
+          },
+          "unit": "currencyPEN"
+        }
+      },
+      "gridPos": { "h": 5, "w": 6, "x": 12, "y": 1 },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "postgres-venta" },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COALESCE(SUM(o.total), 0)::double precision AS \"Total\" FROM ordenes o WHERE o.estado = 'PAGADO' AND o.fecha_venta >= $__timeFrom() AND o.fecha_venta <= $__timeTo()",
+          "refId": "A"
+        }
+      ],
+      "title": "Ingresos (S/)",
+      "type": "stat"
+    },
+    {
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": {
         "defaults": {
@@ -23,8 +144,8 @@
           }
         }
       },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
-      "id": 1,
+      "gridPos": { "h": 5, "w": 6, "x": 18, "y": 1 },
+      "id": 13,
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -41,14 +162,124 @@
           "refId": "A"
         }
       ],
-      "title": "Estado de servicios (up)",
+      "title": "Servicios (UP/DOWN)",
       "type": "stat"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "postgres-venta" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "lineWidth": 1,
+            "scaleDistribution": { "type": "linear" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "decimals": 0,
+          "unit": "none"
+        }
+      },
+      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 6 },
+      "id": 14,
+      "options": {
+        "barRadius": 0.1,
+        "barWidth": 0.8,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": false },
+        "orientation": "horizontal",
+        "showValue": "always",
+        "stacking": "none",
+        "tooltip": { "mode": "single", "sort": "none" },
+        "xField": "Producto",
+        "xTickLabelRotation": 0
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "postgres-venta" },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT d.producto_nombre AS \"Producto\", SUM(d.cantidad)::bigint AS \"Unidades vendidas\" FROM orden_detalles d INNER JOIN ordenes o ON o.id = d.orden_id WHERE o.estado = 'PAGADO' AND o.fecha_venta >= $__timeFrom() AND o.fecha_venta <= $__timeTo() GROUP BY d.producto_nombre ORDER BY \"Unidades vendidas\" DESC LIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Top 10 productos (unidades)",
+      "type": "barchart"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "postgres-venta" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 60,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "none" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "decimals": 0,
+          "unit": "none"
+        }
+      },
+      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 6 },
+      "id": 15,
+      "options": {
+        "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "postgres-venta" },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT date_trunc('minute', o.fecha_venta) AS time, COUNT(*)::double precision AS \"Ventas\" FROM ordenes o WHERE o.estado = 'PAGADO' AND o.fecha_venta >= $__timeFrom() AND o.fecha_venta <= $__timeTo() GROUP BY 1 ORDER BY 1",
+          "refId": "A"
+        }
+      ],
+      "title": "Ventas en el tiempo",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "id": 101,
+      "title": "Sistema — tráfico y recursos",
+      "type": "row"
     },
     {
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": { "defaults": { "unit": "reqps" } },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 17 },
       "id": 2,
+      "options": {
+        "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
@@ -63,12 +294,16 @@
     {
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": { "defaults": { "unit": "reqps" } },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 17 },
       "id": 3,
+      "options": {
+        "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "sum(rate(http_server_requests_seconds_count{job=~\"ms-.*\"}[1m])) by (job)",
+          "expr": "sum(rate(http_server_requests_seconds_count{job=~\"ms-.*-dev\"}[1m])) by (job)",
           "legendFormat": "{{job}}",
           "refId": "A"
         }
@@ -79,43 +314,86 @@
     {
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "fieldConfig": { "defaults": { "unit": "bytes" } },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 25 },
       "id": 4,
+      "options": {
+        "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "none" }
+      },
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "jvm_memory_used_bytes{job=~\"ms-venta-dev|ms-pago-dev|ms-articulo-dev\"}",
+          "expr": "jvm_memory_used_bytes{job=~\"ms-venta-dev|ms-pago-dev|ms-articulo-dev|ms-rubro-dev\", area=\"heap\"}",
           "legendFormat": "{{job}}",
           "refId": "A"
         }
       ],
-      "title": "JVM memoria usada",
+      "title": "JVM — memoria heap",
       "type": "timeseries"
     },
     {
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "decimals": 0,
+          "unit": "none"
+        }
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 25 },
+      "id": 16,
+      "options": {
+        "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "kafka_consumergroup_lag",
+          "legendFormat": "{{consumergroup}} / {{topic}}",
+          "refId": "A"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(increase(http_server_requests_seconds_count{job=\"ms-venta-dev\", method=\"POST\", uri=\"/api/v1/ventas\"}[5m]))",
+          "legendFormat": "ventas POST (5m)",
+          "refId": "B"
+        }
+      ],
+      "title": "Kafka lag + ventas API",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 33 },
+      "id": 102,
+      "title": "Logs recientes",
+      "type": "row"
+    },
+    {
       "datasource": { "type": "loki", "uid": "loki" },
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 24 },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 34 },
       "id": 5,
-      "options": { "showTime": true, "sortOrder": "Descending" },
+      "options": { "showTime": true, "sortOrder": "Descending", "wrapLogMessage": true },
       "targets": [
         {
           "datasource": { "type": "loki", "uid": "loki" },
-          "expr": "{service=~\"ms-venta|ms-pago|gateway\"}",
+          "expr": "{service=~\"ms-venta|ms-pago|ms-articulo|gateway\"}",
           "refId": "A"
         }
       ],
-      "title": "Logs (venta, pago, gateway)",
+      "title": "Logs (venta, pago, artículo, gateway)",
       "type": "logs"
     }
   ],
   "refresh": "10s",
   "schemaVersion": 39,
-  "tags": ["novamarket", "dev"],
+  "tags": ["novamarket", "dev", "overview"],
   "templating": { "list": [] },
-  "time": { "from": "now-15m", "to": "now" },
+  "time": { "from": "now-24h", "to": "now" },
   "timepicker": {},
   "timezone": "browser",
-  "title": "NovaMarket DEV",
+  "title": "NovaMarket — Vista general",
   "uid": "novamarket-dev",
-  "version": 1
+  "version": 2
 }

@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
 import { AuthService } from './core/auth/auth.service';
+import { RoleAccessService } from './core/auth/role-access.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { AuthService } from './core/auth/auth.service';
 })
 export class App {
   protected readonly auth = inject(AuthService);
+  protected readonly access = inject(RoleAccessService);
   private readonly router = inject(Router);
 
   private readonly currentUrl = toSignal(

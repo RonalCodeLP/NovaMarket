@@ -10,7 +10,6 @@ NovaMarket modela un **minimarket** con caja, inventario y catálogo.
 |----------|---------------|-------------|
 | **Rubro** (categoría) | ms-rubro | `/api/v1/categorias`, `categorias` |
 | **Artículo** (producto) | ms-articulo | `/api/v1/productos`, `productos` |
-| **Cliente** | ms-cliente | `/api/v1/clientes` |
 | **Venta** (orden POS) | ms-venta | `/api/v1/ventas`, `ordenes` + detalle |
 | **Pago** | ms-pago | `/api/v1/pagos/registrar`, `pagos` |
 
@@ -72,6 +71,5 @@ Antes de usar la caja:
 | GET/POST/PUT/DELETE | `/api/v1/productos/**` |
 | POST/GET | `/api/v1/ventas` |
 | POST | `/api/v1/pagos/registrar` |
-| GET/POST | `/api/v1/clientes/**` |
 
 Rutas protegidas requieren JWT Keycloak (ver [Seguridad](seguridad.md)).

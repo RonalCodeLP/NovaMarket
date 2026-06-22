@@ -12,4 +12,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     @Query("SELECT p FROM Producto p WHERE p.stock <= p.stockMinimo ORDER BY p.stock ASC")
     List<Producto> findAlertasStockBajo();
+
+    List<Producto> findAllByOrderByIdAsc();
 }

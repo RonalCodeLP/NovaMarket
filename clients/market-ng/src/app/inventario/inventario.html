@@ -9,6 +9,12 @@
 
   <p class="nm-muted" *ngIf="loading()">Cargando alertas...</p>
   <p class="nm-alert nm-alert-error" *ngIf="error()">{{ error() }}</p>
+  <p class="nm-alert nm-alert-info" *ngIf="!puedeEditarExistencias() && !loading()">
+    Solo consulta. Para ajustar stock, el supervisor o administrador debe usar la pantalla Artículos.
+  </p>
+  <p class="nm-alert nm-alert-info" *ngIf="puedeEditarExistencias() && !loading()">
+    Puede ajustar stock y precios desde <strong>Artículos</strong>. Aquí ve alertas de stock bajo.
+  </p>
   <p class="nm-alert nm-alert-info" *ngIf="!loading() && !alertas().length && !error()">
     No hay artículos con stock bajo. Todo en orden.
   </p>

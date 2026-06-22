@@ -85,8 +85,6 @@ NovaMarket/
 | Kafka eventos venta/pago | Sí | Sí |
 | Observabilidad centralizada | Sí | Sí |
 
-> `services/ms-auth` está **deprecado**; no formar parte del arranque.
-
 ---
 
 ## Licencia y uso

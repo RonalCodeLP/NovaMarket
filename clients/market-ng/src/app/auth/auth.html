@@ -9,25 +9,32 @@
 
   <div class="auth-form-side">
     <div class="auth-card nm-card">
-      <h2>Iniciar sesión</h2>
-      <p class="nm-muted">Autenticación centralizada con Keycloak (OAuth2 / OIDC)</p>
-
-      <div class="auth-form">
-        <p class="nm-alert nm-alert-error" *ngIf="error()">{{ error() }}</p>
-
-        <button
-          type="button"
-          class="nm-btn nm-btn-primary nm-btn-block"
-          [disabled]="loading()"
-          (click)="loginWithKeycloak()"
-        >
-          {{ loading() ? 'Redirigiendo...' : 'Entrar con Keycloak' }}
+      @if (sinAcceso()) {
+        <h2>Sin acceso al sistema</h2>
+        <p class="nm-alert nm-alert-error">
+          Su cuenta no tiene permisos para acceder al sistema.
+          Solicite acceso al administrador o inicie sesión con otra cuenta.
+        </p>
+        <button type="button" class="nm-btn nm-btn-primary nm-btn-block" (click)="logout()">
+          Cerrar sesión e intentar con otra cuenta
         </button>
-      </div>
+      } @else {
+        <h2>Iniciar sesión</h2>
+        <p class="nm-muted">Acceso seguro con su usuario de tienda</p>
 
-      <p class="auth-demo nm-muted">
-        Demo en Keycloak: <code>cajero</code> / <code>cajero123</code> o <code>admin</code> / <code>admin123</code>
-      </p>
+        <div class="auth-form">
+          <p class="nm-alert nm-alert-error" *ngIf="error()">{{ error() }}</p>
+
+          <button
+            type="button"
+            class="nm-btn nm-btn-primary nm-btn-block"
+            [disabled]="loading()"
+            (click)="loginWithKeycloak()"
+          >
+            {{ loading() ? 'Redirigiendo...' : 'Iniciar sesión' }}
+          </button>
+        </div>
+      }
     </div>
   </div>
 </div>

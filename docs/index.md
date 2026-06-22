@@ -15,7 +15,7 @@ Bienvenido a la documentación oficial del proyecto **NovaMarket**.
 
 ## Material del curso (referencia)
 
-Las carpetas `sesiones/` y `labs/` contienen apuntes de clase anteriores (pueden mencionar `ms-auth` o nombres legacy). **La fuente de verdad operativa son las guías de esta página.**
+Las carpetas `sesiones/` y `labs/` contienen apuntes de clase anteriores (nombres legacy). **La fuente de verdad operativa son las guías de esta página.**
 
 ## Informes y rúbrica
 

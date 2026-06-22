@@ -9,8 +9,6 @@ import lombok.Data;
 @Data
 public class CrearVentaRequest {
 
-    private Long clienteId;
-
     @NotNull
     private String cajeroUsername;
 

@@ -13,8 +13,6 @@ NovaMarket usa **Keycloak** como proveedor de identidad (IdP) y **OAuth2 / OpenI
 | **ms-articulo** | Valida JWT localmente; autorización por rol en escrituras |
 | **market-ng** | Cliente público OIDC (`market-ng`) con PKCE |
 
-> **`ms-auth` está deprecado** y no debe levantarse.
-
 ---
 
 ## Realm `novamarket`
@@ -115,4 +113,4 @@ Authorization: Bearer <token>
 3. 401 sin token / 200 con token  
 4. 403 cajero vs admin en POST producto  
 
-Ver también material histórico en `docs/sesiones/s06-seguridad.md` (puede mencionar ms-auth).
+Ver también material histórico en `docs/sesiones/s06-seguridad.md`.

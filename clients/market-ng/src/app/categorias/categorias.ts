@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Categoria, CategoriaRequest, CategoriasService } from './categorias.service';
+import { RoleAccessService } from '../core/auth/role-access.service';
 
 @Component({
   selector: 'app-categorias',
@@ -18,8 +19,15 @@ export class Categorias {
   formDescripcion = '';
   editandoId: number | null = null;
 
-  constructor(private categoriasService: CategoriasService) {
+  constructor(
+    private categoriasService: CategoriasService,
+    protected access: RoleAccessService,
+  ) {
     this.cargarRubros();
+  }
+
+  puedeEditarRubros(): boolean {
+    return this.access.permissions().canEditRubros;
   }
 
   cargarRubros() {
@@ -34,7 +42,7 @@ export class Categorias {
         },
         error: (err) => {
           console.error('Error al cargar rubros:', err);
-          this.error.set('No se pudieron cargar los rubros. ¿Gateway (:18080) y ms-rubro (:8081) están arriba?');
+          this.error.set('No se pudieron cargar los rubros.');
           this.loading.set(false);
         },
       });

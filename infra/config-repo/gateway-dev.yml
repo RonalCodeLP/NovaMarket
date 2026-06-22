@@ -37,17 +37,6 @@ spring:
           filters:
             - StripPrefix=1
 
-        - id: cliente-route
-          uri: lb://ms-cliente
-          predicates:
-            - Path=/api/v1/clientes/**
-        - id: cliente-swagger
-          uri: lb://ms-cliente
-          predicates:
-            - Path=/ms-cliente/swagger-ui/**,/ms-cliente/v3/api-docs/**
-          filters:
-            - StripPrefix=1
-
         - id: venta-route
           uri: lb://ms-venta
           predicates:

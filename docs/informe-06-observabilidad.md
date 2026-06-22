@@ -22,12 +22,10 @@ El stack usa **Micrometer** integrado con **Spring Boot Actuator** y el registro
 | Componente | Puerto | Endpoint de métricas |
 |------------|--------|----------------------|
 | Gateway | 18080 | `/actuator/prometheus` |
-| ms-auth | 8041 | `/actuator/prometheus` |
 | ms-rubro | 8081 | `/actuator/prometheus` |
 | ms-articulo | 9091 | `/actuator/prometheus` |
 | ms-venta | 19051 | `/actuator/prometheus` |
 | ms-pago | 19061 | `/actuator/prometheus` |
-| ms-cliente | 8092 | Actuator configurado en código, **no incluido en scrape DEV** actual |
 | Prometheus | 19090 | — |
 | Grafana | 13000 | — |
 
@@ -69,7 +67,7 @@ Microservicio (Logback)
 
 **Requisito operativo:** los servicios deben ejecutarse (Maven) para que existan archivos `.log`; si la carpeta está vacía, Loki no mostrará líneas para ese servicio.
 
-**Cobertura DEV actual de Promtail:** gateway, ms-rubro, ms-articulo, ms-venta, ms-pago. **No** están montados ms-auth ni ms-cliente en `compose-dev.yml` (aunque tengan Logback a archivo).
+**Cobertura DEV actual de Promtail:** gateway, ms-rubro, ms-articulo, ms-venta, ms-pago.
 
 ---
 
@@ -101,10 +99,8 @@ Estado según configuración en `obs/` y `infra/config-repo` (DEV). “Sí” im
 | Microservicio / componente | UP en Prometheus | Requests visibles | Errores visibles | Logs en Loki | Alerta definida |
 |--------------------------|------------------|-------------------|------------------|--------------|-----------------|
 | Gateway | Sí (`gateway-dev`, :18080) | Sí (`spring_cloud_gateway_requests_*`) | Sí (labels `status`, `outcome`) | Sí (`service=gateway`) | No |
-| ms-auth | Sí (`ms-auth-dev`, :8041) | Sí (`http_server_requests_*`) | Sí (status HTTP) | No (sin Promtail en compose DEV) | No |
 | ms-rubro | Sí (`ms-rubro-dev`, :8081) | Sí | Sí | Sí (`service=ms-rubro`) | No |
 | ms-articulo | Sí (`ms-articulo-dev`, :9091) | Sí | Sí | Sí (`service=ms-articulo`) | No |
-| ms-cliente | No (no está en `prometheus-dev.yml`) | No en Prometheus DEV | No en Prometheus DEV | No (sin montaje Promtail) | No |
 | ms-venta | Sí (`ms-venta-dev`, :19051) | Sí | Sí | Sí (`service=ms-venta`) | No |
 | ms-pago | Sí (`ms-pago-dev`, :19061) | Sí | Sí | Sí (`service=ms-pago`) | No |
 | Kafka (exporter) | Sí (`kafka-exporter-dev`) | N/A (métricas de broker/grupos) | N/A | No | No |

@@ -77,8 +77,8 @@ export class VentasHistorial implements OnInit {
 
   private mensajeError(err: HttpErrorResponse): string {
     if (err.status === 0) {
-      return 'Sin conexión. Verifique gateway (:18080) y ms-venta (:19051).';
+      return 'Sin conexión con el servidor. Intente nuevamente.';
     }
-    return `No se pudo cargar el historial (${err.status}). ¿Está ms-venta activo?`;
+    return 'No se pudo cargar el historial de ventas.';
   }
 }

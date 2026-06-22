@@ -82,7 +82,6 @@ cd services\ms-rubro     ; docker compose -f compose-dev.yml up -d
 cd services\ms-articulo  ; docker compose -f compose-dev.yml up -d
 cd services\ms-venta     ; docker compose -f compose-dev.yml up -d
 cd services\ms-pago      ; docker compose -f compose-dev.yml up -d
-cd services\ms-cliente   ; docker compose -f compose-dev.yml up -d
 ```
 
 ### Inventario y ventas precargados (Java — estilo Plaza Vea)
@@ -152,12 +151,9 @@ cd services\ms-rubro     ; mvn spring-boot:run
 cd services\ms-articulo  ; mvn spring-boot:run
 cd services\ms-venta     ; mvn spring-boot:run
 cd services\ms-pago      ; mvn spring-boot:run
-cd services\ms-cliente   ; mvn spring-boot:run
 ```
 
 Comprobar en Eureka: http://localhost:18761 — deben aparecer **MS-RUBRO**, **MS-ARTICULO**, **MS-VENTA**, **MS-PAGO**, etc.
-
-**No levantar `ms-auth`** — deprecado.
 
 ---
 

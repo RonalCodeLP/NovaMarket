@@ -95,16 +95,6 @@
         </div>
 
         <div class="nm-field">
-          <label class="nm-label">Cliente (opcional)</label>
-          <select class="nm-select" [(ngModel)]="clienteId">
-            <option [ngValue]="null">Cliente general</option>
-            <option *ngFor="let c of clientes()" [ngValue]="c.id">
-              {{ c.nombre }} — {{ c.documento }}
-            </option>
-          </select>
-        </div>
-
-        <div class="nm-field">
           <label class="nm-label">Descuento (S/)</label>
           <input class="nm-input" type="number" min="0" step="0.01" [(ngModel)]="descuento" />
         </div>
@@ -245,7 +235,7 @@
           <div class="spinner"></div>
           <h3>Registrando venta</h3>
           <p>Confirmando pago e inventario…</p>
-          <p class="processing-hint">Normalmente tarda 1–2 segundos.</p>
+          <p class="processing-hint">Por favor, espere un momento.</p>
           <button type="button" class="nm-btn nm-btn-ghost" (click)="cancelarProcesando()">
             Cancelar
           </button>

@@ -10,7 +10,6 @@ import lombok.Data;
 public class VentaResponse {
 
     private Long id;
-    private Long clienteId;
     private String cajeroUsername;
     private Double subtotal;
     private Double descuento;

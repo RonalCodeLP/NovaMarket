@@ -29,8 +29,6 @@ public class Orden {
 
     private Long usuarioId;
 
-    private Long clienteId;
-
     private String cajeroUsername;
 
     private Double subtotal;

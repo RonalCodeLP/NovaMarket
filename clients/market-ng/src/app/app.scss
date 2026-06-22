@@ -121,6 +121,18 @@
   font-size: 0.75rem;
 }
 
+.user-chip small.role-admin {
+  color: #93c5fd;
+}
+
+.user-chip small.role-supervisor {
+  color: #fcd34d;
+}
+
+.user-chip small.role-cajero {
+  color: #86efac;
+}
+
 .sidebar-footer .nm-btn-ghost {
   background: transparent;
   border-color: rgba(255, 255, 255, 0.15);

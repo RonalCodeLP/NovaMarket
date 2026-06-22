@@ -133,7 +133,7 @@ sequenceDiagram
 
 | Componente | Kafka |
 |------------|-------|
-| ms-auth, ms-rubro, ms-articulo, ms-cliente, gateway | No productor/consumidor |
+| ms-rubro, ms-articulo, gateway | No productor/consumidor |
 | ms-venta | Solo productor (`orden-eventos`) |
 | ms-pago | Consumidor (`orden-eventos`) + productor (`pago-eventos`) |
 

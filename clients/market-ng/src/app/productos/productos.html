@@ -2,7 +2,7 @@
   <header class="nm-page-header">
     <div>
       <h2>Artículos</h2>
-      <p class="nm-subtitle">Artículos a la venta: precio, stock y código de barras</p>
+      <p class="nm-subtitle">Artículos a la venta: precio, stock y código de barras ({{ productos().length }} registrados)</p>
     </div>
     <button type="button" class="nm-btn nm-btn-ghost" (click)="cargarProductos()">Recargar</button>
   </header>
@@ -10,7 +10,7 @@
   <p class="nm-muted" *ngIf="loading()">Cargando...</p>
   <p class="nm-alert nm-alert-error" *ngIf="error()">{{ error() }}</p>
 
-  <div class="nm-card" *ngIf="puedeGestionarProductos()">
+  <div class="nm-card" *ngIf="puedeEditarProductos()">
     <form class="producto-form" (ngSubmit)="guardarProducto()">
       <input class="nm-input" type="text" name="nombre" placeholder="Nombre" [(ngModel)]="formNombre" required />
       <input class="nm-input" type="text" name="descripcion" placeholder="Descripción" [(ngModel)]="formDescripcion" />
@@ -37,7 +37,7 @@
           <th>Stock</th>
           <th>Código</th>
           <th>Rubro</th>
-          <th *ngIf="puedeGestionarProductos()">Acciones</th>
+          <th *ngIf="puedeEditarProductos()">Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -53,9 +53,16 @@
           </td>
           <td><code>{{ producto.codigoBarras || '—' }}</code></td>
           <td>{{ nombreRubro(producto.idRubro) }}</td>
-          <td *ngIf="puedeGestionarProductos()" class="nm-actions">
+          <td *ngIf="puedeEditarProductos()" class="nm-actions">
             <button type="button" class="nm-btn nm-btn-ghost nm-btn-sm" (click)="iniciarEdicion(producto)">Editar</button>
-            <button type="button" class="nm-btn nm-btn-danger nm-btn-sm" (click)="eliminarProducto(producto.id)">Eliminar</button>
+            <button
+              *ngIf="puedeEliminarProductos()"
+              type="button"
+              class="nm-btn nm-btn-danger nm-btn-sm"
+              (click)="eliminarProducto(producto.id)"
+            >
+              Eliminar
+            </button>
           </td>
         </tr>
       </tbody>
