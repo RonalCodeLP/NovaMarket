@@ -24,7 +24,7 @@ const ADMIN: RolePermissions = {
 };
 
 const SUPERVISOR: RolePermissions = {
-  canAccessPos: true,
+  canAccessPos: false,
   canAccessVentas: true,
   canAccessExistencias: true,
   canEditExistencias: true,
@@ -63,11 +63,9 @@ const ROLE_LABELS: Record<string, string> = {
   ROLE_ADMIN: 'Administrador',
   ROLE_SUPERVISOR: 'Supervisor',
   ROLE_CAJERO: 'Cajero',
-  ROLE_USER: 'Usuario',
-  ROLE_REPARTIDOR: 'Repartidor',
 };
 
-const ROLE_PRIORITY = ['ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_CAJERO', 'ROLE_REPARTIDOR', 'ROLE_USER'];
+const ROLE_PRIORITY = ['ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_CAJERO'];
 
 export function resolvePermissions(roles: string[]): RolePermissions {
   if (roles.includes('ROLE_ADMIN')) {

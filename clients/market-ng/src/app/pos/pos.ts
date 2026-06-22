@@ -351,7 +351,7 @@ export class Pos implements OnDestroy {
       case 'EFECTIVO':
         return `El monto recibido debe ser al menos S/ ${this.total().toFixed(2)}`;
       case 'YAPE':
-        return 'Ingrese el código de operación Yape (7 dígitos del comprobante del cliente)';
+        return 'Ingrese el código de operación Yape (6 dígitos del comprobante del cliente)';
       default:
         return 'Revise los datos de cobro';
     }

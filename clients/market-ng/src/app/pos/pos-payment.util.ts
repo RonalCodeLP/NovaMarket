@@ -31,11 +31,11 @@ export function billetesSugeridos(total: number): number[] {
 }
 
 export function validarCodigoYape(codigo: string): boolean {
-  return /^\d{7}$/.test(codigo.replace(/\D/g, ''));
+  return /^\d{6}$/.test(codigo.replace(/\D/g, ''));
 }
 
 export function normalizarCodigoYape(codigo: string): string {
-  return codigo.replace(/\D/g, '').slice(0, 7);
+  return codigo.replace(/\D/g, '').slice(0, 6);
 }
 
 export function validarAutorizacionTarjeta(codigo: string): boolean {

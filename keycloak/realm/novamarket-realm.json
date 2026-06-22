@@ -16,10 +16,8 @@
   "roles": {
     "realm": [
       { "name": "ROLE_ADMIN", "description": "Administrador del minimarket" },
-      { "name": "ROLE_USER", "description": "Usuario general" },
       { "name": "ROLE_CAJERO", "description": "Cajero POS" },
-      { "name": "ROLE_SUPERVISOR", "description": "Supervisor de tienda" },
-      { "name": "ROLE_REPARTIDOR", "description": "Repartidor / delivery" }
+      { "name": "ROLE_SUPERVISOR", "description": "Supervisor de tienda" }
     ]
   },
   "clients": [
@@ -123,19 +121,6 @@
       "realmRoles": ["ROLE_ADMIN"]
     },
     {
-      "username": "user",
-      "enabled": true,
-      "email": "user@novamarket.local",
-      "emailVerified": true,
-      "firstName": "Usuario",
-      "lastName": "Demo",
-      "requiredActions": [],
-      "credentials": [
-        { "type": "password", "value": "user123", "temporary": false }
-      ],
-      "realmRoles": ["ROLE_USER"]
-    },
-    {
       "username": "cajero",
       "enabled": true,
       "email": "cajero@novamarket.local",
@@ -160,19 +145,6 @@
         { "type": "password", "value": "supervisor123", "temporary": false }
       ],
       "realmRoles": ["ROLE_SUPERVISOR"]
-    },
-    {
-      "username": "repartidor",
-      "enabled": true,
-      "email": "repartidor@novamarket.local",
-      "emailVerified": true,
-      "firstName": "Repartidor",
-      "lastName": "Delivery",
-      "requiredActions": [],
-      "credentials": [
-        { "type": "password", "value": "repartidor123", "temporary": false }
-      ],
-      "realmRoles": ["ROLE_REPARTIDOR"]
     }
   ]
 }

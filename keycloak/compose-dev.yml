@@ -30,11 +30,13 @@ services:
     image: market-keycloak-dev:local
     container_name: market-keycloak-dev
     restart: unless-stopped
-    command: start --optimized --import-realm --http-enabled=true --hostname=http://localhost:41880
+    command: start-dev --import-realm --http-enabled=true --hostname-strict=false --hostname=http://localhost:41880
     depends_on:
       postgres-keycloak-dev:
         condition: service_healthy
     environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME:-admin}
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD:-admin}
       KC_DB: postgres

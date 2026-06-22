@@ -52,7 +52,7 @@ public class Pago {
     @Enumerated(EnumType.STRING)
     private com.upeu.pagoms.dto.TipoTarjeta tipoTarjeta;
 
-    /** Código de operación Yape (7 dígitos) */
+    /** Código de operación Yape (6 dígitos) */
     private String codigoOperacion;
 
     private String moneda;

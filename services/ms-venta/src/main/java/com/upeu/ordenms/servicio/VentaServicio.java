@@ -180,9 +180,9 @@ public class VentaServicio {
             }
             case YAPE -> {
                 if (request.getCodigoOperacion() == null
-                        || !request.getCodigoOperacion().replaceAll("\\D", "").matches("\\d{7}")) {
+                        || !request.getCodigoOperacion().replaceAll("\\D", "").matches("\\d{6}")) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                            "Ingrese el código de operación Yape (7 dígitos)");
+                            "Ingrese el código de operación Yape (6 dígitos)");
                 }
             }
         }

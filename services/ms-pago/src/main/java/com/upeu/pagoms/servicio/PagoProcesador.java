@@ -81,7 +81,7 @@ public class PagoProcesador {
         String codigo = normalizarCodigoYape(request.getCodigoOperacion());
         if (codigo == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Ingrese el código de operación Yape (7 dígitos del comprobante del cliente)");
+                    "Ingrese el código de operación Yape (6 dígitos del comprobante del cliente)");
         }
         String referencia = "YAPE-" + REF_FMT.format(Instant.now()) + "-" + request.getVentaId();
         return new ResultadoPago(total, total, BigDecimal.ZERO.setScale(2), codigo, referencia, null, codigo);
@@ -92,7 +92,7 @@ public class PagoProcesador {
             return null;
         }
         String limpio = codigo.replaceAll("\\D", "");
-        return limpio.length() == 7 ? limpio : null;
+        return limpio.length() == 6 ? limpio : null;
     }
 
     public static String generarCodigoAutorizacion() {

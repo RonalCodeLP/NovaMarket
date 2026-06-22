@@ -25,14 +25,8 @@
 .brand-icon {
   width: 42px;
   height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--nm-primary), var(--nm-accent));
+  flex-shrink: 0;
   border-radius: var(--nm-radius-sm);
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: #fff;
 }
 
 .brand strong {

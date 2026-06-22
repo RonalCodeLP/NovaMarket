@@ -26,7 +26,7 @@ public class CrearVentaRequest {
     /** Tarjeta: autorización del datáfono (6 dígitos) */
     private String codigoAutorizacion;
 
-    /** Yape: código de operación del cliente (7 dígitos) */
+    /** Yape: código de operación del cliente (6 dígitos) */
     private String codigoOperacion;
 
     @NotEmpty

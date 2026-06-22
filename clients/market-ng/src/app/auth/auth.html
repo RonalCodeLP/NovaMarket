@@ -1,8 +1,13 @@
 <div class="auth-layout">
   <div class="auth-panel">
     <div class="auth-brand">
-      <span class="auth-logo">NM</span>
-      <h1>NovaMarket</h1>
+      <img
+        class="auth-logo-img"
+        src="assets/brand/novamarket-logo.svg"
+        alt="NovaMarket"
+        width="320"
+        height="150"
+      />
       <p>Sistema de punto de venta para minimarket</p>
     </div>
   </div>
@@ -19,8 +24,13 @@
           Cerrar sesión e intentar con otra cuenta
         </button>
       } @else {
-        <h2>Iniciar sesión</h2>
-        <p class="nm-muted">Acceso seguro con su usuario de tienda</p>
+        <div class="auth-card-header">
+          <img class="auth-icon" src="assets/brand/novamarket-icon.svg" alt="" width="44" height="44" />
+          <div>
+            <h2>Iniciar sesión</h2>
+            <p class="nm-muted">Acceso seguro con su usuario de tienda</p>
+          </div>
+        </div>
 
         <div class="auth-form">
           <p class="nm-alert nm-alert-error" *ngIf="error()">{{ error() }}</p>

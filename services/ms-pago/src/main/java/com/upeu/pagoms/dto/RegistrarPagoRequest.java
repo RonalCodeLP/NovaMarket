@@ -26,6 +26,6 @@ public class RegistrarPagoRequest {
     /** Tarjeta: código del datáfono (6 dígitos). Si no se envía, se genera en demo */
     private String codigoAutorizacion;
 
-    /** Yape: código de operación del comprobante del cliente (7 dígitos) */
+    /** Yape: código de operación del comprobante del cliente (6 dígitos) */
     private String codigoOperacion;
 }

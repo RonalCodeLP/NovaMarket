@@ -30,9 +30,7 @@ NovaMarket usa **Keycloak** como proveedor de identidad (IdP) y **OAuth2 / OpenI
 |---------|------------|-----|
 | admin | admin123 | ROLE_ADMIN |
 | cajero | cajero123 | ROLE_CAJERO |
-| user | user123 | ROLE_USER |
 | supervisor | supervisor123 | ROLE_SUPERVISOR |
-| repartidor | repartidor123 | ROLE_REPARTIDOR |
 
 ---
 
