@@ -1,5 +1,5 @@
 site_name: NovaMarket — Sistemas Distribuidos
-site_description: POS minimarket con microservicios, Keycloak, Kafka y observabilidad
+site_description: Plataforma distribuida para gestión de operaciones comerciales a gran escala — microservicios, Keycloak, Kafka y observabilidad
 site_author: RonalCodeLP
 site_url: https://ronalcodelp.github.io/NovaMarket/
 repo_url: https://github.com/RonalCodeLP/NovaMarket
@@ -11,7 +11,22 @@ use_directory_urls: true
 
 nav:
   - Inicio: index.md
+  - Manuales:
+      - Manual de usuario: manual-usuario.md
+      - Manual de funcionamiento: manual-funcionamiento.md
   - Producto del curso: producto-curso.md
+  - Guía del proyecto:
+      - Arquitectura: arquitectura.md
+      - Dominio de negocio: dominio-negocio.md
+      - Desarrollo (DEV): desarrollo.md
+      - Producción (PROD): produccion.md
+      - Seguridad (Keycloak): seguridad.md
+      - Observabilidad: observabilidad.md
+      - Kafka y eventos: kafka-eventos.md
+      - Puertos: puertos.md
+      - Publicar en GitHub Pages: publicar-github-pages.md
+  - Sustentación:
+      - Equipo (3 personas): sustentacion-equipo.md
   - Contenido del curso:
       - Índice de sesiones: sesiones/indice.md
       - U1 — Infraestructura base: sesiones/s00-infraestructura.md
@@ -19,16 +34,9 @@ nav:
       - U2 — Seguridad: sesiones/s06-seguridad.md
       - U2 — Kafka: sesiones/s07-kafka-ingesta.md
       - U2 — Observabilidad: sesiones/s05-observabilidad.md
-  - Guía del proyecto:
-      - Arquitectura: arquitectura.md
-      - Desarrollo (DEV): desarrollo.md
-      - Producción (PROD): produccion.md
-      - Seguridad (Keycloak): seguridad.md
-      - Observabilidad: observabilidad.md
-      - Kafka y eventos: kafka-eventos.md
-      - Dominio de negocio: dominio-negocio.md
-      - Puertos: puertos.md
-  - Evaluación:
+  - Informes técnicos:
+      - Observabilidad (informe): informe-06-observabilidad.md
+      - Kafka (informe): informe-07-kafka.md
       - Plantilla de informe: informe-template.md
       - Rúbrica: rubrica-evaluacion.md
   - Laboratorios:

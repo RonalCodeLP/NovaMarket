@@ -2,7 +2,9 @@
 
 ## Visión general
 
-NovaMarket implementa un **minimarket** con arquitectura de **microservicios**. El cliente (Angular) consume una **API Gateway**; los servicios se registran en **Eureka** y obtienen configuración desde **Config Server**. La identidad la provee **Keycloak** (OAuth2/OIDC).
+NovaMarket es una **plataforma POS distribuida** para supermercados y cadenas comerciales a gran escala: múltiples cajas, sedes, usuarios y transacciones concurrentes.
+
+El cliente (Angular) consume una **API Gateway**; los servicios se registran en **Eureka** (varias instancias por dominio) y obtienen configuración desde **Config Server**. La identidad la provee **Keycloak** (OAuth2/OIDC) para toda la red de puntos de venta.
 
 ```mermaid
 flowchart TB

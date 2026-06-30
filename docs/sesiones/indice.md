@@ -1,6 +1,6 @@
 # Contenido del curso — NovaMarket
 
-Mapa de sesiones alineado al curso de **Sistemas Distribuidos**, adaptado al dominio **minimarket POS**.
+Mapa de sesiones alineado al curso de **Sistemas Distribuidos**, adaptado al dominio **plataforma POS multi-punto** (supermercados y cadenas comerciales a gran escala).
 
 ---
 
@@ -64,7 +64,7 @@ Ver [Producto del curso](../producto-curso.md).
 
 ---
 
-## Roles del minimarket
+## Roles operativos (cadena / multi-tienda)
 
 | Usuario | Contraseña | Rol | Acceso principal |
 |---------|------------|-----|------------------|

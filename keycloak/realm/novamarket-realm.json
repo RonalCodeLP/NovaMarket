@@ -2,7 +2,7 @@
   "realm": "novamarket",
   "enabled": true,
   "displayName": "NovaMarket",
-  "displayNameHtml": "<b>NovaMarket</b> Minimarket POS",
+  "displayNameHtml": "<b>NovaMarket</b> Plataforma POS",
   "sslRequired": "none",
   "registrationAllowed": false,
   "loginWithEmailAllowed": false,
@@ -15,7 +15,7 @@
   "ssoSessionMaxLifespan": 36000,
   "roles": {
     "realm": [
-      { "name": "ROLE_ADMIN", "description": "Administrador del minimarket" },
+      { "name": "ROLE_ADMIN", "description": "Administrador de la plataforma / cadena" },
       { "name": "ROLE_CAJERO", "description": "Cajero POS" },
       { "name": "ROLE_SUPERVISOR", "description": "Supervisor de tienda" }
     ]

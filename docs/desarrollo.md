@@ -84,7 +84,7 @@ cd services\ms-venta     ; docker compose -f compose-dev.yml up -d
 cd services\ms-pago      ; docker compose -f compose-dev.yml up -d
 ```
 
-### Inventario y ventas precargados (Java — estilo Plaza Vea)
+### Inventario y ventas precargados (Java — catálogo retail demo)
 
 Al arrancar con Postgres **vacío**, cada microservicio ejecuta su **seeder Java**:
 

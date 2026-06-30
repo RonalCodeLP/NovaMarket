@@ -2,7 +2,12 @@
 
 Curso práctico de **sistemas distribuidos con microservicios**, configuración centralizada, descubrimiento de servicios, Gateway, seguridad, resiliencia, mensajería asíncrona, consistencia distribuida, observabilidad e integración frontend.
 
-**NovaMarket** es un entorno integrado para construir un **sistema POS de minimarket** mediante laboratorios reproducibles basados en **Docker** y **Spring Cloud**. El proyecto unifica infraestructura, microservicios, cliente Angular, mensajería, observabilidad e identidad con **Keycloak**.
+**NovaMarket** es una **plataforma distribuida para la gestión de operaciones comerciales a gran escala**, desarrollada con una arquitectura de microservicios. Diseñada para soportar múltiples puntos de venta, operaciones concurrentes y crecimiento horizontal, integra autenticación centralizada, administración de catálogo, inventario, ventas y pagos.
+
+Entorno integrado para construir ese sistema mediante laboratorios reproducibles con **Docker** y **Spring Cloud**: infraestructura, microservicios escalables, cliente Angular, mensajería, observabilidad e identidad con **Keycloak**.
+
+!!! info "Alcance del producto"
+    No es un POS para un pequeño establecimiento aislado. La arquitectura de microservicios responde a **varias cajas, varias tiendas, muchos usuarios y alto volumen de transacciones** — escenario donde un monolito deja de ser viable.
 
 ---
 
@@ -123,13 +128,17 @@ flowchart TB
 
 | Recurso | Enlace |
 |---------|--------|
+| **Manual de usuario** | [Manual de usuario](manual-usuario.md) |
+| **Manual de funcionamiento** | [Manual de funcionamiento](manual-funcionamiento.md) |
+| **Publicar docs (GitHub Pages)** | [Guía GitHub Pages](publicar-github-pages.md) |
 | Arranque local | [Desarrollo (DEV)](desarrollo.md) |
 | Producción Docker | [Producción (PROD)](produccion.md) |
 | Keycloak y roles | [Seguridad](seguridad.md) |
 | Puertos DEV/PROD | [Referencia de puertos](puertos.md) |
-| Negocio POS | [Dominio de negocio](dominio-negocio.md) |
+| Negocio retail | [Dominio de negocio](dominio-negocio.md) |
 | Kafka | [Eventos](kafka-eventos.md) |
 | Grafana | [Observabilidad](observabilidad.md) |
+| Sustentación equipo | [Equipo 3 personas](sustentacion-equipo.md) |
 | Informes | [Plantilla](informe-template.md) · [Rúbrica](rubrica-evaluacion.md) |
 
 ---

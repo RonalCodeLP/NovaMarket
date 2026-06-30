@@ -1,8 +1,8 @@
 # NovaMarket
 
-**NovaMarket** es una **plataforma POS para cadenas de minimarkets y negocios en expansión** que necesitan controlar ventas, inventario, pagos y usuarios en **múltiples puntos de atención**.
+**NovaMarket** es una **plataforma distribuida para la gestión de operaciones comerciales a gran escala**, desarrollada con una arquitectura de microservicios. Diseñada para soportar múltiples puntos de venta, operaciones concurrentes y crecimiento horizontal, integra autenticación centralizada, administración de catálogo, inventario, ventas y pagos.
 
-Arquitectura de **microservicios** (Spring Boot 3.5, Spring Cloud, PostgreSQL, Kafka, observabilidad, Keycloak) pensada para **escalar** cajas, tiendas, usuarios y transacciones — no para una sola bodega aislada.
+Arquitectura de **microservicios** (Spring Boot 3.5, Spring Cloud, PostgreSQL, Kafka, observabilidad, Keycloak) pensada para **escalar** cajas, tiendas, usuarios y transacciones en supermercados y cadenas comerciales.
 
 **Documentación en línea:** [ronalcodelp.github.io/NovaMarket](https://ronalcodelp.github.io/NovaMarket/)
 
@@ -12,16 +12,10 @@ Arquitectura de **microservicios** (Spring Boot 3.5, Spring Cloud, PostgreSQL, K
 
 | Documento | Contenido |
 |-----------|-----------|
-| [**Sitio MkDocs**](https://ronalcodelp.github.io/NovaMarket/) | Documentación renderizada (GitHub Pages) |
-| [Producto del curso](docs/producto-curso.md) | Definición U1/U2/U3 y stack |
-| [Arquitectura](docs/arquitectura.md) | Diagramas, componentes, flujos |
-| [Desarrollo (DEV)](docs/desarrollo.md) | Arranque local paso a paso |
-| [Producción (PROD)](docs/produccion.md) | Despliegue con Docker |
-| [Seguridad](docs/seguridad.md) | Keycloak, JWT, roles |
-| [Observabilidad](docs/observabilidad.md) | Actuator, Prometheus, Loki, Grafana |
-| [Kafka y eventos](docs/kafka-eventos.md) | Tópicos, productores, consumidores |
-| [Dominio de negocio](docs/dominio-negocio.md) | Rubros, artículos, ventas, pagos |
-| [Referencia de puertos](docs/puertos.md) | DEV vs PROD |
+| [**Sitio MkDocs**](https://ronalcodelp.github.io/NovaMarket/) | Documentación web (como el proyecto del docente) |
+| [Manual de usuario](docs/manual-usuario.md) | Guía cajero / supervisor / admin |
+| [Manual de funcionamiento](docs/manual-funcionamiento.md) | Arquitectura, flujos, operación |
+| [Publicar en GitHub Pages](docs/publicar-github-pages.md) | Activar enlace en About |
 
 Libro digital (MkDocs): carpeta [`docs/`](docs/) — ver abajo.
 

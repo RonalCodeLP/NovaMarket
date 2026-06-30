@@ -1,4 +1,4 @@
-/** Permisos de pantalla al estilo minimarket (Plaza Vea / Tottus). */
+/** Permisos de pantalla por rol (cadena retail: admin, supervisor, cajero). */
 export interface RolePermissions {
   canAccessPos: boolean;
   canAccessVentas: boolean;

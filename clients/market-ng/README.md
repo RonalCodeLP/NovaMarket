@@ -1,6 +1,6 @@
 # market-ng — Frontend Angular
 
-SPA del minimarket (POS, rubros, artículos, ventas).
+SPA Angular de la plataforma POS (cajas, rubros, artículos, ventas — multi-punto).
 
 ## Requisitos
 
