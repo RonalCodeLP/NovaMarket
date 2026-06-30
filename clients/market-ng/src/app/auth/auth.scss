@@ -73,6 +73,37 @@
   margin-top: 1.5rem;
 }
 
+.nm-btn-keycloak {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.kc-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.kc-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: kc-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes kc-spin {
+  to { transform: rotate(360deg); }
+}
+
 @media (max-width: 900px) {
   .auth-layout {
     grid-template-columns: 1fr;

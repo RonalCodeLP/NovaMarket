@@ -37,11 +37,22 @@
 
           <button
             type="button"
-            class="nm-btn nm-btn-primary nm-btn-block"
+            class="nm-btn nm-btn-primary nm-btn-block nm-btn-keycloak"
             [disabled]="loading()"
             (click)="loginWithKeycloak()"
           >
-            {{ loading() ? 'Redirigiendo...' : 'Iniciar sesión' }}
+            @if (loading()) {
+              <span class="kc-spinner" aria-hidden="true"></span>
+              Redirigiendo...
+            } @else {
+              <span class="kc-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 2L4 8v16l12 6 12-6V8L16 2z" fill="#fff" fill-opacity=".15" stroke="#fff" stroke-width="1.5"/>
+                  <path d="M16 8l-6 3.5v7L16 22l6-3.5v-7L16 8z" fill="#fff"/>
+                </svg>
+              </span>
+              Entrar con Keycloak
+            }
           </button>
         </div>
       }
