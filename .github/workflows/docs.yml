@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - Principal
+      - yefridev
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
