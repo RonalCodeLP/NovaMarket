@@ -1,0 +1,3342 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Plataforma distribuida para gestión de operaciones comerciales a gran escala — microservicios, Keycloak, Kafka y observabilidad">
+      
+      
+        <meta name="author" content="RonalCodeLP">
+      
+      
+        <link rel="canonical" href="https://ronalcodelp.github.io/NovaMarket/manual-usuario/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../manual-funcionamiento/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Manual de usuario - NovaMarket — Sistemas Distribuidos</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#manual-de-usuario-novamarket" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="NovaMarket — Sistemas Distribuidos" class="md-header__button md-logo" aria-label="NovaMarket — Sistemas Distribuidos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NovaMarket — Sistemas Distribuidos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Manual de usuario
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/RonalCodeLP/NovaMarket" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    RonalCodeLP/NovaMarket
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="NovaMarket — Sistemas Distribuidos" class="md-nav__button md-logo" aria-label="NovaMarket — Sistemas Distribuidos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NovaMarket — Sistemas Distribuidos
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/RonalCodeLP/NovaMarket" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    RonalCodeLP/NovaMarket
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manuales
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manuales
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual de usuario
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual de usuario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-perfiles-y-pantallas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Perfiles y pantallas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Perfiles y pantallas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-roles-disponibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Roles disponibles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-matriz-de-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Matriz de permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-iniciar-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Iniciar sesión
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Iniciar sesión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-flujo-de-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Flujo de login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-cerrar-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Cerrar sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-recuperacion-de-contrasena" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Recuperación de contraseña
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pantalla-caja-pos-cajero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pantalla Caja (/pos) — Cajero
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Pantalla Caja (/pos) — Cajero">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-descripcion-de-la-interfaz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Descripción de la interfaz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-agregar-productos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Agregar productos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-modificar-el-carrito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Modificar el carrito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-aplicar-descuento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Aplicar descuento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-proceso-de-cobro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Proceso de cobro
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 Proceso de cobro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-seleccionar-medio-de-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: Seleccionar medio de pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-ingresar-datos-segun-medio-de-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: Ingresar datos según medio de pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-confirmar-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: Confirmar pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-boleta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Boleta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-flujo-tipico-de-venta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Flujo típico de venta
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-pantalla-ventas-ventas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Pantalla Ventas (/ventas)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Pantalla Ventas (/ventas)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-listado-de-ventas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Listado de ventas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ver-detalle-de-venta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Ver detalle de venta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-reimprimir-boleta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Reimprimir boleta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-filtros-y-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Filtros y búsqueda
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pantalla-rubros-rubros-admin-supervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Pantalla Rubros (/rubros) — Admin / Supervisor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Pantalla Rubros (/rubros) — Admin / Supervisor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-listar-rubros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Listar rubros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-crear-rubro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Crear rubro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-editar-rubro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Editar rubro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-eliminar-rubro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Eliminar rubro
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-pantalla-articulos-articulos-admin-supervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Pantalla Artículos (/articulos) — Admin / Supervisor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Pantalla Artículos (/articulos) — Admin / Supervisor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-listar-articulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Listar artículos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-crear-articulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Crear artículo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-editar-articulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Editar artículo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-eliminar-articulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Eliminar artículo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-pantalla-existencias-existencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Pantalla Existencias (/existencias)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Pantalla Existencias (/existencias)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-alertas-de-stock-bajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Alertas de stock bajo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-ajuste-manual-de-stock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Ajuste manual de stock
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-historial-de-movimientos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Historial de movimientos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-flujo-tipico-del-dia-cajero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Flujo típico del día (cajero)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Buenas prácticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Buenas prácticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-para-cajeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Para cajeros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-para-supervisores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Para supervisores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-para-administradores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Para administradores
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-soporte-y-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Soporte y troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-atajos-de-teclado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Atajos de teclado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-documentacion-tecnica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Documentación técnica
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual-funcionamiento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual de funcionamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Frontend
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frontend-funcionalidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Funcionalidad Angular
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../producto-curso/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto del curso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura y diseño
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura y diseño
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura del sistema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dominio-negocio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dominio de negocio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad (Keycloak)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kafka-eventos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka y eventos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desarrollo y despliegue
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Desarrollo y despliegue
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../desarrollo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desarrollo (DEV)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../produccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producción (PROD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../puertos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puertos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../publicar-github-pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Publicar en GitHub Pages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sustentación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sustentación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sustentacion-equipo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equipo (3 personas)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contenido del curso
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contenido del curso
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesiones/indice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Índice de sesiones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesiones/s00-infraestructura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U1 — Infraestructura base
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesiones/s04-gateway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U1 — Gateway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesiones/s06-seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U2 — Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesiones/s07-kafka-ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U2 — Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sesiones/s05-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U2 — Observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Informes técnicos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Informes técnicos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../informe-06-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad (informe)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../informe-07-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka (informe)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../informe-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plantilla de informe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rubrica-evaluacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rúbrica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Laboratorios
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Laboratorios
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Índice labs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab-categorias-estandar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab categorías
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab-auth-productos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab auth y productos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/lab-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-perfiles-y-pantallas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Perfiles y pantallas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Perfiles y pantallas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-roles-disponibles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Roles disponibles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-matriz-de-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Matriz de permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-iniciar-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Iniciar sesión
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Iniciar sesión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-flujo-de-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Flujo de login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-cerrar-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Cerrar sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-recuperacion-de-contrasena" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Recuperación de contraseña
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pantalla-caja-pos-cajero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pantalla Caja (/pos) — Cajero
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Pantalla Caja (/pos) — Cajero">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-descripcion-de-la-interfaz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Descripción de la interfaz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-agregar-productos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Agregar productos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-modificar-el-carrito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Modificar el carrito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-aplicar-descuento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Aplicar descuento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-proceso-de-cobro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Proceso de cobro
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 Proceso de cobro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-seleccionar-medio-de-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: Seleccionar medio de pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-ingresar-datos-segun-medio-de-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: Ingresar datos según medio de pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-confirmar-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: Confirmar pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-boleta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Boleta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-flujo-tipico-de-venta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Flujo típico de venta
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-pantalla-ventas-ventas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Pantalla Ventas (/ventas)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Pantalla Ventas (/ventas)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-listado-de-ventas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Listado de ventas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ver-detalle-de-venta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Ver detalle de venta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-reimprimir-boleta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Reimprimir boleta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-filtros-y-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Filtros y búsqueda
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-pantalla-rubros-rubros-admin-supervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Pantalla Rubros (/rubros) — Admin / Supervisor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Pantalla Rubros (/rubros) — Admin / Supervisor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-listar-rubros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Listar rubros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-crear-rubro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Crear rubro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-editar-rubro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Editar rubro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-eliminar-rubro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Eliminar rubro
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-pantalla-articulos-articulos-admin-supervisor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Pantalla Artículos (/articulos) — Admin / Supervisor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Pantalla Artículos (/articulos) — Admin / Supervisor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-listar-articulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Listar artículos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-crear-articulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Crear artículo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-editar-articulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Editar artículo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-eliminar-articulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Eliminar artículo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-pantalla-existencias-existencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Pantalla Existencias (/existencias)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Pantalla Existencias (/existencias)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-alertas-de-stock-bajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Alertas de stock bajo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-ajuste-manual-de-stock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Ajuste manual de stock
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-historial-de-movimientos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Historial de movimientos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-flujo-tipico-del-dia-cajero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Flujo típico del día (cajero)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Buenas prácticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Buenas prácticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-para-cajeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Para cajeros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-para-supervisores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Para supervisores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-para-administradores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Para administradores
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-soporte-y-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Soporte y troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-atajos-de-teclado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Atajos de teclado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-documentacion-tecnica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Documentación técnica
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="manual-de-usuario-novamarket">Manual de usuario — NovaMarket</h1>
+<p>Guía detallada para <strong>cajeros, supervisores y administradores</strong> que utilizan la aplicación web <strong>market-ng</strong> (Angular).</p>
+<p><strong>URL DEV:</strong> http://localhost:4200<br />
+<strong>Acceso:</strong> botón <strong>Entrar con Keycloak</strong> en la pantalla de login.</p>
+<hr />
+<h2 id="1-perfiles-y-pantallas">1. Perfiles y pantallas</h2>
+<h3 id="11-roles-disponibles">1.1 Roles disponibles</h3>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Usuario demo</th>
+<th>Contraseña</th>
+<th>Pantallas disponibles</th>
+<th>Permisos especiales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Administrador</strong></td>
+<td><code>admin</code></td>
+<td><code>admin123</code></td>
+<td>Caja, Ventas, Existencias, Artículos, Rubros</td>
+<td>CRUD completo en artículos/rubros</td>
+</tr>
+<tr>
+<td><strong>Supervisor</strong></td>
+<td><code>supervisor</code></td>
+<td><code>supervisor123</code></td>
+<td>Ventas, Existencias, Artículos, Rubros (sin Caja)</td>
+<td>Crear/Editar artículos/rubros, no eliminar</td>
+</tr>
+<tr>
+<td><strong>Cajero</strong></td>
+<td><code>cajero</code></td>
+<td><code>cajero123</code></td>
+<td>Caja, Ventas, Existencias (solo lectura)</td>
+<td>Solo ventas y consulta</td>
+</tr>
+</tbody>
+</table>
+<p>El menú lateral <strong>solo muestra</strong> lo que su rol permite. Si intenta acceder a una pantalla no autorizada, verá error 403.</p>
+<h3 id="12-matriz-de-permisos">1.2 Matriz de permisos</h3>
+<table>
+<thead>
+<tr>
+<th>Acción</th>
+<th>Admin</th>
+<th>Supervisor</th>
+<th>Cajero</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vender en caja</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Ver historial ventas</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Reimprimir boleta</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Crear artículo</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Editar artículo</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Eliminar artículo</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Crear rubro</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Editar rubro</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Eliminar rubro</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Ajustar stock</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Ver existencias</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-iniciar-sesion">2. Iniciar sesión</h2>
+<h3 id="21-flujo-de-login">2.1 Flujo de login</h3>
+<ol>
+<li>Abra http://localhost:4200 en su navegador  </li>
+<li>Si no hay sesión activa, será redirigido a <strong>Auth</strong>  </li>
+<li>Clic en <strong>Entrar con Keycloak</strong>  </li>
+<li>Será redirigido a la página de login de Keycloak  </li>
+<li>Ingrese usuario y contraseña según su rol  </li>
+<li>Será redirigido automáticamente a la pantalla principal según su rol:</li>
+<li><strong>Cajero/Admin:</strong> → <strong>Caja</strong> (<code>/pos</code>)</li>
+<li><strong>Supervisor:</strong> → <strong>Ventas</strong> (<code>/ventas</code>)</li>
+</ol>
+<h3 id="22-cerrar-sesion">2.2 Cerrar sesión</h3>
+<p>Para cerrar sesión:
+1. Clic en su nombre de usuario en la parte inferior del menú lateral
+2. Clic en <strong>Cerrar sesión</strong>
+3. Será redirigido a Keycloak y luego a la pantalla de login</p>
+<div class="admonition tip">
+<p class="admonition-title">Dos usuarios a la vez</p>
+<p>Use <strong>Chrome</strong> para un usuario e <strong>Incógnito o Edge</strong> para otro. En dos pestañas del mismo Chrome, Keycloak comparte sesión y ambos quedan con el mismo usuario.</p>
+</div>
+<h3 id="23-recuperacion-de-contrasena">2.3 Recuperación de contraseña</h3>
+<p>En ambiente DEV, las contraseñas son fijas (<code>admin123</code>, <code>supervisor123</code>, <code>cajero123</code>). En producción, contacte al administrador del sistema.</p>
+<hr />
+<h2 id="3-pantalla-caja-pos-cajero">3. Pantalla Caja (<code>/pos</code>) — Cajero</h2>
+<h3 id="31-descripcion-de-la-interfaz">3.1 Descripción de la interfaz</h3>
+<p>La pantalla de Caja se divide en 3 secciones:</p>
+<ol>
+<li><strong>Panel izquierdo:</strong> Escaneo de código de barras y carrito</li>
+<li><strong>Panel derecho:</strong> Resumen de venta y botón de cobro</li>
+<li><strong>Modal de checkout:</strong> Selección de medio de pago y confirmación</li>
+</ol>
+<h3 id="32-agregar-productos">3.2 Agregar productos</h3>
+<p><strong>Opción A: Escaneo con lector de código de barras</strong>
+1. Colocar el cursor en el campo <strong>Código de barras</strong>
+2. Pasar el producto por el lector
+3. El código se ingresa automáticamente y el producto se agrega al carrito
+4. El campo se enfoca automáticamente para el siguiente producto</p>
+<p><strong>Opción B: Ingreso manual</strong>
+1. En <strong>Código de barras</strong>, escribir el código (ej. <code>7751010001234</code>)
+2. Clic en <strong>Agregar</strong> o presionar Enter
+3. El artículo aparece en el <strong>carrito</strong> con precio, cantidad y subtotal</p>
+<div class="admonition info">
+<p class="admonition-title">Códigos de prueba</p>
+<p>Utilizar los códigos del seeder: <code>7751010001234</code> (Leche Gloria), <code>7751010001235</code> (Arroz Costeño), etc.</p>
+</div>
+<h3 id="33-modificar-el-carrito">3.3 Modificar el carrito</h3>
+<p><strong>Cambiar cantidad:</strong>
+1. En la fila del producto, modifique el campo <strong>Cantidad</strong>
+2. El subtotal se actualiza automáticamente
+3. Si la cantidad excede el stock disponible, verá un error</p>
+<p><strong>Eliminar un producto:</strong>
+1. Clic en el botón <strong>×</strong> al final de la fila
+2. El producto se elimina del carrito</p>
+<p><strong>Vaciar todo el carrito:</strong>
+1. Clic en el botón <strong>Vaciar carrito</strong> (icono de basura)
+2. Todos los productos se eliminan</p>
+<h3 id="34-aplicar-descuento">3.4 Aplicar descuento</h3>
+<ol>
+<li>En el campo <strong>Descuento (S/)</strong>, ingresar el monto a descontar</li>
+<li>El total se actualiza automáticamente</li>
+<li>El descuento es opcional y requiere autorización del supervisor en producción</li>
+</ol>
+<h3 id="35-proceso-de-cobro">3.5 Proceso de cobro</h3>
+<h4 id="paso-1-seleccionar-medio-de-pago">Paso 1: Seleccionar medio de pago</h4>
+<ul>
+<li><strong>Efectivo:</strong> Para pagos en efectivo</li>
+<li><strong>Tarjeta:</strong> Para pagos con tarjeta de débito/crédito</li>
+<li><strong>Yape:</strong> Para pagos con Yape (billetera digital)</li>
+</ul>
+<h4 id="paso-2-ingresar-datos-segun-medio-de-pago">Paso 2: Ingresar datos según medio de pago</h4>
+<p><strong>Efectivo:</strong>
+1. Ingrese el <strong>Monto recibido</strong> del cliente
+2. El sistema calcula automáticamente el <strong>Vuelto</strong>
+3. Ejemplo: Total S/35, Recibido S/50 → Vuelto S/15</p>
+<p><strong>Tarjeta:</strong>
+1. Seleccione <strong>Tipo de tarjeta:</strong> Débito o Crédito
+2. (En producción) Pase la tarjeta por el datáfono
+3. Ingrese el <strong>Código de autorización</strong> del datáfono</p>
+<p><strong>Yape:</strong>
+1. El cliente realiza el pago desde su celular
+2. Ingrese el <strong>Código de operación</strong> de 6 dígitos del Yape
+3. Ejemplo: <code>123456</code></p>
+<h4 id="paso-3-confirmar-pago">Paso 3: Confirmar pago</h4>
+<ol>
+<li>Clic en <strong>Confirmar pago y boleta</strong></li>
+<li>El sistema procesa la venta</li>
+<li>Si es exitoso, se muestra la boleta</li>
+<li>Si falla, se mostrará un mensaje de error</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Errores comunes en cobro</p>
+<ul>
+<li><strong>Stock insuficiente:</strong> El producto no tiene suficiente stock</li>
+<li><strong>Monto recibido insuficiente:</strong> El efectivo es menor al total</li>
+<li><strong>Código Yape inválido:</strong> Debe ser 6 dígitos numéricos</li>
+<li><strong>Servicio no disponible:</strong> Verifique que el backend esté levantado</li>
+</ul>
+</div>
+<h3 id="36-boleta">3.6 Boleta</h3>
+<p>Tras un cobro exitoso se muestra la <strong>boleta</strong> con:
+- <strong>Número de boleta:</strong> Ej. <code>NM-00000001</code>
+- <strong>Fecha y hora</strong> de la venta
+- <strong>Cajero</strong> que realizó la venta
+- <strong>Detalle de items:</strong> Cantidad, nombre, precio unitario, subtotal
+- <strong>Subtotal, IGV y total</strong>
+- <strong>Medio de pago</strong>
+- <strong>Vuelto</strong> (si es efectivo)</p>
+<p><strong>Acciones disponibles:</strong>
+- <strong>Imprimir:</strong> Abre diálogo de impresión para térmica 55mm
+- <strong>Guardar:</strong> Descarga PDF de la boleta
+- <strong>Nueva venta:</strong> Limpia la pantalla para el siguiente cliente</p>
+<h3 id="37-flujo-tipico-de-venta">3.7 Flujo típico de venta</h3>
+<div class="highlight"><pre><span></span><code>Login → Caja → escanear producto 1 → escanear producto 2 → ... → seleccionar pago → 
+ingresar datos → confirmar → boleta → imprimir → nueva venta
+</code></pre></div>
+<hr />
+<h2 id="4-pantalla-ventas-ventas">4. Pantalla Ventas (<code>/ventas</code>)</h2>
+<h3 id="41-listado-de-ventas">4.1 Listado de ventas</h3>
+<p>Muestra todas las ventas realizadas ordenadas por fecha descendente (más recientes primero).</p>
+<p><strong>Columnas:</strong>
+- <strong>Número:</strong> Número de boleta
+- <strong>Fecha:</strong> Fecha y hora de la venta
+- <strong>Cajero:</strong> Usuario que realizó la venta
+- <strong>Total:</strong> Monto total de la venta
+- <strong>Medio:</strong> Medio de pago (Efectivo/Tarjeta/Yape)
+- <strong>Estado:</strong> Estado de la venta (PAGADO)</p>
+<h3 id="42-ver-detalle-de-venta">4.2 Ver detalle de venta</h3>
+<ol>
+<li>Clic en el botón <strong>Ver</strong> en la fila de la venta</li>
+<li>Se abre un modal con:</li>
+<li>Información completa de la venta</li>
+<li>Detalle de items</li>
+<li>Datos de pago</li>
+<li>Boleta en pantalla</li>
+</ol>
+<h3 id="43-reimprimir-boleta">4.3 Reimprimir boleta</h3>
+<ol>
+<li>Clic en el botón <strong>Reimprimir</strong> en la fila de la venta</li>
+<li>Se abre el diálogo de impresión</li>
+<li>Seleccionar la impresora térmica y confirmar</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Uso de reimprimir</p>
+<p>Útil cuando el cliente pierde la boleta o la impresión falló durante la venta.</p>
+</div>
+<h3 id="44-filtros-y-busqueda">4.4 Filtros y búsqueda</h3>
+<ul>
+<li><strong>Por fecha:</strong> Seleccionar rango de fechas</li>
+<li><strong>Por cajero:</strong> Filtrar por usuario específico</li>
+<li><strong>Por medio de pago:</strong> Filtrar por efectivo/tarjeta/Yape</li>
+</ul>
+<hr />
+<h2 id="5-pantalla-rubros-rubros-admin-supervisor">5. Pantalla Rubros (<code>/rubros</code>) — Admin / Supervisor</h2>
+<h3 id="51-listar-rubros">5.1 Listar rubros</h3>
+<p>Muestra todas las categorías disponibles:
+- <strong>Nombre:</strong> Ej. Lácteos, Abarrotes, Bebidas
+- <strong>Descripción:</strong> Descripción opcional del rubro
+- <strong>Acciones:</strong> Editar/Eliminar (según rol)</p>
+<h3 id="52-crear-rubro">5.2 Crear rubro</h3>
+<ol>
+<li>Clic en el botón <strong>Nuevo rubro</strong></li>
+<li>Ingresar <strong>Nombre</strong> (obligatorio)</li>
+<li>Ingresar <strong>Descripción</strong> (opcional)</li>
+<li>Clic en <strong>Guardar</strong></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Rubros en uso</p>
+<p>No puede eliminar rubros que tienen artículos asociados. Primero debe reasignar o eliminar los artículos.</p>
+</div>
+<h3 id="53-editar-rubro">5.3 Editar rubro</h3>
+<ol>
+<li>Clic en el botón <strong>Editar</strong> en la fila del rubro</li>
+<li>Modifique los campos necesarios</li>
+<li>Clic en <strong>Guardar</strong></li>
+</ol>
+<h3 id="54-eliminar-rubro">5.4 Eliminar rubro</h3>
+<ol>
+<li>Clic en el botón <strong>Eliminar</strong> en la fila del rubro (solo admin)</li>
+<li>Confirme la eliminación</li>
+</ol>
+<hr />
+<h2 id="6-pantalla-articulos-articulos-admin-supervisor">6. Pantalla Artículos (<code>/articulos</code>) — Admin / Supervisor</h2>
+<h3 id="61-listar-articulos">6.1 Listar artículos</h3>
+<p>Muestra todos los productos del catálogo:
+- <strong>Código:</strong> Código de barras
+- <strong>Nombre:</strong> Nombre del producto
+- <strong>Rubro:</strong> Categoría
+- <strong>Precio:</strong> Precio unitario
+- <strong>Stock:</strong> Cantidad disponible
+- <strong>Stock mínimo:</strong> Umbral para alertas
+- <strong>Acciones:</strong> Editar/Eliminar (según rol)</p>
+<h3 id="62-crear-articulo">6.2 Crear artículo</h3>
+<ol>
+<li>Clic en el botón <strong>Nuevo artículo</strong></li>
+<li>Completar los campos:</li>
+<li><strong>Nombre</strong> (obligatorio)</li>
+<li><strong>Rubro</strong> (obligatorio, seleccionar de lista)</li>
+<li><strong>Precio</strong> (obligatorio, mayor a 0)</li>
+<li><strong>Stock</strong> (obligatorio, no negativo)</li>
+<li><strong>Stock mínimo</strong> (obligatorio, para alertas)</li>
+<li><strong>Código de barras</strong> (obligatorio, único)</li>
+<li>Clic en <strong>Guardar</strong></li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Código de barras</p>
+<p>El código de barras es lo que el cajero escanea en Caja. Asegúrese de que sea único y coincida con el producto físico.</p>
+</div>
+<h3 id="63-editar-articulo">6.3 Editar artículo</h3>
+<ol>
+<li>Clic en el botón <strong>Editar</strong> en la fila del artículo</li>
+<li>Modifique los campos necesarios</li>
+<li>Clic en <strong>Guardar</strong></li>
+</ol>
+<h3 id="64-eliminar-articulo">6.4 Eliminar artículo</h3>
+<ol>
+<li>Clic en el botón <strong>Eliminar</strong> en la fila del artículo (solo admin)</li>
+<li>Confirme la eliminación</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Artículos con ventas</p>
+<p>No se recomienda eliminar artículos que ya tienen ventas registradas. Mejor desactívelos poniendo stock en 0.</p>
+</div>
+<hr />
+<h2 id="7-pantalla-existencias-existencias">7. Pantalla Existencias (<code>/existencias</code>)</h2>
+<h3 id="71-alertas-de-stock-bajo">7.1 Alertas de stock bajo</h3>
+<p>Muestra artículos con stock por debajo del mínimo configurado:
+- <strong>Código:</strong> Código de barras
+- <strong>Nombre:</strong> Nombre del producto
+- <strong>Stock actual:</strong> Cantidad disponible
+- <strong>Stock mínimo:</strong> Umbral configurado
+- <strong>Diferencia:</strong> Cuánto falta para llegar al mínimo</p>
+<div class="admonition tip">
+<p class="admonition-title">Gestión proactiva</p>
+<p>Revise esta pantalla diariamente para reabastecer productos antes de que se agoten.</p>
+</div>
+<h3 id="72-ajuste-manual-de-stock">7.2 Ajuste manual de stock</h3>
+<ol>
+<li>Clic en el botón <strong>Ajustar stock</strong> en la fila del artículo</li>
+<li>Ingrese el <strong>nuevo stock</strong></li>
+<li>Seleccione el <strong>motivo</strong> del ajuste (ej. merma, ingreso, conteo)</li>
+<li>Clic en <strong>Guardar</strong></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Permisos</p>
+<p>Cajeros solo pueden consultar. Solo admin y supervisor pueden ajustar stock.</p>
+</div>
+<h3 id="73-historial-de-movimientos">7.3 Historial de movimientos</h3>
+<p>Muestra todos los movimientos de inventario:
+- <strong>Fecha:</strong> Fecha y hora del movimiento
+- <strong>Artículo:</strong> Producto afectado
+- <strong>Tipo:</strong> Ingreso/Salida/Ajuste
+- <strong>Cantidad:</strong> Cantidad movida
+- <strong>Motivo:</strong> Razón del movimiento
+- <strong>Usuario:</strong> Quién realizó el movimiento</p>
+<hr />
+<h2 id="8-flujo-tipico-del-dia-cajero">8. Flujo típico del día (cajero)</h2>
+<div class="highlight"><pre><span></span><code>Inicio de turno:
+1. Login como cajero
+2. Verificar stock en Existencias
+3. Revisar productos con alertas
+
+Durante el día:
+4. Atender clientes en Caja
+5. Escanear productos
+6. Cobrar y emitir boleta
+7. Nueva venta para siguiente cliente
+
+Fin de turno:
+8. Consultar ventas del día en Ventas
+9. Verificar total vendido
+10. Cerrar sesión
+</code></pre></div>
+<hr />
+<h2 id="9-buenas-practicas">9. Buenas prácticas</h2>
+<h3 id="91-para-cajeros">9.1 Para cajeros</h3>
+<ul>
+<li><strong>Escaneo rápido:</strong> Mantenga el cursor en el campo de código para escaneo continuo</li>
+<li><strong>Verificación de precios:</strong> Confirme que el precio en pantalla coincida con el etiquetado</li>
+<li><strong>Manejo de errores:</strong> Si falla el cobro, verifique stock y conexión antes de reintentar</li>
+<li><strong>Boletas:</strong> Imprima siempre la boleta para el cliente</li>
+</ul>
+<h3 id="92-para-supervisores">9.2 Para supervisores</h3>
+<ul>
+<li><strong>Revisión diaria:</strong> Consulte existencias cada mañana</li>
+<li><strong>Alertas de stock:</strong> Reabaste antes de que se agoten productos clave</li>
+<li><strong>Validación de precios:</strong> Verifique que los precios estén actualizados</li>
+<li><strong>Auditoría:</strong> Revise ventas del día para detectar anomalías</li>
+</ul>
+<h3 id="93-para-administradores">9.3 Para administradores</h3>
+<ul>
+<li><strong>Gestión de usuarios:</strong> Cree y elimine usuarios según necesidad</li>
+<li><strong>Configuración de rubros:</strong> Mantenga categorías organizadas</li>
+<li><strong>Control de stock:</strong> Realice conteos físicos periódicos</li>
+<li><strong>Seguridad:</strong> Cambie contraseñas periódicamente</li>
+</ul>
+<hr />
+<h2 id="10-soporte-y-troubleshooting">10. Soporte y troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Causa probable</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No carga la app</td>
+<td><code>ng serve</code> no está corriendo</td>
+<td>Inicie <code>ng serve</code> en <code>clients/market-ng</code></td>
+</tr>
+<tr>
+<td>Error al login</td>
+<td>Keycloak no está levantado</td>
+<td>Verifique Keycloak en http://localhost:41880</td>
+</tr>
+<tr>
+<td>401 en operaciones</td>
+<td>Token expirado</td>
+<td>Cierre sesión y vuelva a entrar</td>
+</tr>
+<tr>
+<td>403 en operaciones</td>
+<td>Rol incorrecto</td>
+<td>Use el usuario correcto para la operación</td>
+</tr>
+<tr>
+<td>Artículo no encontrado</td>
+<td>Código incorrecto</td>
+<td>Verifique código en Artículos (admin)</td>
+</tr>
+<tr>
+<td>Stock insuficiente</td>
+<td>No hay suficiente producto</td>
+<td>Ajuste stock o informe al supervisor</td>
+</tr>
+<tr>
+<td>Cobro falla</td>
+<td>Backend no disponible</td>
+<td>Verifique gateway, ms-venta, ms-articulo, ms-pago</td>
+</tr>
+<tr>
+<td>Boleta no imprime</td>
+<td>Impresora no configurada</td>
+<td>Configure impresora térmica 55mm</td>
+</tr>
+<tr>
+<td>Multi-caja no funciona</td>
+<td>Solo 1 instancia ms-venta</td>
+<td>Levante segunda instancia</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-atajos-de-teclado">11. Atajos de teclado</h2>
+<table>
+<thead>
+<tr>
+<th>Atajo</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enter (en código)</td>
+<td>Agregar producto al carrito</td>
+</tr>
+<tr>
+<td>Tab</td>
+<td>Navegar entre campos del checkout</td>
+</tr>
+<tr>
+<td>Esc</td>
+<td>Cerrar modal</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>Recargar página</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-documentacion-tecnica">12. Documentación técnica</h2>
+<p>Para más detalles técnicos, consulte:
+- <a href="../manual-funcionamiento/">Manual de funcionamiento</a> — Arquitectura y flujos técnicos
+- <a href="../frontend-funcionalidad/">Frontend funcionalidad</a> — Detalle de componentes Angular
+- <a href="../desarrollo/">Desarrollo</a> — Guía de desarrollo local
+- <a href="../seguridad/">Seguridad</a> — Keycloak y roles</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/RonalCodeLP/NovaMarket" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.expand", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>

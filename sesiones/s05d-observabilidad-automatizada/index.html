@@ -1,0 +1,2636 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Plataforma distribuida para gestión de operaciones comerciales a gran escala — microservicios, Keycloak, Kafka y observabilidad">
+      
+      
+        <meta name="author" content="RonalCodeLP">
+      
+      
+        <link rel="canonical" href="https://ronalcodelp.github.io/NovaMarket/sesiones/s05d-observabilidad-automatizada/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Sesion 07g2 - Observabilidad con Herramientas en 30 minutos - NovaMarket — Sistemas Distribuidos</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sesion-07g2-observabilidad-con-herramientas-en-30-minutos" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="NovaMarket — Sistemas Distribuidos" class="md-header__button md-logo" aria-label="NovaMarket — Sistemas Distribuidos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NovaMarket — Sistemas Distribuidos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sesion 07g2 - Observabilidad con Herramientas en 30 minutos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/RonalCodeLP/NovaMarket" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    RonalCodeLP/NovaMarket
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NovaMarket — Sistemas Distribuidos" class="md-nav__button md-logo" aria-label="NovaMarket — Sistemas Distribuidos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    NovaMarket — Sistemas Distribuidos
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/RonalCodeLP/NovaMarket" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    RonalCodeLP/NovaMarket
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manuales
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manuales
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual-usuario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual de usuario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../manual-funcionamiento/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual de funcionamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Frontend
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend-funcionalidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Funcionalidad Angular
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../producto-curso/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto del curso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura y diseño
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitectura y diseño
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura del sistema
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dominio-negocio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dominio de negocio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seguridad (Keycloak)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kafka-eventos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka y eventos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desarrollo y despliegue
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Desarrollo y despliegue
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../desarrollo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Desarrollo (DEV)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../produccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producción (PROD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../puertos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puertos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../publicar-github-pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Publicar en GitHub Pages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sustentación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sustentación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sustentacion-equipo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Equipo (3 personas)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contenido del curso
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contenido del curso
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../indice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Índice de sesiones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s00-infraestructura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U1 — Infraestructura base
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s04-gateway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U1 — Gateway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s06-seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U2 — Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s07-kafka-ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U2 — Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U2 — Observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Informes técnicos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Informes técnicos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informe-06-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad (informe)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informe-07-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka (informe)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informe-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plantilla de informe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rubrica-evaluacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rúbrica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Laboratorios
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Laboratorios
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Índice labs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-categorias-estandar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab categorías
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-auth-productos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab auth y productos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/lab-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab observabilidad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo-de-la-clase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objetivo de la clase
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenda-sugerida-para-30-minutos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agenda sugerida para 30 minutos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparacion-rapida-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparacion rapida en DEV
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caso-1-metricas-esenciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso 1. Metricas esenciales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caso 1. Metricas esenciales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-validar-servicios-vivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Validar servicios vivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-generar-trafico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Generar trafico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-ver-requests-por-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Ver requests por servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-ver-errores-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Ver errores HTTP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caso-2-logs-para-explicar-una-peticion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso 2. Logs para explicar una peticion
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caso 2. Logs para explicar una peticion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-ver-logs-de-todos-los-servicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Ver logs de todos los servicios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-ver-logs-por-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Ver logs por servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-reducir-ruido-por-texto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Reducir ruido por texto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-que-hacer-si-no-aparecen-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Que hacer si no aparecen logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caso-3-falla-controlada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso 3. Falla controlada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caso 3. Falla controlada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-provocar-la-falla" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Provocar la falla
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-mirar-metricas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Mirar metricas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-mirar-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Mirar logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caso-4-alerta-simple-en-grafana" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso 4. Alerta simple en Grafana
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caso 4. Alerta simple en Grafana">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-crear-regla-de-alerta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Crear regla de alerta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-como-probarla" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Como probarla
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-explicarlo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Como explicarlo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboard-minimo-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard minimo recomendado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-de-cierre" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checklist de cierre
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cierre-conceptual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cierre conceptual
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="sesion-07g2-observabilidad-con-herramientas-en-30-minutos">Sesion 07g2 - Observabilidad con Herramientas en 30 minutos</h1>
+<p>Esta version es una sesion corta. El objetivo no es construir muchos dashboards, sino quedarse con los casos mas importantes para entender observabilidad:</p>
+<ul>
+<li>metricas para detectar que esta pasando</li>
+<li>logs para explicar por que paso</li>
+<li>una alerta simple para avisar cuando algo se cae</li>
+</ul>
+<p>Herramientas:</p>
+<ul>
+<li>Prometheus -&gt; metricas</li>
+<li>Loki -&gt; logs</li>
+<li>Promtail -&gt; envio de logs</li>
+<li>Grafana -&gt; dashboards, exploracion y alerta</li>
+</ul>
+<hr />
+<h2 id="objetivo-de-la-clase">Objetivo de la clase</h2>
+<p>Al final de la sesion, el alumno debe poder explicar:</p>
+<ol>
+<li>Si los servicios estan vivos.</li>
+<li>Si hay trafico HTTP.</li>
+<li>Si hay errores.</li>
+<li>Que dicen los logs cuando una peticion falla.</li>
+<li>Como configurar una alerta basica en Grafana.</li>
+</ol>
+<p>Flujo observado:</p>
+<div class="highlight"><pre><span></span><code>Cliente -&gt; Gateway -&gt; Producto -&gt; Catalogo
+                       |           |
+                       +---- logs y metricas ----+
+                                                 |
+                         Prometheus + Loki + Grafana
+</code></pre></div>
+<hr />
+<h2 id="agenda-sugerida-para-30-minutos">Agenda sugerida para 30 minutos</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Tiempo</th>
+<th>Actividad</th>
+<th>Evidencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0-5 min</td>
+<td>Validar Prometheus y Grafana</td>
+<td>targets <code>UP</code></td>
+</tr>
+<tr>
+<td style="text-align: right;">5-12 min</td>
+<td>Crear dashboard minimo de metricas</td>
+<td>disponibilidad, trafico y errores</td>
+</tr>
+<tr>
+<td style="text-align: right;">12-20 min</td>
+<td>Revisar logs en Loki</td>
+<td>logs por servicio y <code>traceId</code></td>
+</tr>
+<tr>
+<td style="text-align: right;">20-27 min</td>
+<td>Crear una alerta simple</td>
+<td>alerta por <code>catalogo-dev</code> caido</td>
+</tr>
+<tr>
+<td style="text-align: right;">27-30 min</td>
+<td>Cierre</td>
+<td>explicar metricas vs logs vs alerta</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="preparacion-rapida-en-dev">Preparacion rapida en DEV</h2>
+<p>La plataforma base debe estar levantada:</p>
+<ul>
+<li>config</li>
+<li>registry-server</li>
+<li>gateway</li>
+<li>mysql de <code>catalogo</code></li>
+<li>mysql de <code>producto</code></li>
+<li>catalogo</li>
+<li>producto</li>
+</ul>
+<p>Luego levantar observabilidad:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>obs
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+<p>Como explicar el comando:</p>
+<div class="highlight"><pre><span></span><code>cd obs
+</code></pre></div>
+<p>entra a la carpeta donde esta el stack de observabilidad.</p>
+<div class="highlight"><pre><span></span><code>docker compose -f compose-dev.yml up -d
+</code></pre></div>
+<p>significa:</p>
+<ul>
+<li><code>docker compose</code> ejecuta los servicios definidos en un archivo compose</li>
+<li><code>-f compose-dev.yml</code> indica que se usara el archivo de desarrollo</li>
+<li><code>up</code> crea y levanta los contenedores</li>
+<li><code>-d</code> los deja corriendo en segundo plano</li>
+</ul>
+<p>En esta sesion ese comando levanta:</p>
+<ul>
+<li>Prometheus</li>
+<li>Loki</li>
+<li>Promtail</li>
+<li>Grafana</li>
+</ul>
+<p>URLs:</p>
+<div class="highlight"><pre><span></span><code>Prometheus: http://localhost:19090
+Grafana:    http://localhost:13000
+</code></pre></div>
+<p>Grafana:</p>
+<div class="highlight"><pre><span></span><code>usuario: admin
+clave:   admin
+</code></pre></div>
+<hr />
+<h2 id="caso-1-metricas-esenciales">Caso 1. Metricas esenciales</h2>
+<p>Este caso responde:</p>
+<div class="highlight"><pre><span></span><code>Que esta pasando en el sistema?
+</code></pre></div>
+<h3 id="11-validar-servicios-vivos">1.1 Validar servicios vivos</h3>
+<p>Abrir:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:19090/targets
+</code></pre></div>
+<p>Se espera <code>UP</code> en:</p>
+<ul>
+<li><code>gateway-dev</code></li>
+<li><code>producto-dev</code></li>
+<li><code>catalogo-dev</code></li>
+</ul>
+<p>Consulta PromQL:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">up</span>
+</code></pre></div>
+<p>Como explicarlo:</p>
+<ul>
+<li><code>1</code> significa que Prometheus pudo consultar el endpoint de metricas.</li>
+<li><code>0</code> significa que Prometheus no pudo consultar el servicio.</li>
+<li>Esto no garantiza que el negocio funcione, solo que el servicio expone metricas.</li>
+</ul>
+<p>Lectura de la consulta:</p>
+<div class="highlight"><pre><span></span><code>up
+</code></pre></div>
+<p>se lee como:</p>
+<div class="highlight"><pre><span></span><code>Prometheus, dime si cada target que tienes configurado esta disponible.
+</code></pre></div>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>gateway-dev  = 1 -&gt; Prometheus puede leer metricas del gateway
+producto-dev = 1 -&gt; Prometheus puede leer metricas de producto
+catalogo-dev = 0 -&gt; Prometheus no puede leer metricas de catalogo
+</code></pre></div>
+<p>Importante:</p>
+<div class="highlight"><pre><span></span><code>up no dice si el endpoint de negocio funciona.
+up solo dice si Prometheus pudo consultar las metricas.
+</code></pre></div>
+<p>Panel recomendado en Grafana:</p>
+<ul>
+<li>tipo: <code>Stat</code></li>
+<li>datasource: <code>Prometheus</code></li>
+<li>titulo: <code>Servicios vivos</code></li>
+<li>consulta: <code>up</code></li>
+</ul>
+<hr />
+<h3 id="12-generar-trafico">1.2 Generar trafico</h3>
+<p>Ejecutar varias veces:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
+</code></pre></div>
+<p>Tambien se puede probar:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/catalogo/instancia
+http://localhost:8090/api/v1/producto/instancia
+</code></pre></div>
+<p>Como explicar estas URLs:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:18080/actuator/health
+</code></pre></div>
+<p>es el health del <code>gateway</code> en ambiente local.</p>
+<div class="highlight"><pre><span></span><code>/api/v1/productos/detalle/1
+</code></pre></div>
+<p>representa una peticion de negocio mas completa: entra por gateway, llega a producto y puede consultar catalogo.</p>
+<div class="highlight"><pre><span></span><code>/api/v1/catalogo/instancia
+</code></pre></div>
+<p>sirve para generar trafico hacia catalogo.</p>
+<div class="highlight"><pre><span></span><code>/api/v1/producto/instancia
+</code></pre></div>
+<p>sirve para generar trafico hacia producto.</p>
+<p>La idea no es probar funcionalidad nueva, sino producir actividad para que Prometheus y Loki tengan algo que mostrar.</p>
+<hr />
+<h3 id="13-ver-requests-por-servicio">1.3 Ver requests por servicio</h3>
+<p>Consulta PromQL:</p>
+<div class="highlight"><pre><span></span><code><span class="k">sum</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="o">(</span><span class="nv">job</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_server_requests_seconds_count</span><span class="p">[</span><span class="s">1m</span><span class="p">]</span><span class="o">))</span>
+</code></pre></div>
+<p>Panel recomendado:</p>
+<ul>
+<li>tipo: <code>Time series</code></li>
+<li>datasource: <code>Prometheus</code></li>
+<li>titulo: <code>Requests por segundo</code></li>
+<li>leyenda: <code>{{job}}</code></li>
+</ul>
+<p>Como explicarlo:</p>
+<ul>
+<li>muestra que servicios estan recibiendo trafico</li>
+<li>si se entra por gateway, debe moverse <code>gateway-dev</code></li>
+<li>si se consulta detalle de producto, debe moverse <code>producto-dev</code></li>
+<li>si producto llama a catalogo, tambien debe moverse <code>catalogo-dev</code></li>
+</ul>
+<p>Explicacion de <code>[1m]</code>:</p>
+<div class="highlight"><pre><span></span><code>[1m] no significa &quot;mostrar un minuto&quot;.
+Significa &quot;usar el ultimo minuto de datos para calcular la velocidad del trafico&quot;.
+</code></pre></div>
+<p>La metrica <code>http_server_requests_seconds_count</code> es un contador acumulado. Siempre va creciendo.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Hace 1 minuto: el contador tenia 100 requests
+Ahora:         el contador tiene 160 requests
+Diferencia:    60 requests
+</code></pre></div>
+<p>Entonces <code>rate(...[1m])</code> calcula:</p>
+<div class="highlight"><pre><span></span><code>60 requests / 60 segundos = 1 request por segundo
+</code></pre></div>
+<p>Por eso esta consulta no responde "cuantos requests hubo en total", sino:</p>
+<div class="highlight"><pre><span></span><code>cuantas requests por segundo esta recibiendo cada servicio,
+calculado con lo que paso durante el ultimo minuto
+</code></pre></div>
+<p>Mensaje clave:</p>
+<div class="highlight"><pre><span></span><code>Las metricas muestran el comportamiento medible del sistema.
+</code></pre></div>
+<hr />
+<h3 id="14-ver-errores-http">1.4 Ver errores HTTP</h3>
+<p>Consulta PromQL:</p>
+<div class="highlight"><pre><span></span><code><span class="k">sum</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="o">(</span><span class="nv">job</span><span class="p">,</span><span class="w"> </span><span class="nv">status</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_server_requests_seconds_count</span><span class="p">{</span><span class="nl">status</span><span class="o">=~</span><span class="p">&quot;</span><span class="s">5..</span><span class="p">&quot;}[</span><span class="s">1m</span><span class="p">]</span><span class="o">))</span>
+</code></pre></div>
+<p>Panel recomendado:</p>
+<ul>
+<li>tipo: <code>Time series</code></li>
+<li>datasource: <code>Prometheus</code></li>
+<li>titulo: <code>Errores 5xx</code></li>
+<li>leyenda: <code>{{job}} - {{status}}</code></li>
+</ul>
+<p>Como explicarlo:</p>
+<ul>
+<li>normalmente este panel debe estar en cero</li>
+<li>si sube, hay errores de servidor</li>
+<li>este panel detecta el problema, pero no explica la causa</li>
+</ul>
+<p>Lectura de la consulta:</p>
+<div class="highlight"><pre><span></span><code><span class="k">sum</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="o">(</span><span class="nv">job</span><span class="p">,</span><span class="w"> </span><span class="nv">status</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_server_requests_seconds_count</span><span class="p">{</span><span class="nl">status</span><span class="o">=~</span><span class="p">&quot;</span><span class="s">5..</span><span class="p">&quot;}[</span><span class="s">1m</span><span class="p">]</span><span class="o">))</span>
+</code></pre></div>
+<p>se lee como:</p>
+<div class="highlight"><pre><span></span><code>Por cada servicio y por cada codigo HTTP 5xx,
+dime cuantas respuestas de error por segundo se estan produciendo,
+calculado con lo ocurrido durante el ultimo minuto.
+</code></pre></div>
+<p>Partes importantes:</p>
+<ul>
+<li><code>status=~"5.."</code> filtra solo codigos HTTP que empiezan con <code>5</code></li>
+<li><code>500</code>, <code>502</code> y <code>503</code> entran en ese filtro</li>
+<li><code>rate(...[1m])</code> calcula errores por segundo usando el ultimo minuto</li>
+<li><code>sum by (job, status)</code> agrupa el resultado por servicio y codigo HTTP</li>
+</ul>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>producto-dev - 500 = 0.2
+</code></pre></div>
+<p>significa aproximadamente:</p>
+<div class="highlight"><pre><span></span><code>producto esta generando 0.2 errores 500 por segundo
+</code></pre></div>
+<p>O dicho mas simple:</p>
+<div class="highlight"><pre><span></span><code>en promedio, 1 error cada 5 segundos
+</code></pre></div>
+<p>Mensaje clave:</p>
+<div class="highlight"><pre><span></span><code>Prometheus ayuda a detectar sintomas.
+</code></pre></div>
+<hr />
+<h2 id="caso-2-logs-para-explicar-una-peticion">Caso 2. Logs para explicar una peticion</h2>
+<p>Este caso responde:</p>
+<div class="highlight"><pre><span></span><code>Que paso dentro de los servicios?
+</code></pre></div>
+<p>Abrir Grafana:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:13000
+</code></pre></div>
+<p>Ir a:</p>
+<div class="highlight"><pre><span></span><code>Menu izquierdo -&gt; Explore
+</code></pre></div>
+<p>Importante:</p>
+<ul>
+<li>usar el <code>Explore</code> normal de Grafana</li>
+<li>no entrar por <code>Drilldown -&gt; Logs</code></li>
+<li>si aparece <code>App not found</code>, significa que se abrio una app/plugin que no esta instalada</li>
+<li>en ese caso volver a Home y entrar por <code>Explore</code></li>
+</ul>
+<p>Dentro de Explore, seleccionar:</p>
+<div class="highlight"><pre><span></span><code>Datasource: Loki
+</code></pre></div>
+<p>Usar rango corto:</p>
+<div class="highlight"><pre><span></span><code>Last 5 minutes
+</code></pre></div>
+<p>Si no aparece nada, probar con:</p>
+<div class="highlight"><pre><span></span><code>Last 15 minutes
+</code></pre></div>
+<p>o generar trafico otra vez desde el navegador.</p>
+<h3 id="21-ver-logs-de-todos-los-servicios">2.1 Ver logs de todos los servicios</h3>
+<p>Consulta LogQL:</p>
+<div class="highlight"><pre><span></span><code>{service=~&quot;gateway|producto|catalogo&quot;}
+</code></pre></div>
+<p>Como explicarlo:</p>
+<ul>
+<li>Loki permite ver logs centralizados</li>
+<li>ya no se necesita abrir tres consolas distintas</li>
+<li>se puede mirar el flujo completo en una sola pantalla</li>
+</ul>
+<p>Lectura de la consulta:</p>
+<div class="highlight"><pre><span></span><code>{service=~&quot;gateway|producto|catalogo&quot;}
+</code></pre></div>
+<p>se lee como:</p>
+<div class="highlight"><pre><span></span><code>Loki, muestrame logs cuyo label service sea gateway, producto o catalogo.
+</code></pre></div>
+<p>Partes importantes:</p>
+<ul>
+<li><code>{ ... }</code> selecciona logs por etiquetas</li>
+<li><code>service</code> es la etiqueta que Promtail agrega a los logs</li>
+<li><code>=~</code> significa "coincide con esta expresion regular"</li>
+<li><code>gateway|producto|catalogo</code> significa "gateway o producto o catalogo"</li>
+</ul>
+<p>Esta consulta sirve para ver el recorrido completo de una peticion.</p>
+<hr />
+<h3 id="22-ver-logs-por-servicio">2.2 Ver logs por servicio</h3>
+<p>Antes de filtrar por texto, conviene confirmar que Loki si esta recibiendo logs de cada servicio.</p>
+<p>Gateway:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;gateway&quot;}
+</code></pre></div>
+<p>Producto:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;}
+</code></pre></div>
+<p>Catalogo:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;catalogo&quot;}
+</code></pre></div>
+<p>Como explicarlo:</p>
+<ul>
+<li>Prometheus muestra que hubo trafico o error</li>
+<li>Loki muestra el mensaje concreto registrado por la aplicacion</li>
+<li>si aparece el mismo <code>traceId</code>, se puede seguir una peticion entre servicios</li>
+</ul>
+<p>Lectura de la consulta:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;}
+</code></pre></div>
+<p>se lee como:</p>
+<div class="highlight"><pre><span></span><code>Loki, muestrame todos los logs del servicio producto.
+</code></pre></div>
+<p>Partes importantes:</p>
+<ul>
+<li><code>{service="producto"}</code> selecciona solo logs que tengan la etiqueta <code>service</code> con valor <code>producto</code></li>
+<li>esa etiqueta no viene del log original; la agrega Promtail</li>
+<li>si esta consulta devuelve resultados, significa que Loki y Promtail estan funcionando para ese servicio</li>
+</ul>
+<hr />
+<h3 id="23-reducir-ruido-por-texto">2.3 Reducir ruido por texto</h3>
+<p>Cuando ya se confirmo que hay logs, recien se puede filtrar por texto.</p>
+<p>Ejemplo general:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;} |= &quot;PRODUCTO&quot;
+</code></pre></div>
+<p>Esto busca lineas del servicio <code>producto</code> que contengan la palabra <code>PRODUCTO</code>.</p>
+<p>Si la aplicacion registra mensajes funcionales con corchetes, tambien se puede usar:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;} |= &quot;[PRODUCTO]&quot;
+</code></pre></div>
+<p>Pero esta consulta solo funciona si el texto exacto <code>[PRODUCTO]</code> aparece en el log.</p>
+<p>Si no devuelve resultados, no significa necesariamente que Loki este mal. Puede significar que ese texto exacto no existe en las lineas actuales.</p>
+<p>Consultas utiles:</p>
+<p>Gateway:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;gateway&quot;} |= &quot;GATEWAY&quot;
+</code></pre></div>
+<p>Producto:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;} |= &quot;PRODUCTO&quot;
+</code></pre></div>
+<p>Catalogo:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;catalogo&quot;} |= &quot;CATALOGO&quot;
+</code></pre></div>
+<p>Version mas estricta, solo si existen esos textos exactos:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;gateway&quot;} |= &quot;[GATEWAY]&quot;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;} |= &quot;[PRODUCTO]&quot;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>{service=&quot;catalogo&quot;} |= &quot;[CATALOGO]&quot;
+</code></pre></div>
+<p>Lectura de esta consulta:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;} |= &quot;[PRODUCTO]&quot;
+</code></pre></div>
+<p>se lee como:</p>
+<div class="highlight"><pre><span></span><code>Loki, muestrame solo logs del servicio producto
+y dentro de esos logs quedate solo con las lineas que contienen [PRODUCTO].
+</code></pre></div>
+<p>Partes importantes:</p>
+<ul>
+<li><code>{service="producto"}</code> selecciona solo logs de producto</li>
+<li><code>|=</code> filtra por texto dentro del mensaje</li>
+<li><code>"[PRODUCTO]"</code> es el texto que debe aparecer en la linea del log</li>
+</ul>
+<p>Esto ayuda a quitar ruido de framework y quedarse con logs funcionales de la aplicacion.</p>
+<p>Regla practica para principiantes:</p>
+<ol>
+<li>Primero probar <code>{service="producto"}</code>.</li>
+<li>Si aparecen logs, Loki funciona.</li>
+<li>Luego agregar filtros como <code>|= "PRODUCTO"</code>.</li>
+<li>Si el filtro no devuelve nada, quitar el filtro y buscar que texto aparece realmente en los logs.</li>
+</ol>
+<h3 id="24-que-hacer-si-no-aparecen-logs">2.4 Que hacer si no aparecen logs</h3>
+<p>Revisar en este orden:</p>
+<ol>
+<li>Confirmar que el datasource sea <code>Loki</code>, no <code>Prometheus</code>.</li>
+<li>Usar <code>Explore</code> normal, no <code>Drilldown -&gt; Logs</code>.</li>
+<li>Cambiar el rango a <code>Last 15 minutes</code> o <code>Last 1 hour</code>.</li>
+<li>Generar trafico otra vez:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
+</code></pre></div>
+<ol>
+<li>Probar una consulta sin filtro de texto:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;}
+</code></pre></div>
+<ol>
+<li>Si aparece <code>App not found</code>, volver a:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>http://localhost:13000/explore
+</code></pre></div>
+<p>Mensaje clave:</p>
+<div class="highlight"><pre><span></span><code>Los logs explican la causa probable de lo que las metricas detectan.
+</code></pre></div>
+<hr />
+<h2 id="caso-3-falla-controlada">Caso 3. Falla controlada</h2>
+<p>Este caso une metricas y logs.</p>
+<h3 id="31-provocar-la-falla">3.1 Provocar la falla</h3>
+<p>Detener <code>catalogo</code>.</p>
+<p>Luego ejecutar:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
+</code></pre></div>
+<p>Como explicar la prueba:</p>
+<div class="highlight"><pre><span></span><code>Detener catalogo
+</code></pre></div>
+<p>simula que un microservicio necesario dejo de estar disponible.</p>
+<p>En esta practica DEV, <code>catalogo</code> normalmente esta corriendo con Maven. Para detenerlo, usar <code>Ctrl + C</code> en la terminal donde se ejecuto <code>mvn spring-boot:run</code>.</p>
+<p>Nota:</p>
+<div class="highlight"><pre><span></span><code>No detener mysql-catalogo-dev.
+La idea es detener la aplicacion catalogo, no su base de datos.
+</code></pre></div>
+<p>Si se estuviera trabajando en PROD con Docker, ahi si se detendria el contenedor de la aplicacion <code>catalogo</code>.</p>
+<p>Despues se vuelve a ejecutar:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8090/api/v1/productos/detalle/1
+</code></pre></div>
+<p>porque ese flujo permite observar si <code>producto</code> falla, responde con fallback o registra un error al intentar comunicarse con <code>catalogo</code>.</p>
+<h3 id="32-mirar-metricas">3.2 Mirar metricas</h3>
+<p>Disponibilidad:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">up</span>
+</code></pre></div>
+<p>Errores:</p>
+<div class="highlight"><pre><span></span><code><span class="k">sum</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="o">(</span><span class="nv">job</span><span class="p">,</span><span class="w"> </span><span class="nv">status</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="kr">rate</span><span class="o">(</span><span class="nv">http_server_requests_seconds_count</span><span class="p">{</span><span class="nl">status</span><span class="o">=~</span><span class="p">&quot;</span><span class="s">5..</span><span class="p">&quot;}[</span><span class="s">1m</span><span class="p">]</span><span class="o">))</span>
+</code></pre></div>
+<p>Como leer estas dos metricas juntas:</p>
+<div class="highlight"><pre><span></span><code>up
+</code></pre></div>
+<p>responde:</p>
+<div class="highlight"><pre><span></span><code>El servicio sigue disponible para Prometheus?
+</code></pre></div>
+<p>La consulta de errores responde:</p>
+<div class="highlight"><pre><span></span><code>Algun servicio esta devolviendo errores 5xx?
+</code></pre></div>
+<p>Si <code>catalogo-dev</code> aparece en <code>0</code>, el problema esta en disponibilidad.</p>
+<p>Si <code>producto-dev</code> o <code>gateway-dev</code> muestran <code>5xx</code>, el problema ya esta impactando una peticion HTTP.</p>
+<p>Que se espera:</p>
+<ul>
+<li><code>catalogo-dev</code> puede pasar a <code>0</code></li>
+<li>pueden aparecer errores en <code>producto-dev</code> o <code>gateway-dev</code></li>
+<li>las metricas indican que algo fallo</li>
+</ul>
+<h3 id="33-mirar-logs">3.3 Mirar logs</h3>
+<p>Consulta recomendada:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;}
+</code></pre></div>
+<p>Si hay mucho ruido, filtrar por una palabra que si aparezca en el log:</p>
+<div class="highlight"><pre><span></span><code>{service=&quot;producto&quot;} |= &quot;PRODUCTO&quot;
+</code></pre></div>
+<p>Tambien se puede revisar:</p>
+<div class="highlight"><pre><span></span><code>{service=~&quot;gateway|producto|catalogo&quot;}
+</code></pre></div>
+<p>Que se espera:</p>
+<ul>
+<li>error al intentar llamar a <code>catalogo</code></li>
+<li>mensaje de excepcion, timeout o fallback</li>
+<li>posible <code>traceId</code> para relacionar la peticion</li>
+</ul>
+<p>Conclusion del caso:</p>
+<div class="highlight"><pre><span></span><code>Metricas: detectan el sintoma.
+Logs: ayudan a explicar la causa.
+</code></pre></div>
+<hr />
+<h2 id="caso-4-alerta-simple-en-grafana">Caso 4. Alerta simple en Grafana</h2>
+<p>Este caso responde:</p>
+<div class="highlight"><pre><span></span><code>Como me entero si un servicio se cae?
+</code></pre></div>
+<p>La alerta mas simple para la clase sera:</p>
+<div class="highlight"><pre><span></span><code>catalogo-dev esta caido
+</code></pre></div>
+<h3 id="41-crear-regla-de-alerta">4.1 Crear regla de alerta</h3>
+<p>En Grafana:</p>
+<ol>
+<li>Ir al menu izquierdo.</li>
+<li>Entrar a <code>Alerting</code>.</li>
+<li>Entrar a <code>Alert rules</code>.</li>
+<li>Presionar <code>New alert rule</code>.</li>
+</ol>
+<p>Si el menu lateral esta colapsado, buscar el icono de alerta o escribir en la barra superior:</p>
+<div class="highlight"><pre><span></span><code>Alert rules
+</code></pre></div>
+<p>Luego completar la regla.</p>
+<p>Nombre de la regla:</p>
+<div class="highlight"><pre><span></span><code>Catalogo caido
+</code></pre></div>
+<p>Datasource:</p>
+<div class="highlight"><pre><span></span><code>Prometheus
+</code></pre></div>
+<p>Consulta:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">up</span><span class="p">{</span><span class="nl">job</span><span class="o">=</span><span class="p">&quot;</span><span class="s">catalogo-dev</span><span class="p">&quot;}</span>
+</code></pre></div>
+<p>Lectura de la consulta:</p>
+<div class="highlight"><pre><span></span><code>up{job=&quot;catalogo-dev&quot;}
+</code></pre></div>
+<p>se lee como:</p>
+<div class="highlight"><pre><span></span><code>Prometheus, dime solo si catalogo-dev esta disponible.
+</code></pre></div>
+<p>Partes importantes:</p>
+<ul>
+<li><code>up</code> consulta disponibilidad</li>
+<li><code>{job="catalogo-dev"}</code> filtra solo el servicio catalogo</li>
+<li>si devuelve <code>1</code>, catalogo esta disponible para Prometheus</li>
+<li>si devuelve <code>0</code>, catalogo no esta disponible para Prometheus</li>
+</ul>
+<p>Condicion:</p>
+<div class="highlight"><pre><span></span><code>IS BELOW 1
+</code></pre></div>
+<p>Como leer la condicion:</p>
+<div class="highlight"><pre><span></span><code>IS BELOW 1
+</code></pre></div>
+<p>significa:</p>
+<div class="highlight"><pre><span></span><code>dispara la alerta si el valor esta por debajo de 1
+</code></pre></div>
+<p>Como <code>up</code> normalmente vale <code>1</code> o <code>0</code>, esta condicion equivale a:</p>
+<div class="highlight"><pre><span></span><code>si catalogo-dev vale 0, activar alerta
+</code></pre></div>
+<p>En algunas versiones de Grafana, la condicion se arma con bloques parecidos a estos:</p>
+<div class="highlight"><pre><span></span><code>A = consulta Prometheus
+B = Reduce / Last de A
+C = Threshold: B is below 1
+</code></pre></div>
+<p>Como explicarlo:</p>
+<ul>
+<li><code>A</code> trae el valor de Prometheus</li>
+<li><code>B</code> toma el ultimo valor recibido</li>
+<li><code>C</code> compara ese valor contra <code>1</code></li>
+<li>si el ultimo valor es <code>0</code>, la alerta entra en condicion de falla</li>
+</ul>
+<p>Evaluacion sugerida:</p>
+<div class="highlight"><pre><span></span><code>Every 30s for 1m
+</code></pre></div>
+<p>Como leer la evaluacion:</p>
+<div class="highlight"><pre><span></span><code>Every 30s
+</code></pre></div>
+<p>significa que Grafana revisa la regla cada 30 segundos.</p>
+<div class="highlight"><pre><span></span><code>for 1m
+</code></pre></div>
+<p>significa que la condicion debe mantenerse fallando durante 1 minuto antes de activar la alerta.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Si catalogo cae por 10 segundos y vuelve, no alerta.
+Si catalogo sigue caido por 1 minuto, la alerta se activa.
+</code></pre></div>
+<p>Folder:</p>
+<div class="highlight"><pre><span></span><code>Observabilidad
+</code></pre></div>
+<p>Si no existe ese folder, se puede usar:</p>
+<div class="highlight"><pre><span></span><code>General
+</code></pre></div>
+<p>Evaluation group:</p>
+<div class="highlight"><pre><span></span><code>microservicios
+</code></pre></div>
+<p>Si Grafana pide crear uno, usar:</p>
+<div class="highlight"><pre><span></span><code>Evaluate every: 30s
+</code></pre></div>
+<p>Mensaje o annotation:</p>
+<div class="highlight"><pre><span></span><code>Prometheus no puede consultar catalogo-dev. Revisar si el servicio esta levantado y si el puerto 8081 responde.
+</code></pre></div>
+<p>Guardar con:</p>
+<div class="highlight"><pre><span></span><code>Save rule and exit
+</code></pre></div>
+<p>Para esta practica no es obligatorio configurar envio por correo, Slack o Teams. Lo importante es que la alerta exista y cambie de estado dentro de Grafana.</p>
+<h3 id="42-como-probarla">4.2 Como probarla</h3>
+<ol>
+<li>Asegurar que <code>catalogo</code> esta levantado.</li>
+<li>Ver que la alerta esta normal.</li>
+<li>Detener <code>catalogo</code>.</li>
+<li>Esperar la evaluacion.</li>
+<li>Confirmar que la alerta cambia de estado.</li>
+</ol>
+<h3 id="como-explicarlo">Como explicarlo</h3>
+<p>Una alerta no reemplaza al dashboard ni a los logs.</p>
+<p>La alerta solo avisa:</p>
+<div class="highlight"><pre><span></span><code>algo requiere atencion
+</code></pre></div>
+<p>Luego se investiga con:</p>
+<ul>
+<li>metricas para ver el impacto</li>
+<li>logs para ver la causa</li>
+</ul>
+<hr />
+<h2 id="dashboard-minimo-recomendado">Dashboard minimo recomendado</h2>
+<p>Para una clase de 30 minutos, crear solo estos paneles:</p>
+<table>
+<thead>
+<tr>
+<th>Panel</th>
+<th>Consulta</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Servicios vivos</td>
+<td><code>up</code></td>
+<td>saber si Prometheus consulta los servicios</td>
+</tr>
+<tr>
+<td>Requests por segundo</td>
+<td><code>sum by (job) (rate(http_server_requests_seconds_count[1m]))</code></td>
+<td>ver trafico</td>
+</tr>
+<tr>
+<td>Errores 5xx</td>
+<td><code>sum by (job, status) (rate(http_server_requests_seconds_count{status=~"5.."}[1m]))</code></td>
+<td>detectar fallas HTTP</td>
+</tr>
+<tr>
+<td>Logs de servicios</td>
+<td><code>{service=~"gateway|producto|catalogo"}</code></td>
+<td>explicar lo ocurrido</td>
+</tr>
+</tbody>
+</table>
+<p>Orden de lectura:</p>
+<ol>
+<li>Esta vivo?</li>
+<li>Tiene trafico?</li>
+<li>Tiene errores?</li>
+<li>Que dicen los logs?</li>
+<li>Hay una alerta activa?</li>
+</ol>
+<hr />
+<h2 id="checklist-de-cierre">Checklist de cierre</h2>
+<p>El alumno debe mostrar:</p>
+<ul>
+<li><code>targets</code> en Prometheus con servicios <code>UP</code></li>
+<li>dashboard con <code>up</code></li>
+<li>dashboard con requests por segundo</li>
+<li>dashboard con errores 5xx</li>
+<li>consulta Loki por <code>service</code></li>
+<li>evidencia de una peticion <code>gateway -&gt; producto -&gt; catalogo</code></li>
+<li>una falla controlada deteniendo <code>catalogo</code></li>
+<li>alerta <code>Catalogo caido</code></li>
+</ul>
+<hr />
+<h2 id="cierre-conceptual">Cierre conceptual</h2>
+<p>Frase para cerrar la clase:</p>
+<div class="highlight"><pre><span></span><code>Las metricas me dicen que algo paso.
+Los logs me ayudan a entender por que paso.
+Las alertas me avisan cuando debo mirar.
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/RonalCodeLP/NovaMarket" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.sections", "navigation.expand", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>
