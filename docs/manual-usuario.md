@@ -1,6 +1,6 @@
 # Manual de usuario — NovaMarket
 
-Guía detallada para **cajeros, supervisores y administradores** que usan la aplicación web **market-ng** (Angular).
+Guía detallada para **cajeros, supervisores y administradores** que utilizan la aplicación web **market-ng** (Angular).
 
 **URL DEV:** http://localhost:4200  
 **Acceso:** botón **Entrar con Keycloak** en la pantalla de login.
@@ -79,18 +79,18 @@ La pantalla de Caja se divide en 3 secciones:
 ### 3.2 Agregar productos
 
 **Opción A: Escaneo con lector de código de barras**
-1. Coloque el cursor en el campo **Código de barras**
-2. Pase el producto por el lector
+1. Colocar el cursor en el campo **Código de barras**
+2. Pasar el producto por el lector
 3. El código se ingresa automáticamente y el producto se agrega al carrito
 4. El campo se enfoca automáticamente para el siguiente producto
 
 **Opción B: Ingreso manual**
-1. En **Código de barras**, escriba el código (ej. `7751010001234`)
-2. Clic en **Agregar** o presione Enter
+1. En **Código de barras**, escribir el código (ej. `7751010001234`)
+2. Clic en **Agregar** o presionar Enter
 3. El artículo aparece en el **carrito** con precio, cantidad y subtotal
 
 !!! info "Códigos de prueba"
-    Use los códigos del seeder: `7751010001234` (Leche Gloria), `7751010001235` (Arroz Costeño), etc.
+    Utilizar los códigos del seeder: `7751010001234` (Leche Gloria), `7751010001235` (Arroz Costeño), etc.
 
 ### 3.3 Modificar el carrito
 
@@ -109,7 +109,7 @@ La pantalla de Caja se divide en 3 secciones:
 
 ### 3.4 Aplicar descuento
 
-1. En el campo **Descuento (S/)**, ingrese el monto a descontar
+1. En el campo **Descuento (S/)**, ingresar el monto a descontar
 2. El total se actualiza automáticamente
 3. El descuento es opcional y requiere autorización del supervisor en producción
 
@@ -143,7 +143,7 @@ La pantalla de Caja se divide en 3 secciones:
 1. Clic en **Confirmar pago y boleta**
 2. El sistema procesa la venta
 3. Si es exitoso, se muestra la boleta
-4. Si falla, verá un mensaje de error
+4. Si falla, se mostrará un mensaje de error
 
 !!! warning "Errores comunes en cobro"
     - **Stock insuficiente:** El producto no tiene suficiente stock
@@ -203,16 +203,16 @@ Muestra todas las ventas realizadas ordenadas por fecha descendente (más recien
 
 1. Clic en el botón **Reimprimir** en la fila de la venta
 2. Se abre el diálogo de impresión
-3. Seleccione la impresora térmica y confirme
+3. Seleccionar la impresora térmica y confirmar
 
 !!! info "Uso de reimprimir"
     Útil cuando el cliente pierde la boleta o la impresión falló durante la venta.
 
 ### 4.4 Filtros y búsqueda
 
-- **Por fecha:** Seleccione rango de fechas
-- **Por cajero:** Filtre por usuario específico
-- **Por medio de pago:** Filtre por efectivo/tarjeta/Yape
+- **Por fecha:** Seleccionar rango de fechas
+- **Por cajero:** Filtrar por usuario específico
+- **Por medio de pago:** Filtrar por efectivo/tarjeta/Yape
 
 ---
 
@@ -228,8 +228,8 @@ Muestra todas las categorías disponibles:
 ### 5.2 Crear rubro
 
 1. Clic en el botón **Nuevo rubro**
-2. Ingrese **Nombre** (obligatorio)
-3. Ingrese **Descripción** (opcional)
+2. Ingresar **Nombre** (obligatorio)
+3. Ingresar **Descripción** (opcional)
 4. Clic en **Guardar**
 
 !!! warning "Rubros en uso"
@@ -264,7 +264,7 @@ Muestra todos los productos del catálogo:
 ### 6.2 Crear artículo
 
 1. Clic en el botón **Nuevo artículo**
-2. Complete los campos:
+2. Completar los campos:
    - **Nombre** (obligatorio)
    - **Rubro** (obligatorio, seleccionar de lista)
    - **Precio** (obligatorio, mayor a 0)

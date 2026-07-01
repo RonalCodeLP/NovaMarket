@@ -1,6 +1,6 @@
 # Funcionalidad del Frontend — market-ng
 
-Documentación detallada de la aplicación Angular **market-ng**, el cliente POS de NovaMarket.
+Documentación técnica detallada de la aplicación Angular **market-ng**, el cliente POS de NovaMarket.
 
 ---
 

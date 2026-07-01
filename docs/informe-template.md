@@ -220,15 +220,20 @@ Describa el flujo de principio a fin.
 
 Cada integrante debe escribir 2 a 3 lecciones aprendidas durante el proyecto.
 
-**Integrante 1:**
-- 
-- 
-- 
+**1. YEFRI LERMA:**
+- La importancia de entender el flujo completo de negocio antes de implementar código técnico
+- Cómo la concurrencia multi-caja requiere coordinación entre Eureka, Gateway y balanceo de carga
+- El valor de la observabilidad para detectar problemas en tiempo real en sistemas distribuidos
 
-**Integrante 2:**
-- 
-- 
-- 
+**2. BONNIER:**
+- La necesidad de validar stock antes de agregar al carrito para evitar inconsistencias
+- Cómo el Circuit Breaker protege al sistema cuando un servicio dependiente falla
+- La importancia de documentar cada paso para que nuevos desarrolladores puedan entender el sistema
+
+**3. EDY TOLA:**
+- Cómo Keycloak centraliza la autenticación y simplifica la gestión de roles
+- La diferencia entre autenticación (quién eres) y autorización (qué puedes hacer)
+- La importancia de probar con múltiples usuarios simultáneos para validar la seguridad
 
 ---
 

@@ -1,6 +1,6 @@
 # Manual de funcionamiento — NovaMarket
 
-Documento técnico-operativo detallado: **cómo funciona el sistema**, componentes, flujos, integraciones y arquitectura.
+Documento técnico-operativo detallado que describe **el funcionamiento del sistema**, sus componentes, flujos, integraciones y arquitectura.
 
 ---
 

@@ -1,6 +1,6 @@
 # Observabilidad
 
-NovaMarket expone métricas con **Micrometer + Actuator + Prometheus** y centraliza logs con **Promtail → Loki → Grafana**.
+El sistema NovaMarket expone métricas con **Micrometer + Actuator + Prometheus** y centraliza logs con **Promtail → Loki → Grafana**.
 
 ---
 

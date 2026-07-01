@@ -14,15 +14,18 @@ nav:
   - Manuales:
       - Manual de usuario: manual-usuario.md
       - Manual de funcionamiento: manual-funcionamiento.md
+  - Frontend:
+      - Funcionalidad Angular: frontend-funcionalidad.md
   - Producto del curso: producto-curso.md
-  - Guía del proyecto:
-      - Arquitectura: arquitectura.md
+  - Arquitectura y diseño:
+      - Arquitectura del sistema: arquitectura.md
       - Dominio de negocio: dominio-negocio.md
-      - Desarrollo (DEV): desarrollo.md
-      - Producción (PROD): produccion.md
       - Seguridad (Keycloak): seguridad.md
       - Observabilidad: observabilidad.md
       - Kafka y eventos: kafka-eventos.md
+  - Desarrollo y despliegue:
+      - Desarrollo (DEV): desarrollo.md
+      - Producción (PROD): produccion.md
       - Puertos: puertos.md
       - Publicar en GitHub Pages: publicar-github-pages.md
   - Sustentación:
