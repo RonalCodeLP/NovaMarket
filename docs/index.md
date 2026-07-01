@@ -130,6 +130,7 @@ flowchart TB
 |---------|--------|
 | **Manual de usuario** | [Manual de usuario](manual-usuario.md) |
 | **Manual de funcionamiento** | [Manual de funcionamiento](manual-funcionamiento.md) |
+| **Frontend funcionalidad** | [Funcionalidad Angular](frontend-funcionalidad.md) |
 | **Publicar docs (GitHub Pages)** | [Guía GitHub Pages](publicar-github-pages.md) |
 | Arranque local | [Desarrollo (DEV)](desarrollo.md) |
 | Producción Docker | [Producción (PROD)](produccion.md) |
